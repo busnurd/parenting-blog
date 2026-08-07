@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources | Parenting Notes</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .page-header {
+      text-align: center;
+      padding: 4.5rem 1rem 3rem;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .page-header h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--primary-color);
+    }
+    .page-header p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 4rem 0 5rem;
+    }
+    .resource-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-lg);
+      padding: 2.2rem;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+    }
+    .resource-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+    .resource-tag {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.6rem;
+    }
+    .resource-card h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 0.6rem;
+    }
+    .resource-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .resource-btn {
+      margin-top: auto;
+      display: inline-block;
+      text-align: center;
+      padding: 0.65rem 1.2rem;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      color: var(--primary-color);
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+    .resource-btn:hover {
+      background: var(--primary-accent);
+      color: #ffffff;
+      border-color: var(--primary-accent);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container navbar">
+      <a href="/" class="logo">Parenting Notes</a>
+      <div class="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/resources" class="active">Resources</a></li>
+        <li><a href="/subscribe">Subscribe</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Parenting Helplines & Guides</h1>
+        <p>Curated support networks, crisis contacts, and downloadable family toolkits.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="resources-grid">
+        <div class="resource-card">
+          <span class="resource-tag">24/7 Helpline</span>
+          <h3>Parent Support Line</h3>
+          <p>Confidential emotional support and guidance for parents and caregivers facing immediate stress or crisis.</p>
+          <a href="#" class="resource-btn">Call Support Line</a>
+        </div>
+
+        <div class="resource-card">
+          <span class="resource-tag">Digital Download</span>
+          <h3>Toddler Emotional Regulation Guide</h3>
+          <p>A printable step-by-step PDF cheat sheet for de-escalating tantrums and helping children process big feelings.</p>
+          <a href="#" class="resource-btn">Download PDF Guide</a>
+        </div>
+
+        <div class="resource-card">
+          <span class="resource-tag">Interactive Checklist</span>
+          <h3>Screen Time Family Agreement</h3>
+          <p>A customizable family contract template to establish healthy tech boundaries for kids and teenagers.</p>
+          <a href="#" class="resource-btn">Access Template</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Parenting Notes. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

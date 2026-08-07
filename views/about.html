@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Parenting Notes</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .about-hero {
+      text-align: center;
+      padding: 4.5rem 1rem 3.5rem;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .about-hero h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--primary-color);
+      letter-spacing: -0.03em;
+    }
+    .about-hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0.8rem auto 0;
+    }
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin: 4rem 0 5rem;
+    }
+    .info-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .info-card h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    .info-card p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .principles-list {
+      list-style: none;
+      margin-top: 1.5rem;
+    }
+    .principles-list li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    .principles-list li:last-child {
+      border-bottom: none;
+    }
+    .check-icon {
+      color: var(--primary-accent);
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container navbar">
+      <a href="/" class="logo">Parenting Notes</a>
+      <div class="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about" class="active">About</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/resources">Resources</a></li>
+        <li><a href="/subscribe">Subscribe</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="about-hero">
+      <div class="container">
+        <h1>Grounded Guidance for Real-World Parenting</h1>
+        <p>Bridging developmental research and everyday family life with clear, non-judgmental advice.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="content-grid">
+        <div class="info-card">
+          <h2>Our Mission</h2>
+          <p>Modern parenting is filled with overwhelming and conflicting advice. Parenting Notes was founded to cut through the noise with calm, evidence-informed perspective on raising confident, empathetic children.</p>
+          <p>We focus on actionable strategies for emotional regulation, healthy screen boundaries, and building resilient family dynamics.</p>
+        </div>
+
+        <div class="info-card">
+          <h2>Editorial Standards</h2>
+          <p>Every piece of advice we share is carefully reviewed against trusted developmental frameworks.</p>
+          <ul class="principles-list">
+            <li><span class="check-icon">✓</span> Evidence-based research summaries</li>
+            <li><span class="check-icon">✓</span> Zero shaming or perfectionist standards</li>
+            <li><span class="check-icon">✓</span> Practical action items for busy households</li>
+            <li><span class="check-icon">✓</span> Focus on long-term emotional intelligence</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Parenting Notes. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

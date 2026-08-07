@@ -1,0 +1,162 @@
+:root {
+    --primary-color: #0f172a;      /* Deep sharp slate for headers */
+    --primary-accent: #2563eb;     /* Vibrant blue for primary buttons/accents */
+    --secondary-color: #3b82f6;   /* Rich blue */
+    --accent-soft: #eff6ff;        /* Light blue tint for card backgrounds */
+    --text-dark: #1e293b;          /* High contrast body text */
+    --text-muted: #475569;        /* Sharp readable muted text */
+    --bg-light: #f8fafc;           /* Light section background */
+    --card-bg: #ffffff;
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+    --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+    --shadow-hover: 0 20px 30px -10px rgba(37, 99, 235, 0.18);
+    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    padding-top: 80px; /* Prevents sticky navbar from overlapping main content */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+  
+  /* --- Sticky Header --- */
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 72px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #e2e8f0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1.8rem;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+  }
+  
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: var(--primary-accent);
+  }
+  
+  /* Mobile Hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+  }
+  
+  .hamburger span {
+    width: 24px;
+    height: 2px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+  }
+  
+  /* --- Hero Section --- */
+  .hero {
+    text-align: center;
+    padding: 4.5rem 1rem 3.5rem;
+    background: linear-gradient(180deg, #ffffff 0%, var(--bg-light) 100%);
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .hero h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  
+  .hero p {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+  
+  /* --- Buttons --- */
+  .btn-primary {
+    display: inline-block;
+    background-color: var(--primary-accent);
+    color: #ffffff;
+    padding: 0.85rem 1.8rem;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: 0.98rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    transition: var(--transition-smooth);
+  }
+  
+  .btn-primary:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+  }
+  
+  /* --- Footer --- */
+  footer {
+    margin-top: auto;
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    padding: 2rem 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
