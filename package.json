@@ -1,15 +1,15 @@
 {
   "name": "parenting-blog",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "busnurd",
   "license": "ISC",
-  "description": "",
+  "description": "Parenting Blog with Admin Dashboard",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "dotenv": "^17.4.2",
