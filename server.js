@@ -1,40 +1,75 @@
-const express = require('express');
-const mysql = require('mysql2');
-const path = require('path');
-const bcrypt = require('bcrypt');
-const rateLimit = require('express-rate-limit');
 require('dotenv').config();
+const express = require('express');
+const path = require('path');
+const db = require('./db');
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Rate limiter for authentication routes (prevents brute-force attacks)
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Limit each IP to 5 requests per windowMs
-  message: { error: 'Too many login attempts. Please try again after 15 minutes.' }
+// Serve HTML Views
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-// MySQL Connection Pool
-const db = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+app.get('/blog', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'blog.html'));
 });
 
-// Test Database Connection
-db.getConnection((err, connection) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err.message);
-  } else {
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'about.html'));
+});
+
+app.get('/resources', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'resources.html'));
+});
+
+app.get('/subscribe', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'subscribe.html'));
+});
+
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'admin.html'));
+});
+
+app.get('/post', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'post.html'));
+});
+
+// API Routes - Dynamic Blog Data
+app.get('/api/posts', async (req, res) => {
+  try {
+    const [rows] = await db.query(
+      'SELECT id, title, slug, excerpt, category, author, created_at FROM posts ORDER BY created_at DESC'
+    );
+    res.json(rows);
+  } catch (error) {
+    console.error('Database query error:', error);
+    res.status(500).json({ error: 'Failed to fetch posts from database' });
+  }
+});
+
+app.get('/api/posts/:slug', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT * FROM posts WHERE slug = ?', [req.params.slug]);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Database query error:', error);
+    res.status(500).json({ error: 'Failed to fetch post' });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+module.exports = app;  } else {
     console.log('Connected to MySQL Database successfully!');
     connection.release();
   }
