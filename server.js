@@ -65,6 +65,31 @@ app.get('/api/posts/:slug', async (req, res) => {
   }
 });
 
+// Server listener & Vercel Export
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+module.exports = app;    console.error('Database query error:', error);
+    res.status(500).json({ error: 'Failed to fetch posts from database' });
+  }
+});
+
+app.get('/api/posts/:slug', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT * FROM posts WHERE slug = ?', [req.params.slug]);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Database query error:', error);
+    res.status(500).json({ error: 'Failed to fetch post' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
