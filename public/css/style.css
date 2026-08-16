@@ -1,162 +1,220 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,600;1,600&display=swap');
+
 :root {
-    --primary-color: #0f172a;      /* Deep sharp slate for headers */
-    --primary-accent: #2563eb;     /* Vibrant blue for primary buttons/accents */
-    --secondary-color: #3b82f6;   /* Rich blue */
-    --accent-soft: #eff6ff;        /* Light blue tint for card backgrounds */
-    --text-dark: #1e293b;          /* High contrast body text */
-    --text-muted: #475569;        /* Sharp readable muted text */
-    --bg-light: #f8fafc;           /* Light section background */
-    --card-bg: #ffffff;
-    --radius-lg: 16px;
-    --radius-md: 12px;
-    --radius-sm: 8px;
-    --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
-    --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
-    --shadow-hover: 0 20px 30px -10px rgba(37, 99, 235, 0.18);
-    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
+  /* Brand Colors */
+  --color-primary: #C1666B;       /* Terracotta Rose: CTAs, links, buttons only */
+  --color-primary-hover: #A8535A; /* Terracotta Rose (dark) */
+  --color-secondary: #4A3B4C;     /* Deep Plum: Headings, nav bar, footer */
+  --color-text: #2E2A2B;          /* Charcoal */
+  --color-bg: #F7F1EA;            /* Warm Cream: Always body background */
+  --color-surface: #FFFFFF;       /* White: Cards / Content boxes */
+  --color-accent: #8A9A82;        /* Sage: Tags, small dividers, icon accents */
+  --color-border: #E3D9CD;        /* Warm Grey */
+
+  /* Typography */
+  --font-heading: 'Lora', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+
+  /* Spacing Scale */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 48px;
+  --space-xl: 80px;
+}
+
+/* Global Reset & Base Setup */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Typography Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-secondary);
+  line-height: 1.2;
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+h1 {
+  font-size: 48px;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+@media (max-width: 768px) {
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-light);
-    color: var(--text-dark);
-    line-height: 1.6;
-    padding-top: 80px; /* Prevents sticky navbar from overlapping main content */
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    font-size: 16px;
   }
-  
-  .container {
-    width: 90%;
-    max-width: 1140px;
-    margin: 0 auto;
+  h1 { font-size: 32px; }
+  h2 { font-size: 26px; }
+  h3 { font-size: 20px; }
+}
+
+p {
+  max-width: 700px; /* Readability constraint */
+  margin-bottom: var(--space-sm);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* Navigation Bar */
+header {
+  background-color: var(--color-secondary);
+  padding: var(--space-sm) 0;
+}
+
+.navbar {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar .logo a,
+.navbar .logo {
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.navbar .logo img {
+  height: 32px; /* Minimum legibility size */
+  width: auto;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: var(--space-md);
+  align-items: center;
+}
+
+.nav-links a {
+  color: #E3D9CD;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #FFFFFF;
+}
+
+/* Main Layout Container */
+main, .container {
+  max-width: 1100px;
+  margin: var(--space-xl) auto;
+  padding: 0 var(--space-sm);
+}
+
+@media (max-width: 768px) {
+  main, .container {
+    margin: var(--space-lg) auto;
   }
-  
-  /* --- Sticky Header --- */
-  header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 72px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid #e2e8f0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-  }
-  
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .logo {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--primary-color);
-    text-decoration: none;
-    letter-spacing: -0.02em;
-  }
-  
-  .nav-links {
-    display: flex;
-    list-style: none;
-    gap: 1.8rem;
-  }
-  
-  .nav-links a {
-    text-decoration: none;
-    color: var(--text-muted);
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: var(--transition-smooth);
-  }
-  
-  .nav-links a:hover,
-  .nav-links a.active {
-    color: var(--primary-accent);
-  }
-  
-  /* Mobile Hamburger */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-  }
-  
-  .hamburger span {
-    width: 24px;
-    height: 2px;
-    background-color: var(--primary-color);
-    border-radius: 2px;
-  }
-  
-  /* --- Hero Section --- */
-  .hero {
-    text-align: center;
-    padding: 4.5rem 1rem 3.5rem;
-    background: linear-gradient(180deg, #ffffff 0%, var(--bg-light) 100%);
-    border-bottom: 1px solid #e2e8f0;
-  }
-  
-  .hero h1 {
-    font-size: 2.8rem;
-    font-weight: 800;
-    color: var(--primary-color);
-    letter-spacing: -0.03em;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-  }
-  
-  .hero p {
-    font-size: 1.15rem;
-    color: var(--text-muted);
-    max-width: 640px;
-    margin: 0 auto 2rem;
-    line-height: 1.6;
-  }
-  
-  /* --- Buttons --- */
-  .btn-primary {
-    display: inline-block;
-    background-color: var(--primary-accent);
-    color: #ffffff;
-    padding: 0.85rem 1.8rem;
-    border-radius: var(--radius-sm);
-    font-weight: 700;
-    font-size: 0.98rem;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-    transition: var(--transition-smooth);
-  }
-  
-  .btn-primary:hover {
-    background-color: #1d4ed8;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
-  }
-  
-  /* --- Footer --- */
-  footer {
-    margin-top: auto;
-    background: #ffffff;
-    border-top: 1px solid #e2e8f0;
-    padding: 2rem 0;
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-  }
+}
+
+/* Primary Button */
+.btn-primary, button[type="submit"] {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  padding: 14px 32px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  transition: background 0.2s ease;
+}
+
+.btn-primary:hover, button[type="submit"]:hover {
+  background: var(--color-primary-hover);
+}
+
+/* Secondary Button (Outline) */
+.btn-secondary {
+  background: transparent;
+  color: var(--color-secondary);
+  border: 1.5px solid var(--color-secondary);
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--color-secondary);
+  color: #FFFFFF;
+}
+
+/* Cards (Blog Posts, Features) */
+.post-card, .card {
+  background: var(--color-surface);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(46, 42, 43, 0.06);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  border: none; /* Soft shadow separation only */
+}
+
+.category-badge, .tag {
+  background: var(--color-accent);
+  color: #FFFFFF;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-block;
+  margin-bottom: var(--space-xs);
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Footer */
+footer {
+  background-color: var(--color-secondary);
+  color: var(--color-bg);
+  padding: var(--space-lg) 0;
+  margin-top: var(--space-xl);
+  text-align: center;
+}
