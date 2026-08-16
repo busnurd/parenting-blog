@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Fetch Dynamic Theme Colors
+  // 1. Fetch Dynamic Theme Colors across all pages
   fetch('/api/settings/colors')
     .then(res => res.ok ? res.json() : {})
     .then(colors => {
@@ -12,13 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(err => console.warn('Could not load theme settings:', err));
 
-  // 2. Fetch and Render Blog Posts
+  // 2. Fetch and Render Blog Posts ONLY if on blog container
   const blogContainer = 
     document.getElementById('blog-posts') || 
     document.getElementById('posts-container') || 
-    document.querySelector('.blog-grid') || 
-    document.querySelector('.posts') ||
-    document.querySelector('main');
+    document.querySelector('.blog-grid');
 
   if (blogContainer) {
     fetch('/api/posts')
