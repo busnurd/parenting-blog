@@ -3,256 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home | Parenting Notes</title>
+  <title>Home | Parenting Blog</title>
+  <link rel="icon" type="image/png" href="/images/favicon.png">
   <link rel="stylesheet" href="/css/style.css">
-  <style>
-    /* Hero Adjustments */
-    .hero {
-      text-align: center;
-      padding: 5.5rem 1rem 4rem;
-      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    /* Trust / Stats Banner */
-    .trust-banner {
-      background: #ffffff;
-      border-bottom: 1px solid #e2e8f0;
-      padding: 1.8rem 0;
-    }
-    .stats-grid {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      text-align: center;
-    }
-    .stat-item h4 {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--primary-accent);
-    }
-    .stat-item p {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    /* Section Headers */
-    .section-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    .section-header h2 {
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: var(--primary-color);
-      letter-spacing: -0.02em;
-    }
-    .section-header p {
-      color: var(--text-muted);
-      font-size: 1.05rem;
-      margin-top: 0.4rem;
-    }
-
-    /* Focus Grid */
-    .focus-section {
-      padding: 5rem 0;
-    }
-    .focus-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-    .focus-card {
-      background: var(--card-bg);
-      border: 1px solid #e2e8f0;
-      border-radius: var(--radius-lg);
-      padding: 2.2rem 2rem;
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition-smooth);
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .focus-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-hover);
-      border-color: #cbd5e1;
-    }
-    .icon-wrapper {
-      width: 52px;
-      height: 52px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.4rem;
-    }
-    .icon-blue { background: #eff6ff; color: #2563eb; }
-    .icon-emerald { background: #ecfdf5; color: #059669; }
-    .icon-purple { background: #faf5ff; color: #9333ea; }
-
-    .focus-card h3 {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--primary-color);
-      margin-bottom: 0.6rem;
-    }
-    .focus-card p {
-      color: var(--text-muted);
-      font-size: 0.98rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-    .tag-badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      margin-top: auto;
-    }
-    .badge-blue { background: #eff6ff; color: #1d4ed8; }
-    .badge-emerald { background: #ecfdf5; color: #047857; }
-    .badge-purple { background: #faf5ff; color: #6b21a8; }
-
-    /* Bottom CTA Banner */
-    .cta-banner {
-      background: var(--primary-color);
-      color: #ffffff;
-      padding: 4.5rem 2rem;
-      border-radius: 24px;
-      text-align: center;
-      margin: 3rem 0 5rem;
-      box-shadow: var(--shadow-md);
-    }
-    .cta-banner h2 {
-      font-size: 2.3rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-    }
-    .cta-banner p {
-      color: #94a3b8;
-      max-width: 580px;
-      margin: 0 auto 2rem;
-      font-size: 1.1rem;
-    }
-  </style>
 </head>
 <body>
-
   <header>
-    <div class="container navbar">
-      <a href="/" class="logo">Parenting Notes</a>
-      <div class="hamburger">
-        <span></span><span></span><span></span>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/">Parenting Blog</a>
       </div>
       <ul class="nav-links">
         <li><a href="/" class="active">Home</a></li>
-        <li><a href="/about">About</a></li>
         <li><a href="/blog">Blog</a></li>
+        <li><a href="/about">About</a></li>
         <li><a href="/resources">Resources</a></li>
         <li><a href="/subscribe">Subscribe</a></li>
       </ul>
-    </div>
+    </nav>
   </header>
 
-  <main>
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="container">
-        <h1>Thoughtful Parenting for Modern Families</h1>
-        <p>Grounded advice, evidence-based research, and practical ideas to help you raise confident, resilient kids.</p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-          <a href="/subscribe" class="btn-primary">Subscribe to Newsletter</a>
-          <a href="/blog" class="btn-primary" style="background: #ffffff; color: var(--primary-color); border: 1px solid #cbd5e1; box-shadow: none;">Explore Blog</a>
-        </div>
-      </div>
+  <main class="container">
+    <section class="hero" style="text-align: center; margin-bottom: 3rem;">
+      <h1>Parenting Blog</h1>
+      <p style="margin: 0 auto 1.5rem auto;">Thoughtful guidance, evidence-based insights, and actionable advice for raising confident children.</p>
+      <a href="/blog" class="btn-primary">Explore Articles</a>
     </section>
 
-    <!-- Stat Highlights Banner -->
-    <section class="trust-banner">
-      <div class="container stats-grid">
-        <div class="stat-item">
-          <h4>100+</h4>
-          <p>Evidence-Based Guides</p>
-        </div>
-        <div class="stat-item">
-          <h4>15k+</h4>
-          <p>Active Parents</p>
-        </div>
-        <div class="stat-item">
-          <h4>Weekly</h4>
-          <p>Expert Newsletter</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Core Focus Pillars -->
-    <section class="container focus-section">
-      <div class="section-header">
-        <h2>What We Focus On</h2>
-        <p>Core pillars designed to support every stage of childhood development</p>
-      </div>
-
-      <div class="focus-grid">
-        <div class="focus-card">
-          <div class="icon-wrapper icon-blue">
-            <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-            </svg>
-          </div>
+    <!-- Three Pillars Section -->
+    <section class="pillars-section" style="margin-bottom: 4rem;">
+      <h2 style="text-align: center; margin-bottom: 2rem;">Core Focus Areas</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+        
+        <div class="card" style="text-align: center;">
+          <div class="pillar-icon" style="font-size: 2rem; margin-bottom: 1rem;">🧠</div>
           <h3>Child Psychology</h3>
-          <p>Understanding emotional milestones, toddler tantrums, and cognitive development in growing children.</p>
-          <span class="tag-badge badge-blue">Behavior & Brain</span>
+          <p>Understand cognitive development, emotional intelligence, and behavioral milestones.</p>
+          <span class="category-badge">Behavior & Brain</span>
         </div>
 
-        <div class="focus-card">
-          <div class="icon-wrapper icon-emerald">
-            <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-          </div>
+        <div class="card" style="text-align: center;">
+          <div class="pillar-icon" style="font-size: 2rem; margin-bottom: 1rem;">📱</div>
           <h3>Digital Wellness</h3>
-          <p>Balanced strategies to manage screen time, digital safety, and healthy family technology habits.</p>
-          <span class="tag-badge badge-emerald">Media & Safety</span>
+          <p>Navigate screen time boundaries, online privacy, and healthy tech habits for youth.</p>
+          <span class="category-badge">Media & Safety</span>
         </div>
 
-        <div class="focus-card">
-          <div class="icon-wrapper icon-purple">
-            <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-            </svg>
-          </div>
+        <div class="card" style="text-align: center;">
+          <div class="pillar-icon" style="font-size: 2rem; margin-bottom: 1rem;">🌱</div>
           <h3>Positive Discipline</h3>
-          <p>Constructive boundary setting, empathetic communication, and fostering mutual respect at home.</p>
-          <span class="tag-badge badge-purple">Relationships</span>
+          <p>Effective communication tools that encourage self-regulation without harsh punishment.</p>
+          <span class="category-badge">Relationships</span>
         </div>
+
       </div>
     </section>
 
-    <!-- Bottom Action Card -->
-    <section class="container">
-      <div class="cta-banner">
-        <h2>Start Your Parenting Journey Today</h2>
-        <p>Get practical parenting insights and research summaries delivered directly to your inbox every Sunday morning.</p>
-        <a href="/subscribe" class="btn-primary" style="background: var(--primary-accent);">Join Free Newsletter</a>
-      </div>
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+      <h2>Start Your Parenting Journey Today</h2>
+      <p>Get our latest articles, practical tips, and downloadable resources delivered straight to your inbox every week.</p>
+      <form class="newsletter-form" action="/subscribe" method="GET">
+        <input type="email" placeholder="Enter your email address" required>
+        <button type="submit" class="btn-primary">Join Free Newsletter</button>
+      </form>
     </section>
   </main>
 
   <footer>
-    <div class="container">
-      <p>&copy; 2026 Parenting Notes. All rights reserved.</p>
-    </div>
+    <p>&copy; 2026 Parenting Blog. All rights reserved.</p>
   </footer>
 
   <script src="/js/main.js"></script>
 </body>
-</html>
+        </html>
