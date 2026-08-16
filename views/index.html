@@ -24,45 +24,91 @@
   </header>
 
   <main class="container">
-    <section class="hero" style="text-align: center; margin-bottom: 3rem;">
-      <h1>Parenting Blog</h1>
-      <p style="margin: 0 auto 1.5rem auto;">Thoughtful guidance, evidence-based insights, and actionable advice for raising confident children.</p>
-      <a href="/blog" class="btn-primary">Explore Articles</a>
+    <!-- Hero Section -->
+    <section class="hero" style="text-align: center; margin-bottom: 3.5rem; padding: 2rem 0;">
+      <h1 style="max-width: 800px; margin: 0 auto 1rem auto;">Thoughtful Guidance for Modern Parents</h1>
+      <p style="margin: 0 auto 2rem auto; max-width: 650px; font-size: 1.125rem; color: var(--color-text);">
+        Evidence-based insights, actionable strategies, and practical tools for raising confident, resilient children in a fast-changing world.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="/blog" class="btn-primary">Explore Articles</a>
+        <a href="/resources" class="btn-secondary">View Resources</a>
+      </div>
     </section>
 
-    <!-- Three Pillars Section -->
+    <!-- Stat Highlights -->
+    <section class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 4rem; text-align: center;">
+      <div class="card" style="padding: 1.5rem;">
+        <h2 style="font-size: 2.25rem; color: var(--color-primary); margin-bottom: 0.25rem;">150+</h2>
+        <p style="margin: 0; font-size: 0.95rem; font-weight: 500;">Research-Backed Guides</p>
+      </div>
+      <div class="card" style="padding: 1.5rem;">
+        <h2 style="font-size: 2.25rem; color: var(--color-primary); margin-bottom: 0.25rem;">50k+</h2>
+        <p style="margin: 0; font-size: 0.95rem; font-weight: 500;">Monthly Readers</p>
+      </div>
+      <div class="card" style="padding: 1.5rem;">
+        <h2 style="font-size: 2.25rem; color: var(--color-primary); margin-bottom: 0.25rem;">100%</h2>
+        <p style="margin: 0; font-size: 0.95rem; font-weight: 500;">Ad-Free Content</p>
+      </div>
+    </section>
+
+    <!-- Three Pillars Section with Spherical Modern Icons -->
     <section class="pillars-section" style="margin-bottom: 4rem;">
-      <h2 style="text-align: center; margin-bottom: 2rem;">Core Focus Areas</h2>
+      <div style="text-align: center; margin-bottom: 2.5rem;">
+        <h2>Our Core Focus Areas</h2>
+        <p style="margin: 0 auto;">Key pillars designed to support you through every stage of child development.</p>
+      </div>
+
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
         
-        <div class="card" style="text-align: center;">
-          <div class="pillar-icon" style="font-size: 2rem; margin-bottom: 1rem;">🧠</div>
+        <!-- Pillar 1 -->
+        <div class="card" style="text-align: center; align-items: center;">
+          <div class="pillar-icon" style="width: 64px; height: 64px; border-radius: 50%; background: var(--color-bg); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin: 0 auto 1.25rem auto; border: 1px solid var(--color-border);">
+            🧠
+          </div>
           <h3>Child Psychology</h3>
-          <p>Understand cognitive development, emotional intelligence, and behavioral milestones.</p>
+          <p>Understand cognitive milestones, emotional growth, and emotional regulation in early development.</p>
           <span class="category-badge">Behavior & Brain</span>
         </div>
 
-        <div class="card" style="text-align: center;">
-          <div class="pillar-icon" style="font-size: 2rem; margin-bottom: 1rem;">📱</div>
+        <!-- Pillar 2 -->
+        <div class="card" style="text-align: center; align-items: center;">
+          <div class="pillar-icon" style="width: 64px; height: 64px; border-radius: 50%; background: var(--color-bg); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin: 0 auto 1.25rem auto; border: 1px solid var(--color-border);">
+            📱
+          </div>
           <h3>Digital Wellness</h3>
-          <p>Navigate screen time boundaries, online privacy, and healthy tech habits for youth.</p>
+          <p>Practical strategies for screen time management, online safety, and healthy technology habits.</p>
           <span class="category-badge">Media & Safety</span>
         </div>
 
-        <div class="card" style="text-align: center;">
-          <div class="pillar-icon" style="font-size: 2rem; margin-bottom: 1rem;">🌱</div>
+        <!-- Pillar 3 -->
+        <div class="card" style="text-align: center; align-items: center;">
+          <div class="pillar-icon" style="width: 64px; height: 64px; border-radius: 50%; background: var(--color-bg); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin: 0 auto 1.25rem auto; border: 1px solid var(--color-border);">
+            🌱
+          </div>
           <h3>Positive Discipline</h3>
-          <p>Effective communication tools that encourage self-regulation without harsh punishment.</p>
+          <p>Communication techniques that build strong trust and self-discipline without punitive measures.</p>
           <span class="category-badge">Relationships</span>
         </div>
 
       </div>
     </section>
 
-    <!-- Newsletter Section -->
+    <!-- Recent Articles Container (dynamic via main.js) -->
+    <section class="recent-posts" style="margin-bottom: 4rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <h2>Latest Articles</h2>
+        <a href="/blog" style="font-weight: 600;">View All Articles →</a>
+      </div>
+      <div id="posts-container">
+        <p style="text-align: center; color: #666; padding: 2rem;">Loading latest articles...</p>
+      </div>
+    </section>
+
+    <!-- Newsletter CTA Section -->
     <section class="newsletter-section">
       <h2>Start Your Parenting Journey Today</h2>
-      <p>Get our latest articles, practical tips, and downloadable resources delivered straight to your inbox every week.</p>
+      <p>Get practical parenting insights and downloadable guides delivered straight to your inbox every week.</p>
       <form class="newsletter-form" action="/subscribe" method="GET">
         <input type="email" placeholder="Enter your email address" required>
         <button type="submit" class="btn-primary">Join Free Newsletter</button>
