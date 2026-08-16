@@ -24,35 +24,45 @@
   --space-xl: 80px;
 }
 
-/* Global Reset & Base Setup */
-* {
+/* Global Reset & Box Sizing */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  font-size: 18px;
+  font-size: 1.125rem; /* 18px Desktop Base */
   line-height: 1.6;
+  width: 100%;
+  min-height: 100vh;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Typography Hierarchy */
+/* Typography Hierarchy & Responsive Sizes */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   color: var(--color-secondary);
   line-height: 1.2;
   font-weight: 600;
   margin-bottom: var(--space-sm);
-  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
-h1 { font-size: 48px; }
-h2 { font-size: 32px; }
-h3 { font-size: 24px; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); }     /* 32px to 48px */
+h2 { font-size: clamp(1.625rem, 4vw, 2rem); }  /* 26px to 32px */
+h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }  /* 20px to 24px */
 
 p {
   max-width: 700px;
@@ -69,14 +79,15 @@ a:hover {
   color: var(--color-primary-hover);
 }
 
-/* Header & Navigation */
+/* Header & Flex Navigation */
 header {
   background-color: var(--color-secondary);
-  padding: var(--space-sm) 0;
   width: 100%;
+  padding: var(--space-sm) 0;
 }
 
 .navbar {
+  width: 100%;
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 var(--space-sm);
@@ -91,13 +102,16 @@ header {
 .navbar .logo {
   color: #FFFFFF;
   font-family: var(--font-heading);
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 600;
   text-decoration: none;
+  display: flex;
+  align-items: center;
 }
 
 .navbar .logo img {
   height: 32px;
+  max-height: 32px;
   width: auto;
   display: block;
 }
@@ -112,8 +126,10 @@ header {
 
 .nav-links a {
   color: #E3D9CD;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
+  padding: 4px 0;
+  display: inline-block;
 }
 
 .nav-links a:hover,
@@ -121,22 +137,56 @@ header {
   color: #FFFFFF;
 }
 
-/* Main Layout Container */
+/* Main Layout & Responsive Containers */
 main, .container {
+  width: 100%;
   max-width: 1100px;
   margin: var(--space-xl) auto;
   padding: 0 var(--space-sm);
+  flex: 1;
+}
+
+/* Responsive Blog Post Grid */
+#blog-posts, .posts-grid, .blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-md);
   width: 100%;
 }
 
-/* Primary Button */
+/* Responsive Cards */
+.post-card, .card {
+  background: var(--color-surface);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(46, 42, 43, 0.06);
+  padding: var(--space-md);
+  border: none;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.category-badge, .tag {
+  background: var(--color-accent);
+  color: #FFFFFF;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 500;
+  display: inline-block;
+  align-self: flex-start;
+  margin-bottom: var(--space-xs);
+}
+
+/* Buttons & Touch Targets */
 .btn-primary, button[type="submit"] {
   background: var(--color-primary);
   color: #FFFFFF;
   padding: 14px 32px;
   border-radius: 6px;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1rem;
   border: none;
   cursor: pointer;
   display: inline-block;
@@ -148,7 +198,6 @@ main, .container {
   background: var(--color-primary-hover);
 }
 
-/* Secondary Button (Outline) */
 .btn-secondary {
   background: transparent;
   color: var(--color-secondary);
@@ -156,7 +205,7 @@ main, .container {
   padding: 12px 28px;
   border-radius: 6px;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
   display: inline-block;
   transition: all 0.2s ease;
@@ -168,33 +217,12 @@ main, .container {
   color: #FFFFFF;
 }
 
-/* Cards (Blog Posts, Features) */
-.post-card, .card {
-  background: var(--color-surface);
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(46, 42, 43, 0.06);
-  padding: var(--space-md);
-  margin-bottom: var(--space-md);
-  border: none;
-  width: 100%;
-}
-
-.category-badge, .tag {
-  background: var(--color-accent);
-  color: #FFFFFF;
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: 500;
-  display: inline-block;
-  margin-bottom: var(--space-xs);
-}
-
-/* Images */
-img {
+/* Responsive Images & Media */
+img, video, iframe {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
+  display: block;
 }
 
 /* Footer */
@@ -202,25 +230,23 @@ footer {
   background-color: var(--color-secondary);
   color: var(--color-bg);
   padding: var(--space-lg) var(--space-sm);
-  margin-top: var(--space-xl);
-  text-align: center;
+  margin-top: auto;
   width: 100%;
+  text-align: center;
 }
 
 /* ==========================================
-   MOBILE & TABLET RESPONSIVE MEDIA QUERIES
+   MOBILE & TABLET BREAKPOINTS
    ========================================== */
-@media (max-width: 768px) {
+
+/* Small Mobile & Foldables (up to 480px) */
+@media (max-width: 480px) {
   body {
-    font-size: 16px; /* Mobile Body Typography */
+    font-size: 1rem; /* 16px Mobile Base */
   }
 
-  h1 { font-size: 32px; }
-  h2 { font-size: 26px; }
-  h3 { font-size: 20px; }
-
   main, .container {
-    margin: var(--space-lg) auto; /* Reduced section padding on mobile */
+    margin: var(--space-md) auto;
   }
 
   .navbar {
@@ -229,17 +255,32 @@ footer {
   }
 
   .nav-links {
-    gap: var(--space-sm);
     width: 100%;
+    gap: var(--space-xs) var(--space-sm);
     justify-content: flex-start;
   }
 
-  .btn-primary, .btn-secondary, button[type="submit"] {
-    width: 100%; /* Full width touch targets on mobile */
-    display: block;
+  #blog-posts, .posts-grid, .blog-grid {
+    grid-template-columns: 1fr; /* Single column on phones */
   }
 
-  .post-card, .card {
-    padding: var(--space-sm);
+  .btn-primary, .btn-secondary, button[type="submit"] {
+    width: 100%; /* Full width touch target */
+    display: block;
+  }
+}
+
+/* Tablets (481px to 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  body {
+    font-size: 1rem;
+  }
+
+  main, .container {
+    margin: var(--space-lg) auto;
+  }
+
+  #blog-posts, .posts-grid, .blog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   }
   }
