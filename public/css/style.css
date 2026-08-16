@@ -3,13 +3,13 @@
 
 :root {
   /* Brand Colors */
-  --color-primary: #C1666B;       /* Terracotta Rose: CTAs, links, buttons only */
+  --color-primary: #C1666B;       /* Terracotta Rose: CTAs, active links, primary buttons */
   --color-primary-hover: #A8535A; /* Terracotta Rose (dark) */
-  --color-secondary: #4A3B4C;     /* Deep Plum: Headings, footer background */
-  --color-text: #2E2A2B;          /* Charcoal */
+  --color-secondary: #4A3B4C;     /* Deep Plum: Headings, footer background, primary text accents */
+  --color-text: #2E2A2B;          /* Charcoal: Body text */
   --color-bg: #F7F1EA;            /* Warm Cream: Body background */
-  --color-surface: #FFFFFF;       /* White: Cards / Navbar background */
-  --color-accent: #8A9A82;        /* Sage: Tags, small dividers, icon accents */
+  --color-surface: #FFFFFF;       /* White: Cards & Navbar background */
+  --color-accent: #8A9A82;        /* Sage: Category badges, borders, icon accents */
   --color-border: #E3D9CD;        /* Warm Grey */
 
   /* Typography */
@@ -40,7 +40,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  font-size: 1.125rem; /* 18px Desktop Base */
+  font-size: 1.125rem;
   line-height: 1.6;
   width: 100%;
   min-height: 100vh;
@@ -79,9 +79,7 @@ a:hover {
   color: var(--color-primary-hover);
 }
 
-/* ==========================================
-   1. NAVBAR (White background + Plum text)
-   ========================================== */
+/* Navbar (White background + Plum text) */
 header {
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
@@ -113,8 +111,8 @@ header {
 }
 
 .navbar .logo img {
-  height: 32px;
-  max-height: 32px;
+  height: 48px;
+  max-height: 48px;
   width: auto;
   display: block;
 }
@@ -156,7 +154,7 @@ main, .container {
 }
 
 /* Responsive Blog Post Grid */
-#blog-posts, .posts-grid, .blog-grid {
+#blog-posts, .posts-grid, .blog-grid, #posts-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: var(--space-md);
@@ -169,50 +167,52 @@ main, .container {
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(46, 42, 43, 0.06);
   padding: var(--space-md);
-  border: none;
+  border: 1px solid var(--color-border);
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-/* ==========================================
-   3. CATEGORY TAGS (Strict Brand Palette)
-   ========================================== */
+/* Category Badges (Strict Sage Palette) */
 .category-badge, .tag, .badge {
-  background-color: var(--color-accent) !important; /* Sage */
+  background-color: var(--color-accent) !important; /* Sage (#8A9A82) */
   color: #FFFFFF !important;
-  padding: 4px 10px;
+  padding: 4px 12px;
   border-radius: 4px;
   font-size: 0.8125rem;
   font-weight: 500;
   display: inline-block;
   align-self: flex-start;
-  margin-bottom: var(--space-xs);
+  margin-top: var(--space-xs);
   border: none !important;
 }
 
-/* Secondary tag styling */
 .category-badge.alt, .tag.alt {
-  background-color: var(--color-secondary) !important; /* Deep Plum */
+  background-color: var(--color-secondary) !important; /* Deep Plum (#4A3B4C) */
 }
 
-/* ==========================================
-   4. PILLAR ICONS (Strict Brand Palette)
-   ========================================== */
+/* Pillar Icons (Spherical Circles in Sage/Plum) */
 .pillar-icon, .feature-icon, .icon-box {
-  color: var(--color-primary) !important;
-  background-color: var(--color-bg) !important;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: var(--space-xs);
+  width: 64px !important;
+  height: 64px !important;
+  border-radius: 50% !important;
+  background-color: var(--color-bg) !important;       /* Warm Cream */
+  border: 2px solid var(--color-accent) !important;   /* Sage (#8A9A82) */
+  color: var(--color-secondary) !important;          /* Deep Plum (#4A3B4C) */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1.75rem !important;
+  margin: 0 auto 1.25rem auto !important;
+  box-shadow: 0 2px 8px rgba(46, 42, 43, 0.04) !important;
 }
 
 .pillar-icon svg, .feature-icon svg {
   fill: var(--color-secondary) !important;
   stroke: var(--color-secondary) !important;
+  width: 32px;
+  height: 32px;
 }
 
 /* Buttons */
@@ -253,9 +253,7 @@ main, .container {
   color: #FFFFFF !important;
 }
 
-/* ==========================================
-   2. NEWSLETTER SECTION (High Contrast Fix)
-   ========================================== */
+/* Newsletter Section */
 .newsletter-section, .cta-section, #newsletter {
   background-color: var(--color-surface) !important;
   border: 1px solid var(--color-border);
@@ -267,12 +265,12 @@ main, .container {
 }
 
 .newsletter-section h2, .cta-section h2 {
-  color: var(--color-secondary) !important; /* High contrast heading */
+  color: var(--color-secondary) !important;
   margin-bottom: var(--space-xs);
 }
 
 .newsletter-section p, .cta-section p {
-  color: var(--color-text) !important; /* High contrast body text */
+  color: var(--color-text) !important;
   margin: 0 auto var(--space-md) auto;
 }
 
@@ -326,6 +324,6 @@ footer a:hover {
   main, .container { margin: var(--space-lg) auto; }
   .navbar { flex-direction: column; align-items: flex-start; }
   .nav-links { width: 100%; gap: var(--space-xs) var(--space-sm); }
-  #blog-posts, .posts-grid, .blog-grid { grid-template-columns: 1fr; }
+  #blog-posts, .posts-grid, .blog-grid, #posts-container { grid-template-columns: 1fr; }
   .btn-primary, .btn-secondary, button[type="submit"] { width: 100%; display: block; }
-  }
+}
