@@ -63,7 +63,7 @@ app.get('/api/settings/colors', async (req, res) => {
   }
 });
 
-// Server Listener for Local Dev
+// Start Local Server
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
