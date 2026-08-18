@@ -1,40 +1,476 @@
-I/* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,600;1,600&display=swap');
-
+/* ==========================================================================
+   1. CORE RESETS & VARIABLES
+   ========================================================================== */
 :root {
-  /* Brand Colors */
-  --color-primary: #C1666B;       /* Terracotta Rose: CTAs, active links, primary buttons */
-  --color-primary-hover: #A8535A; /* Terracotta Rose (dark) */
-  --color-secondary: #4A3B4C;     /* Deep Plum: Headings, footer background, primary text accents */
-  --color-text: #2E2A2B;          /* Charcoal: Body text */
-  --color-bg: #F7F1EA;            /* Warm Cream: Body background */
-  --color-surface: #FFFFFF;       /* White: Cards & Navbar background */
-  --color-accent: #8A9A82;        /* Sage: Category badges, borders, icon accents */
-  --color-border: #E3D9CD;        /* Warm Grey */
-
-  /* Typography */
-  --font-heading: 'Lora', Georgia, serif;
-  --font-body: 'Inter', -apple-system, sans-serif;
-
-  /* Spacing Scale */
-  --space-xs: 8px;
-  --space-sm: 16px;
-  --space-md: 24px;
-  --space-lg: 48px;
-  --space-xl: 80px;
+  --color-terracotta: #c86d51;
+  --color-plum: #5c3a4d;
+  --color-sage: #8a9a86;
+  --color-cream: #fdfbf7;
+  --color-text: #2d2d2d;
+  --color-bg-light: #fafafa;
+  --color-border: #e2e2e2;
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
-/* Global Reset & Box Sizing */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html {
-  font-size: 100%;
-  scroll-behavior: smooth;
+body {
+  font-family: var(--font-main);
+  color: var(--color-text);
+  background-color: var(--color-bg-light);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
+
+main {
+  flex: 1;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* ==========================================================================
+   2. HEADER & NAVIGATION BAR
+   ========================================================================== */
+header {
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+}
+
+.logo img {
+  height: 42px;
+  width: auto;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--color-terracotta);
+}
+
+/* ==========================================================================
+   3. BUTTONS & LINK STYLES
+   ========================================================================== */
+.btn-primary {
+  display: inline-block;
+  padding: 0.85rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: var(--color-terracotta);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover {
+  background-color: #b35c42;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-plum);
+  background-color: transparent;
+  border: 1.5px solid var(--color-plum);
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-plum);
+  color: #ffffff;
+}
+
+.text-link {
+  color: var(--color-terracotta);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.text-link:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   4. CARDS & GENERAL LAYOUTS
+   ========================================================================== */
+.card {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+/* ==========================================================================
+   5. SUBSCRIBE PAGE & FORM FIXES
+   ========================================================================== */
+.subscribe-page {
+  max-width: 680px;
+  margin: 2rem auto;
+}
+
+.subscribe-hero {
+  text-align: center;
+  padding: 2.5rem 2rem;
+  background: var(--color-cream);
+  border-radius: 12px;
+  border: 1px solid rgba(200, 109, 81, 0.2);
+}
+
+.subscribe-hero h1 {
+  font-size: 2rem;
+  color: var(--color-text);
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+}
+
+.subscribe-subhead {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.lead-magnet-cover {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  margin: 0 auto 1.75rem auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.subscribe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 420px;
+  margin: 0 auto 1.5rem auto;
+}
+
+.subscribe-form input,
+.subscribe-form-inline input {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #333;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.subscribe-form input:focus,
+.subscribe-form-inline input:focus {
+  outline: none;
+  border-color: var(--color-terracotta);
+  box-shadow: 0 0 0 3px rgba(200, 109, 81, 0.15);
+}
+
+.subscribe-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem auto;
+  max-width: 420px;
+  text-align: left;
+}
+
+.subscribe-checklist li {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+.trust-microcopy {
+  font-size: 0.85rem;
+  color: #777;
+  font-style: italic;
+  margin-top: 1.5rem;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   6. RESOURCES PAGE & GRID FIXES
+   ========================================================================== */
+.resources-hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.75rem;
+}
+
+.resource-card {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.resource-card--featured {
+  grid-column: 1 / -1;
+  background: var(--color-cream);
+  border: 2px solid var(--color-terracotta);
+}
+
+.resource-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-terracotta);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.resource-card h2 {
+  font-size: 1.35rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-text);
+}
+
+.resource-card p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+/* ==========================================================================
+   7. ABOUT PAGE & TRUST BLOCKS
+   ========================================================================== */
+.about-page {
+  max-width: 900px;
+}
+
+.founder-photo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  float: right;
+  margin: 0 0 1rem 1.5rem;
+  border: 3px solid var(--color-terracotta);
+}
+
+.standards-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.standards-list li {
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.trust-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.about-bio::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* ==========================================================================
+   8. HOMEPAGE SPECIFICS
+   ========================================================================== */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.hero-subhead {
+  font-size: 1.15rem;
+  color: #555;
+  margin-bottom: 1.75rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.homepage-trust-block {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.trust-block-photo {
+  width: 100%;
+  max-width: 200px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.trust-block-content {
+  flex: 1;
+  min-width: 280px;
+}
+
+.focus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.icon-circle--terracotta { background-color: #fbebe6; color: var(--color-terracotta); }
+.icon-circle--plum { background-color: #f3eaf0; color: var(--color-plum); }
+.icon-circle--sage { background-color: #eef2ed; color: var(--color-sage); }
+
+.subscribe-form-inline {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  max-width: 450px;
+  margin: 1.5rem auto 0 auto;
+}
+
+/* ==========================================================================
+   9. FOOTER
+   ========================================================================== */
+footer {
+  background-color: #ffffff;
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+  padding: 2rem 1.5rem;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: auto;
+}
+
+/* ==========================================================================
+   10. MOBILE RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .hero h1 {
+    font-size: 1.85rem;
+  }
+
+  .founder-photo {
+    float: none;
+    display: block;
+    margin: 0 auto 1.5rem auto;
+  }
+
+  .subscribe-form-inline {
+    flex-direction: column;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+    }}
 
 body {
   background-color: var(--color-bg);
