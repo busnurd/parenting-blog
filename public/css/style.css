@@ -1,4 +1,4 @@
-/* Google Fonts Import */
+I/* Google Fonts Import */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,600;1,600&display=swap');
 
 :root {
@@ -440,3 +440,273 @@ footer a:hover {
   object-fit: cover;
   border-radius: 6px;
   }
+/* ==========================================================================
+   GLOBAL FORM & BUTTON FIXES (Subscribe & Forms)
+   ========================================================================== */
+
+.subscribe-page {
+  max-width: 680px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+}
+
+.subscribe-hero {
+  text-align: center;
+  padding: 2.5rem 2rem;
+  background: var(--color-cream, #fdfbf7);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.subscribe-hero h1 {
+  font-size: 2rem;
+  color: #2d2d2d;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+}
+
+.subscribe-subhead {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+/* Form & Input Styling */
+.subscribe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 440px;
+  margin: 0 auto 2rem auto;
+}
+
+.subscribe-form input,
+.subscribe-form-inline input {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #333;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.subscribe-form input:focus,
+.subscribe-form-inline input:focus {
+  outline: none;
+  border-color: #c86d51;
+  box-shadow: 0 0 0 3px rgba(200, 109, 81, 0.15);
+}
+
+/* Button Styling */
+.btn-primary {
+  display: inline-block;
+  padding: 0.85rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #c86d51; /* Terracotta */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover {
+  background-color: #b35c42;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #5c3a4d; /* Plum */
+  background-color: transparent;
+  border: 1.5px solid #5c3a4d;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #5c3a4d;
+  color: #ffffff;
+}
+
+/* Checklist & Microcopy */
+.subscribe-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem auto;
+  max-width: 440px;
+  text-align: left;
+}
+
+.subscribe-checklist li {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+.trust-microcopy {
+  font-size: 0.85rem;
+  color: #777;
+  font-style: italic;
+  margin-top: 1.5rem;
+  line-height: 1.4;
+}
+
+
+/* ==========================================================================
+   RESOURCES & GRID FIXES
+   ========================================================================== */
+
+.resources-page {
+  max-width: 1100px;
+  margin: 2.5rem auto;
+  padding: 0 1.5rem;
+}
+
+.resources-hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.75rem;
+}
+
+.resource-card {
+  background: #ffffff;
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.resource-card--featured {
+  grid-column: 1 / -1;
+  background: #fdfbf7;
+  border: 2px solid #c86d51;
+}
+
+.resource-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #c86d51;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.resource-card h2 {
+  font-size: 1.35rem;
+  margin-bottom: 0.75rem;
+  color: #2d2d2d;
+}
+
+.resource-card p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+
+/* ==========================================================================
+   ABOUT PAGE & HOME TRUST BLOCK FIXES
+   ========================================================================== */
+
+.about-page {
+  max-width: 900px;
+  margin: 2.5rem auto;
+  padding: 0 1.5rem;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.founder-photo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  float: right;
+  margin: 0 0 1rem 1.5rem;
+  border: 3px solid #c86d51;
+}
+
+.standards-list {
+  list-style: none;
+  padding: 0;
+}
+
+.standards-list li {
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.trust-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* Clearfix for float */
+.about-bio::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT ADJUSTMENTS
+   ========================================================================== */
+
+@media (max-width: 600px) {
+  .founder-photo {
+    float: none;
+    display: block;
+    margin: 0 auto 1.5rem auto;
+  }
+  
+  .subscribe-form-inline {
+    flex-direction: column;
+  }
+  
+  .subscribe-page, .resources-page, .about-page {
+    margin: 1.5rem auto;
+  }
+    }
