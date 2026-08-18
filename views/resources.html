@@ -3,38 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resources | Parenting Notes</title>
+  <title>Parenting Helplines & Free Resources for Raising Teen Daughters | Teen Girls Parenting</title>
+  <meta name="description" content="Free tools, guides, and verified support helplines for parents of teenage girls — including our most-requested download, the First Conversation Starter Kit.">
   <link rel="stylesheet" href="/css/style.css">
-  <style>
-    .page-header {
-      text-align: center;
-      padding: 4.5rem 1rem 3rem;
-      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-      border-bottom: 1px solid #e2e8f0;
-    }
-    .page-header h1 {
-      font-size: 2.6rem;
-      font-weight: 800;
-      color: var(--primary-color);
-    }
-    .page-header p {
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      margin-top: 0.5rem;
-    }
-    .resources-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin: 4rem 0 5rem;
-    }
-    .resource-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: var(--radius-lg);
-      padding: 2.2rem;
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition-smooth);
+</head>
+<body>
+  <main class="resources-page container" style="padding: 3rem 1rem;">
+    <section class="resources-hero" style="text-align: center; margin-bottom: 3rem;">
+      <h1>Parenting Helplines & Guides</h1>
+      <p>Curated support networks, crisis contacts, and downloadable family toolkits.</p>
+    </section>
+
+    <section class="resources-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+      <!-- FEATURED CARD -->
+      <article class="resource-card resource-card--featured" style="grid-column: 1 / -1; background-color: var(--color-cream, #fdfbf7); border: 2px solid var(--color-terracotta, #c86d51); border-radius: 8px; padding: 2rem;">
+        <span class="resource-tag" style="background-color: var(--color-terracotta, #c86d51); color: #fff; padding: 0.25rem 0.5rem; font-size: 0.75rem; border-radius: 4px; font-weight: bold;">FREE DOWNLOAD</span>
+        <h2 style="margin-top: 0.75rem;">The First Conversation Starter Kit</h2>
+        <p>Exact scripts for the moments you feel most stuck — when she shuts down, shuts you out, or won't say what's wrong. Free instant download, plus our weekly email.</p>
+        <a href="/subscribe" class="btn-primary">Get the Free Kit</a>
+      </article>
+
+      <!-- EXISTING CARDS -->
+      <article class="resource-card card" style="padding: 1.5rem; border-radius: 8px;">
+        <span class="resource-tag" style="background-color: var(--color-sage, #8a9a86); color: #fff; padding: 0.25rem 0.5rem; font-size: 0.75rem; border-radius: 4px; font-weight: bold;">24/7 HELPLINE</span>
+        <h2 style="font-size: 1.25rem; margin-top: 0.75rem;">Parent Support Line</h2>
+        <p>Confidential emotional support and guidance for parents and caregivers facing immediate stress or crisis.</p>
+        <a href="#" class="btn-secondary">Call Support Line</a>
+      </article>
+
+      <article class="resource-card card" style="padding: 1.5rem; border-radius: 8px;">
+        <span class="resource-tag" style="background-color: var(--color-sage, #8a9a86); color: #fff; padding: 0.25rem 0.5rem; font-size: 0.75rem; border-radius: 4px; font-weight: bold;">DIGITAL DOWNLOAD</span>
+        <h2 style="font-size: 1.25rem; margin-top: 0.75rem;">Toddler Emotional Regulation Guide</h2>
+        <p>A printable step-by-step cheat sheet for de-escalating tantrums and helping children process big feelings.</p>
+        <a href="#" class="btn-secondary">Download PDF Guide</a>
+      </article>
+
+      <article class="resource-card card" style="padding: 1.5rem; border-radius: 8px;">
+        <span class="resource-tag" style="background-color: var(--color-sage, #8a9a86); color: #fff; padding: 0.25rem 0.5rem; font-size: 0.75rem; border-radius: 4px; font-weight: bold;">INTERACTIVE CHECKLIST</span>
+        <h2 style="font-size: 1.25rem; margin-top: 0.75rem;">Screen Time Family Agreement</h2>
+        <p>A customizable family contract template to establish healthy tech boundaries for kids and teenagers.</p>
+        <a href="#" class="btn-secondary">Access Template</a>
+      </article>
+    </section>
+  </main>
+</body>
+</html>      transition: var(--transition-smooth);
       display: flex;
       flex-direction: column;
     }
