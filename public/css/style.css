@@ -327,3 +327,116 @@ footer a:hover {
   #blog-posts, .posts-grid, .blog-grid, #posts-container { grid-template-columns: 1fr; }
   .btn-primary, .btn-secondary, button[type="submit"] { width: 100%; display: block; }
 }
+/* Color Palette Variables */
+:root {
+  --color-terracotta: #c86d51;
+  --color-plum: #5c3a4d;
+  --color-sage: #8a9a86;
+  --color-cream: #fdfbf7;
+  --color-text: #2d2d2d;
+}
+
+/* Accessibility Utility */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Featured Card Modifier */
+.resource-card--featured {
+  grid-column: 1 / -1;
+  background-color: var(--color-cream);
+  border: 2px solid var(--color-terracotta);
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+/* Homepage Trust Block Layout */
+.homepage-trust-block {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  padding: 2rem;
+  margin-bottom: 4rem;
+  flex-wrap: wrap;
+}
+
+.trust-block-photo {
+  width: 100%;
+  max-width: 220px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.trust-block-content {
+  flex: 1;
+  min-width: 280px;
+}
+
+/* Icon Palette Circles */
+.icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.icon-circle--terracotta {
+  background-color: #fbebe6;
+  color: var(--color-terracotta);
+}
+
+.icon-circle--plum {
+  background-color: #f3eaf0;
+  color: var(--color-plum);
+}
+
+.icon-circle--sage {
+  background-color: #eef2ed;
+  color: var(--color-sage);
+}
+
+/* Lead Magnet Cover Image */
+.lead-magnet-cover {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin: 0 auto 2rem auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Inline Form Layout */
+.subscribe-form-inline {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  max-width: 450px;
+  margin: 1.5rem auto 0 auto;
+}
+
+.subscribe-form-inline input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1;
+}
+
+/* Article Grid Image Ratio */
+.post-card-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 6px;
+  }
