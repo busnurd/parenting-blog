@@ -105,50 +105,171 @@ app.get('/api/posts/:id', async (req, res) => {
 // 1. Home Page
 app.get('/', (req, res) => {
   const content = `
-    <section class="hero">
-      <h1>Research-Backed Guidance for Raising Confident Teen Daughters</h1>
-      <p class="hero-subhead">Practical advice, real experience, and actionable toolkits for parents navigating the teenage years.</p>
-      <div class="hero-buttons">
-        <a href="/subscribe" class="btn-primary">Get the Free Toolkit</a>
-        <a href="/blog" class="btn-secondary">Read Latest Articles</a>
-      </div>
-    </section>
+    <main class="homepage container">
+      <!-- HERO -->
+      <section class="hero">
+        <h1>Thoughtful Guidance for Raising Teenage Daughters</h1>
+        <p class="hero-subhead">
+          Real mentorship experience and research-backed insights to help you understand, connect with, and raise a confident, resilient daughter.
+        </p>
+        <div class="hero-buttons">
+          <a href="/blog" class="btn-primary">Explore Articles</a>
+          <a href="/resources" class="btn-secondary">View Resources</a>
+        </div>
+      </section>
 
-    <div class="container">
+      <!-- TRUST BLOCK -->
       <section class="homepage-trust-block card">
-        <img src="/founder-photo.webp" alt="Busari Nurudeen Olayemi" class="trust-block-photo">
+        <img src="/founder-photo.webp" alt="Busari Nurudeen Olayemi, founder of Teen Girls Parenting" class="trust-block-photo" />
         <div class="trust-block-content">
           <h2>Written by Someone Who's Actually Done This</h2>
           <p>
-            Recognized by UNESCO and the Goi Peace Foundation for mentoring teenage girls to international recognition. 
-            Five years as the adult hundreds of girls chose to confide in — not theory, real experience, backed by real research.
+            Recognized by UNESCO and the Goi Peace Foundation for mentoring teenage girls to international recognition. Five years as the adult hundreds of girls chose to confide in — not theory, real experience, backed by real research.
           </p>
           <a href="/about" class="text-link">Read the full story &rarr;</a>
         </div>
       </section>
 
-      <section class="latest-posts-section">
-        <h2 style="text-align: center; margin-bottom: 1.5rem;">Recent Insights</h2>
-        <div id="posts-container" class="focus-grid">
-          <!-- Populated by main.js fetching /api/posts -->
+      <!-- CORE FOCUS AREAS -->
+      <section class="focus-areas">
+        <h2 style="text-align: center; margin-bottom: 0.5rem;">What We Focus On</h2>
+        <p class="section-subhead" style="text-align: center; color: #666; margin-bottom: 1.5rem;">Core pillars designed to support you through every stage of raising a teenage daughter.</p>
+
+        <div class="focus-grid">
+          <article class="focus-card card">
+            <span class="icon-circle icon-circle--terracotta">&hearts;</span>
+            <h3>Understanding Her World</h3>
+            <p>Anxiety, body image, and the pressures she carries but rarely says out loud.</p>
+            <span class="resource-tag">Emotional Wellbeing</span>
+          </article>
+
+          <article class="focus-card card">
+            <span class="icon-circle icon-circle--plum">&#128241;</span>
+            <h3>Digital Wellness</h3>
+            <p>Balanced strategies for screen time, social comparison, and healthy tech habits.</p>
+            <span class="resource-tag">Media & Safety</span>
+          </article>
+
+          <article class="focus-card card">
+            <span class="icon-circle icon-circle--sage">&#127793;</span>
+            <h3>Rebuilding Connection</h3>
+            <p>Real communication tools for when she goes quiet or pulls away.</p>
+            <span class="resource-tag">Relationships</span>
+          </article>
         </div>
       </section>
-    </div>
+
+      <!-- RECENT ARTICLES -->
+      <section class="recent-articles" style="margin-top: 3rem;">
+        <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h2>Latest Articles</h2>
+          <a href="/blog" class="text-link">View All Articles &rarr;</a>
+        </div>
+        <div class="article-grid focus-grid" id="posts-container">
+          <!-- Dynamic posts populate here -->
+        </div>
+      </section>
+
+      <!-- NEWSLETTER CTA -->
+      <section class="homepage-newsletter card" style="text-align: center; margin-top: 3rem; background: var(--color-cream);">
+        <h2>Stop Guessing What to Say to Her</h2>
+        <p style="margin: 0.5rem 0 1rem 0;">
+          Get the free Conversation Starter Kit — exact words for the moments you feel most stuck — plus one useful parenting email a week.
+        </p>
+        <form class="subscribe-form-inline" action="/subscribe" method="GET">
+          <input type="email" placeholder="Enter your email address" required />
+          <button type="submit" class="btn-primary">Get the Free Kit</button>
+        </form>
+      </section>
+    </main>
   `;
   res.send(layout('home', 'Home', content));
 });
 
-// 2. About Page
+// 2. About Page (FULL UNTRUNCATED COPY)
 app.get('/about', (req, res) => {
   const content = `
-    <div class="container about-page">
-      <section class="card about-bio">
-        <img src="/founder-photo.webp" alt="Busari Nurudeen Olayemi" class="founder-photo">
-        <h1>About the Founder</h1>
-        <p>Hi, I'm <strong>Busari Nurudeen Olayemi</strong>.</p>
-        <p>Over the past five years, I have worked directly with hundreds of teenage girls, guiding them through identity, confidence, and real-world challenges. Recognized by UNESCO and the Goi Peace Foundation, this platform is dedicated to bridging the communication gap between parents and their teen daughters.</p>
+    <main class="about-page container">
+      <section class="about-hero" style="text-align: center; margin-bottom: 2rem;">
+        <h1>Grounded Guidance for Real-World Parenting</h1>
+        <p class="about-subhead" style="font-size: 1.15rem; color: #555; max-width: 700px; margin: 0.5rem auto 0 auto;">
+          Bridging real mentorship experience and developmental research with clear, non-judgmental advice for parents of teenage daughters.
+        </p>
       </section>
-    </div>
+
+      <section class="about-bio card">
+        <img src="/founder-photo.webp" alt="Busari Nurudeen Olayemi, founder of Teen Girls Parenting" class="founder-photo" />
+
+        <h2>Why I Started This</h2>
+        <p>
+          I wasn't looking to start a movement. I was just the adult they chose to trust. For five years, I worked as an IT professional inside a girls-only secondary school — and slowly, without any announcement, I became the adult those teenage girls talked to. Not their parents. Not their teachers. Me.
+        </p>
+        <p>
+          They told me about anxiety they carried every morning, friendships quietly destroying their self-worth, and the conversations they desperately wanted to have with their own parents but couldn't find the words for. Not because their parents didn't love them — but because love alone doesn't always bridge that silence.
+        </p>
+        <p>
+          I made a promise that what I heard wouldn't stay in that office. This platform is that promise. I'm not a licensed therapist — what I bring is five years of hands-on experience earning teenage girls' trust, paired with published research, not just opinion.
+        </p>
+      </section>
+
+      <section class="about-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+        <div class="about-card card">
+          <h2>Our Mission</h2>
+          <p>
+            Modern parenting is filled with overwhelming and conflicting advice. Teen Girls Parenting was founded to cut through the noise with calm, evidence-informed perspective on raising confident, emotionally secure daughters.
+          </p>
+          <p style="margin-top: 0.75rem;">
+            We focus on actionable strategies for communication, emotional regulation, and building resilient parent-daughter connection.
+          </p>
+        </div>
+
+        <div class="about-card card">
+          <h2>Editorial Standards</h2>
+          <p>Every piece of advice shared here is checked against trusted developmental research, including:</p>
+          <ul class="standards-list" style="margin-top: 0.75rem; list-style: none;">
+            <li>&check; Dr. Kristin Neff's research on self-compassion</li>
+            <li>&check; NIH / PMC peer-reviewed adolescent development studies</li>
+            <li>&check; WHO global adolescent mental health data</li>
+            <li>&check; Stanford, CDC, Dove Self-Esteem Project & Journal of Adolescence research</li>
+            <li>&check; Zero shaming or perfectionist standards</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="trust-highlights card">
+        <h2>Recognition & Real Impact</h2>
+
+        <div class="trust-grid">
+          <article class="trust-card">
+            <img src="/unesco-goi-peace-certificate.webp" alt="Certificate of Recognition from Goi Peace Foundation and UNESCO, 2021" />
+            <span class="resource-tag">INTERNATIONAL RECOGNITION</span>
+            <h3>UNESCO & Goi Peace Foundation, 2021</h3>
+            <p>
+              Recognized for mentoring a team of girls to win the 2021 International Essay Contest for Young People with a multimedia proposal on the impact of COVID-19.
+            </p>
+          </article>
+
+          <article class="trust-card">
+            <img src="/founder-mentoring-moment.webp" alt="Busari Nurudeen Olayemi mentoring teenage girls in the school computer room" />
+            <span class="resource-tag">MEDIA</span>
+            <h3>Ilubinrin, Splash FM</h3>
+            <p>
+              On-air 17th September 2025, speaking to thousands of listeners about the silence between teenage girls and their parents — and what closes it.
+            </p>
+          </article>
+        </div>
+
+        <p class="impact-line" style="margin-top: 1.5rem; font-size: 0.95rem; color: #444;">
+          Two of the girls I mentored, <strong>Evelyn</strong> and <strong>Cindy</strong>, went on to build real futures shaped in part by those conversations — one now an emerging voice online, the other studying Criminology. Their stories are part of why this work continues.
+        </p>
+      </section>
+
+      <section class="about-cta card" style="text-align: center;">
+        <h2>Want Practical Help, Not Just My Story?</h2>
+        <p style="margin: 0.5rem 0 1rem 0;">Get the free Conversation Starter Kit and one useful email a week.</p>
+        <a href="/subscribe" class="btn-primary">Get the Free Kit</a>
+      </section>
+    </main>
   `;
   res.send(layout('about', 'About Us', content));
 });
@@ -156,35 +277,66 @@ app.get('/about', (req, res) => {
 // 3. Blog Page
 app.get('/blog', (req, res) => {
   const content = `
-    <div class="container">
-      <h1 style="text-align: center; margin-bottom: 2rem;">Parenting Insights & Articles</h1>
+    <main class="container">
+      <h1 style="text-align: center; margin-bottom: 0.5rem;">Parenting Insights & Articles</h1>
+      <p style="text-align: center; color: #666; margin-bottom: 2rem;">Practical advice and research-backed frameworks for raising confident teen daughters.</p>
       <div id="posts-container" class="focus-grid">
         <!-- Populated by main.js fetching /api/posts -->
       </div>
-    </div>
+    </main>
   `;
   res.send(layout('blog', 'Blog', content));
 });
 
-// 4. Resources Page
+// 4. Resources Page (FULL UNTRUNCATED COPY)
 app.get('/resources', (req, res) => {
   const content = `
-    <div class="container resources-page">
-      <div class="resources-hero">
-        <h1>Parenting Guides & Free Toolkits</h1>
-        <p>Download structured guides to help navigate conversation starters, trust building, and modern teenage challenges.</p>
-      </div>
-      <div class="resources-grid">
-        <div class="resource-card resource-card--featured">
+    <main class="resources-page container">
+      <section class="resources-hero">
+        <h1>Parenting Helplines & Guides</h1>
+        <p>Curated support networks, crisis contacts, and downloadable family toolkits.</p>
+      </section>
+
+      <section class="resources-grid">
+        <!-- FEATURED CARD -->
+        <article class="resource-card resource-card--featured">
+          <span class="resource-tag">FREE DOWNLOAD</span>
+          <h2>The First Conversation Starter Kit</h2>
+          <p>
+            Exact scripts for the moments you feel most stuck — when she shuts down, shuts you out, or won't say what's wrong. Free instant download, plus our weekly email.
+          </p>
+          <a href="/subscribe" class="btn-primary" style="width: fit-content;">Get the Free Kit</a>
+        </article>
+
+        <!-- EXISTING CARDS -->
+        <article class="resource-card">
           <div>
-            <span class="resource-tag">Featured Kit</span>
-            <h2>Teen Girl Communication Toolkit</h2>
-            <p>5 actionable frameworks to start conversations without pushing your daughter away.</p>
+            <span class="resource-tag">24/7 HELPLINE</span>
+            <h2>Parent Support Line</h2>
+            <p>Confidential emotional support and guidance for parents and caregivers facing immediate stress or crisis.</p>
           </div>
-          <a href="/subscribe" class="btn-primary">Download Free Copy</a>
-        </div>
-      </div>
-    </div>
+          <a href="#" class="btn-secondary">Call Support Line</a>
+        </article>
+
+        <article class="resource-card">
+          <div>
+            <span class="resource-tag">DIGITAL DOWNLOAD</span>
+            <h2>Toddler Emotional Regulation Guide</h2>
+            <p>A printable step-by-step cheat sheet for de-escalating tantrums and helping children process big feelings.</p>
+          </div>
+          <a href="#" class="btn-secondary">Download PDF Guide</a>
+        </article>
+
+        <article class="resource-card">
+          <div>
+            <span class="resource-tag">INTERACTIVE CHECKLIST</span>
+            <h2>Screen Time Family Agreement</h2>
+            <p>A customizable family contract template to establish healthy tech boundaries for kids and teenagers.</p>
+          </div>
+          <a href="#" class="btn-secondary">Access Template</a>
+        </article>
+      </section>
+    </main>
   `;
   res.send(layout('resources', 'Resources', content));
 });
@@ -193,38 +345,52 @@ app.get('/resources', (req, res) => {
 app.get('/subscribe', (req, res) => {
   const isSuccess = req.query.status === 'success';
   const content = `
-    <div class="container subscribe-page">
-      <div class="subscribe-hero">
-        <h1>Get the Free Teen Daughter Communication Guide</h1>
-        <p class="subscribe-subhead">Join hundreds of parents receiving weekly research-backed strategies straight to their inbox.</p>
-        
-        ${isSuccess ? '<p style="color: green; font-weight: bold; margin-bottom: 1rem;">Success! You are now subscribed.</p>' : ''}
+    <main class="subscribe-page container">
+      <section class="subscribe-hero card">
+        <h1>Stop Guessing What to Say to Her</h1>
 
-        <form action="/subscribe" method="POST" class="subscribe-form">
-          <input type="text" name="name" placeholder="Your Name" required>
-          <input type="email" name="email" placeholder="Your Email Address" required>
-          <button type="submit" class="btn-primary">Send Me The Free Guide</button>
+        <p class="subscribe-subhead">
+          Get the exact words to use when she shuts down, shuts you out, or won't tell you what's actually wrong — free, in under 5 minutes.
+        </p>
+
+        <img src="/conversation-kit-cover.webp" alt="Cover of The First Conversation Starter Kit guide" class="lead-magnet-cover" />
+
+        ${isSuccess ? '<p style="color: green; font-weight: bold; margin-bottom: 1rem;">Success! Check your inbox for your starter kit.</p>' : ''}
+
+        <form class="subscribe-form" action="/subscribe" method="POST">
+          <label for="first-name" class="visually-hidden">First Name</label>
+          <input type="text" id="first-name" name="firstName" placeholder="Your First Name" required />
+
+          <label for="email" class="visually-hidden">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="Your Email Address" required />
+
+          <button type="submit" class="btn-primary">Send Me the Free Kit</button>
         </form>
 
         <ul class="subscribe-checklist">
-          <li>&check; 100% free, actionable advice</li>
-          <li>&check; No spam, unsubscribe at any time</li>
+          <li>&check; Instant access to the First Conversation Starter Kit (PDF)</li>
+          <li>&check; One short, useful email a week — real strategies, not fluff</li>
+          <li>&check; No spam, no sponsored clutter, unsubscribe anytime</li>
         </ul>
-      </div>
-    </div>
+
+        <p class="trust-microcopy">
+          Written by someone who spent years as the adult teenage girls actually talked to — backed by real research, not guesswork.
+        </p>
+      </section>
+    </main>
   `;
   res.send(layout('subscribe', 'Subscribe', content));
 });
 
 // 6. Subscribe Action (POST)
 app.post('/subscribe', async (req, res) => {
-  const { name, email } = req.body;
+  const { firstName, email } = req.body;
   if (!email) {
     return res.status(400).send('Email is required.');
   }
 
   try {
-    console.log(`New Subscriber: ${name || 'N/A'} <${email}>`);
+    console.log(`New Subscriber: ${firstName || 'N/A'} <${email}>`);
     res.redirect('/subscribe?status=success');
   } catch (err) {
     console.error('Subscribe error:', err);
