@@ -1,14 +1,37 @@
 const express = require('express');
+const mysql = require('mysql2/promise');
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware for static files and form data parsing
+// Middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Single dynamic layout renderer (No template engines or subfolders required)
+// MySQL Database Connection Pool
+const db = mysql.createPool({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'parenting_blog',
+  port: process.env.DB_PORT || 3306,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
+
+// Test Database Connection
+db.getConnection()
+  .then((conn) => {
+    console.log('Connected to MySQL Database successfully');
+    conn.release();
+  })
+  .catch((err) => {
+    console.error('Database connection error:', err.message);
+  });
+
+// Express dynamic layout renderer
 function layout(activePage, title, bodyContent) {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -47,7 +70,36 @@ function layout(activePage, title, bodyContent) {
 }
 
 // ==========================================
-// ROUTES
+// API ENDPOINTS FOR FRONTEND (js/main.js)
+// ==========================================
+
+// Get all blog posts
+app.get('/api/posts', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT * FROM posts ORDER BY created_at DESC');
+    res.json(rows);
+  } catch (err) {
+    console.error('Error fetching posts:', err.message);
+    res.status(500).json({ error: 'Failed to load posts from database' });
+  }
+});
+
+// Get single blog post by ID
+app.get('/api/posts/:id', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT * FROM posts WHERE id = ?', [req.params.id]);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+    res.json(rows[0]);
+  } catch (err) {
+    console.error('Error fetching single post:', err.message);
+    res.status(500).json({ error: 'Database query failed' });
+  }
+});
+
+// ==========================================
+// PAGE ROUTES
 // ==========================================
 
 // 1. Home Page
@@ -78,7 +130,7 @@ app.get('/', (req, res) => {
       <section class="latest-posts-section">
         <h2 style="text-align: center; margin-bottom: 1.5rem;">Recent Insights</h2>
         <div id="posts-container" class="focus-grid">
-          <!-- Dynamic blog posts fetched via public/js/main.js -->
+          <!-- Populated by main.js fetching /api/posts -->
         </div>
       </section>
     </div>
@@ -107,7 +159,7 @@ app.get('/blog', (req, res) => {
     <div class="container">
       <h1 style="text-align: center; margin-bottom: 2rem;">Parenting Insights & Articles</h1>
       <div id="posts-container" class="focus-grid">
-        <!-- Dynamic posts rendered here -->
+        <!-- Populated by main.js fetching /api/posts -->
       </div>
     </div>
   `;
@@ -117,7 +169,7 @@ app.get('/blog', (req, res) => {
 // 4. Resources Page
 app.get('/resources', (req, res) => {
   const content = `
-    <div class="resources-page">
+    <div class="container resources-page">
       <div class="resources-hero">
         <h1>Parenting Guides & Free Toolkits</h1>
         <p>Download structured guides to help navigate conversation starters, trust building, and modern teenage challenges.</p>
@@ -141,7 +193,7 @@ app.get('/resources', (req, res) => {
 app.get('/subscribe', (req, res) => {
   const isSuccess = req.query.status === 'success';
   const content = `
-    <div class="subscribe-page">
+    <div class="container subscribe-page">
       <div class="subscribe-hero">
         <h1>Get the Free Teen Daughter Communication Guide</h1>
         <p class="subscribe-subhead">Join hundreds of parents receiving weekly research-backed strategies straight to their inbox.</p>
@@ -164,24 +216,27 @@ app.get('/subscribe', (req, res) => {
   res.send(layout('subscribe', 'Subscribe', content));
 });
 
-// 6. Subscribe Form Action (POST)
+// 6. Subscribe Action (POST)
 app.post('/subscribe', async (req, res) => {
   const { name, email } = req.body;
-  
   if (!email) {
     return res.status(400).send('Email is required.');
   }
 
   try {
-    console.log(`New Subscriber: ${name} <${email}>`);
-    // DB or Email Integration goes here
+    console.log(`New Subscriber: ${name || 'N/A'} <${email}>`);
     res.redirect('/subscribe?status=success');
   } catch (err) {
-    console.error(err);
+    console.error('Subscribe error:', err);
     res.status(500).send('Server error. Please try again.');
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// Export app for Vercel / server execution
+module.exports = app;
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
