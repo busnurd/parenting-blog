@@ -362,3 +362,46 @@ footer {
     flex-direction: column;
   }
    }
+
+/* ==========================================================================
+   IMAGE SIZE FIXES (ABOUT & SUBSCRIBE PAGES)
+   ========================================================================== */
+
+/* 1. Global Safety Rule for All Images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 2. Founder Photo (About & Home Pages) */
+.founder-photo,
+.trust-block-photo {
+  width: 130px !important;
+  height: 130px !important;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--color-terracotta);
+  flex-shrink: 0;
+}
+
+/* 3. Recognition & Award Certificate Images (About Page) */
+.trust-card img {
+  width: 100%;
+  max-width: 340px;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* 4. Lead Magnet Book Cover (Subscribe Page) */
+.lead-magnet-cover {
+  max-width: 180px !important;
+  height: auto;
+  margin: 1.25rem auto;
+  display: block;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+     }
