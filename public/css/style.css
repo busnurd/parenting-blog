@@ -28,6 +28,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   line-height: 1.6;
+  overflow-x: hidden; /* Prevents horizontal scroll on small phones */
 }
 
 .container {
@@ -51,6 +52,9 @@ body {
 header {
   background-color: var(--color-white);
   border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .navbar {
@@ -111,6 +115,7 @@ header {
   font-weight: 600;
   border: none;
   cursor: pointer;
+  text-align: center;
   transition: background-color 0.2s ease;
 }
 
@@ -128,6 +133,7 @@ header {
   font-weight: 600;
   border: 1.5px solid var(--color-primary);
   cursor: pointer;
+  text-align: center;
   transition: all 0.2s ease;
 }
 
@@ -168,13 +174,13 @@ header {
 }
 
 .hero h1 {
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
   line-height: 1.2;
   margin-bottom: 1rem;
 }
 
 .hero-subhead {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 3vw, 1.2rem);
   color: var(--color-text-muted);
   margin-bottom: 1.5rem;
 }
@@ -208,6 +214,7 @@ header {
   height: 140px;
   border-radius: 50%;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 .focus-grid {
@@ -257,6 +264,7 @@ header {
   padding: 0.75rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
+  font-size: 1rem;
 }
 
 /* ==========================================
@@ -279,7 +287,7 @@ header {
 
 .trust-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-top: 1rem;
 }
@@ -340,7 +348,7 @@ header {
 }
 
 .subscribe-hero h1 {
-  font-size: 2.2rem;
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
   line-height: 1.25;
   margin-bottom: 0.75rem;
 }
@@ -352,7 +360,8 @@ header {
 }
 
 .lead-magnet-cover {
-  max-width: 240px;
+  max-width: 220px;
+  width: 100%;
   height: auto;
   margin: 1.5rem auto;
   display: block;
@@ -367,6 +376,7 @@ header {
   gap: 0.75rem;
   max-width: 420px;
   margin: 0 auto 1.5rem auto;
+  width: 100%;
 }
 
 .subscribe-form input {
@@ -410,12 +420,40 @@ footer {
 }
 
 /* ==========================================
-   RESPONSIVE DESIGN
+   MOBILE & TABLET RESPONSIVE DESIGN
    ========================================== */
 @media (max-width: 768px) {
+  .container {
+    padding: 1.25rem 1rem;
+  }
+
+  /* Navigation Bar Mobile Layout */
+  .navbar {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 1.25rem;
+    width: 100%;
+  }
+
+  .nav-links a {
+    font-size: 0.95rem;
+  }
+
+  /* Hero Section Mobile Fixes */
+  .hero {
+    padding: 1.5rem 0.5rem;
+  }
+
   .hero-buttons {
     flex-direction: column;
     width: 100%;
+    gap: 0.75rem;
   }
 
   .hero-buttons .btn-primary,
@@ -423,24 +461,46 @@ footer {
     width: 100%;
   }
 
+  /* Trust Block Mobile Layout */
   .homepage-trust-block {
     flex-direction: column;
     text-align: center;
+    padding: 1.5rem 1rem;
   }
 
+  .trust-block-photo {
+    width: 120px;
+    height: 120px;
+  }
+
+  /* About Page Founder Photo Mobile Layout */
   .founder-photo {
     float: none;
     display: block;
-    margin: 0 auto 1rem auto;
-    width: 180px;
-    height: 180px;
+    margin: 0 auto 1.5rem auto;
+    width: 160px;
+    height: 160px;
   }
 
+  .card {
+    padding: 1.25rem;
+  }
+
+  /* Inline Forms Stacking on Mobile */
   .subscribe-form-inline {
     flex-direction: column;
+    width: 100%;
   }
 
-  .hero h1 {
-    font-size: 1.8rem;
+  .subscribe-form-inline input,
+  .subscribe-form-inline button {
+    width: 100%;
   }
-}
+
+  /* Article header on homepage */
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 0.5rem;
+  }
+   }
