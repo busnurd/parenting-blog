@@ -179,10 +179,21 @@ header {
   margin-bottom: 1.5rem;
 }
 
+/* Fixed Hero Buttons Alignment */
 .hero-buttons {
   display: flex;
   gap: 1rem;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.hero-buttons .btn-primary,
+.hero-buttons .btn-secondary {
+  width: auto;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .homepage-trust-block {
@@ -402,6 +413,16 @@ footer {
    RESPONSIVE DESIGN
    ========================================== */
 @media (max-width: 768px) {
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-buttons .btn-primary,
+  .hero-buttons .btn-secondary {
+    width: 100%;
+  }
+
   .homepage-trust-block {
     flex-direction: column;
     text-align: center;
@@ -422,4 +443,4 @@ footer {
   .hero h1 {
     font-size: 1.8rem;
   }
-   }
+}
