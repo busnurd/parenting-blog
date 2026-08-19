@@ -186,7 +186,7 @@ app.get('/', (req, res) => {
   res.send(layout('home', 'Home', content));
 });
 
-// 2. About Page (FULL UNTRUNCATED COPY)
+// 2. About Page
 app.get('/about', (req, res) => {
   const content = `
     <main class="about-page container">
@@ -229,6 +229,179 @@ app.get('/about', (req, res) => {
           <ul class="standards-list" style="margin-top: 0.75rem; list-style: none;">
             <li>&check; Dr. Kristin Neff's research on self-compassion</li>
             <li>&check; NIH / PMC peer-reviewed adolescent development studies</li>
+            <li>&check; WHO global adolescent mental health data</li>
+            <li>&check; Stanford, CDC, Dove Self-Esteem Project & Journal of Adolescence research</li>
+            <li>&check; Zero shaming or perfectionist standards</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="trust-highlights card">
+        <h2>Recognition & Real Impact</h2>
+
+        <div class="trust-grid">
+          <article class="trust-card">
+            <img src="/unesco-goi-peace-certificate.webp" alt="Certificate of Recognition from Goi Peace Foundation and UNESCO, 2021" />
+            <span class="resource-tag">INTERNATIONAL RECOGNITION</span>
+            <h3>UNESCO & Goi Peace Foundation, 2021</h3>
+            <p>
+              Recognized for mentoring a team of girls to win the 2021 International Essay Contest for Young People with a multimedia proposal on the impact of COVID-19.
+            </p>
+          </article>
+
+          <article class="trust-card">
+            <img src="/founder-mentoring-moment.webp" alt="Busari Nurudeen Olayemi mentoring teenage girls in the school computer room" />
+            <span class="resource-tag">MEDIA</span>
+            <h3>Ilubinrin, Splash FM</h3>
+            <p>
+              On-air 17th September 2025, speaking to thousands of listeners about the silence between teenage girls and their parents — and what closes it.
+            </p>
+          </article>
+        </div>
+
+        <p class="impact-line" style="margin-top: 1.5rem; font-size: 0.95rem; color: #444;">
+          Two of the girls I mentored, <strong>Evelyn</strong> and <strong>Cindy</strong>, went on to build real futures shaped in part by those conversations — one now an emerging voice online, the other studying Criminology. Their stories are part of why this work continues.
+        </p>
+      </section>
+
+      <section class="about-cta card" style="text-align: center;">
+        <h2>Want Practical Help, Not Just My Story?</h2>
+        <p style="margin: 0.5rem 0 1rem 0;">Get the free Conversation Starter Kit and one useful email a week.</p>
+        <a href="/subscribe" class="btn-primary">Get the Free Kit</a>
+      </section>
+    </main>
+  `;
+  res.send(layout('about', 'About Us', content));
+});
+
+// 3. Blog Page
+app.get('/blog', (req, res) => {
+  const content = `
+    <main class="container">
+      <h1 style="text-align: center; margin-bottom: 0.5rem;">Parenting Insights & Articles</h1>
+      <p style="text-align: center; color: #666; margin-bottom: 2rem;">Practical advice and research-backed frameworks for raising confident teen daughters.</p>
+      <div id="posts-container" class="focus-grid">
+        <!-- Populated by main.js fetching /api/posts -->
+      </div>
+    </main>
+  `;
+  res.send(layout('blog', 'Blog', content));
+});
+
+// 4. Resources Page
+app.get('/resources', (req, res) => {
+  const content = `
+    <main class="resources-page container">
+      <section class="resources-hero">
+        <h1>Parenting Helplines & Guides</h1>
+        <p>Curated support networks, crisis contacts, and downloadable family toolkits.</p>
+      </section>
+
+      <section class="resources-grid">
+        <article class="resource-card resource-card--featured">
+          <span class="resource-tag">FREE DOWNLOAD</span>
+          <h2>The First Conversation Starter Kit</h2>
+          <p>
+            Exact scripts for the moments you feel most stuck — when she shuts down, shuts you out, or won't say what's wrong. Free instant download, plus our weekly email.
+          </p>
+          <a href="/subscribe" class="btn-primary" style="width: fit-content;">Get the Free Kit</a>
+        </article>
+
+        <article class="resource-card">
+          <div>
+            <span class="resource-tag">24/7 HELPLINE</span>
+            <h2>Parent Support Line</h2>
+            <p>Confidential emotional support and guidance for parents and caregivers facing immediate stress or crisis.</p>
+          </div>
+          <a href="#" class="btn-secondary">Call Support Line</a>
+        </article>
+
+        <article class="resource-card">
+          <div>
+            <span class="resource-tag">DIGITAL DOWNLOAD</span>
+            <h2>Toddler Emotional Regulation Guide</h2>
+            <p>A printable step-by-step cheat sheet for de-escalating tantrums and helping children process big feelings.</p>
+          </div>
+          <a href="#" class="btn-secondary">Download PDF Guide</a>
+        </article>
+
+        <article class="resource-card">
+          <div>
+            <span class="resource-tag">INTERACTIVE CHECKLIST</span>
+            <h2>Screen Time Family Agreement</h2>
+            <p>A customizable family contract template to establish healthy tech boundaries for kids and teenagers.</p>
+          </div>
+          <a href="#" class="btn-secondary">Access Template</a>
+        </article>
+      </section>
+    </main>
+  `;
+  res.send(layout('resources', 'Resources', content));
+});
+
+// 5. Subscribe Page (GET) - NO WHITE CONTAINER CARD
+app.get('/subscribe', (req, res) => {
+  const isSuccess = req.query.status === 'success';
+  const content = `
+    <main class="subscribe-page container">
+      <section class="subscribe-hero">
+        <h1>Stop Guessing What to Say to Her</h1>
+
+        <p class="subscribe-subhead">
+          Get the exact words to use when she shuts down, shuts you out, or won't tell you what's actually wrong — free, in under 5 minutes.
+        </p>
+
+        ${isSuccess ? '<p style="color: green; font-weight: bold; margin-bottom: 1rem;">Success! Check your inbox for your starter kit.</p>' : ''}
+
+        <form class="subscribe-form" action="/subscribe" method="POST">
+          <label for="first-name" class="visually-hidden">First Name</label>
+          <input type="text" id="first-name" name="firstName" placeholder="Your First Name" required />
+
+          <label for="email" class="visually-hidden">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="Your Email Address" required />
+
+          <button type="submit" class="btn-primary">Send Me the Free Kit</button>
+        </form>
+
+        <ul class="subscribe-checklist">
+          <li>&check; Instant access to the First Conversation Starter Kit (PDF)</li>
+          <li>&check; One short, useful email a week — real strategies, not fluff</li>
+          <li>&check; No spam, no sponsored clutter, unsubscribe anytime</li>
+        </ul>
+
+        <p class="trust-microcopy">
+          Written by someone who spent years as the adult teenage girls actually talked to — backed by real research, not guesswork.
+        </p>
+      </section>
+    </main>
+  `;
+  res.send(layout('subscribe', 'Subscribe', content));
+});
+
+// 6. Subscribe Action (POST)
+app.post('/subscribe', async (req, res) => {
+  const { firstName, email } = req.body;
+  if (!email) {
+    return res.status(400).send('Email is required.');
+  }
+
+  try {
+    console.log(`New Subscriber: ${firstName || 'N/A'} <${email}>`);
+    res.redirect('/subscribe?status=success');
+  } catch (err) {
+    console.error('Subscribe error:', err);
+    res.status(500).send('Server error. Please try again.');
+  }
+});
+
+// Export app for Vercel / server execution
+module.exports = app;
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+  }li>&check; NIH / PMC peer-reviewed adolescent development studies</li>
             <li>&check; WHO global adolescent mental health data</li>
             <li>&check; Stanford, CDC, Dove Self-Esteem Project & Journal of Adolescence research</li>
             <li>&check; Zero shaming or perfectionist standards</li>
