@@ -38,17 +38,6 @@ main {
   padding: 2rem 1.5rem;
 }
 
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-
 /* ==========================================================================
    2. HEADER & NAVIGATION BAR
    ========================================================================== */
@@ -160,6 +149,22 @@ header {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
 
+/* Rounded Founder Photo styling for both Home & About */
+.trust-block-photo,
+.founder-photo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--color-terracotta);
+  flex-shrink: 0;
+}
+
+.founder-photo {
+  float: right;
+  margin: 0 0 1rem 1.5rem;
+}
+
 /* ==========================================================================
    5. SUBSCRIBE PAGE & FORM FIXES
    ========================================================================== */
@@ -190,16 +195,6 @@ header {
   line-height: 1.5;
 }
 
-.lead-magnet-cover {
-  width: 100%;
-  max-width: 260px;
-  height: auto;
-  margin: 0 auto 1.75rem auto;
-  display: block;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
 .subscribe-form {
   display: flex;
   flex-direction: column;
@@ -208,8 +203,7 @@ header {
   margin: 0 auto 1.5rem auto;
 }
 
-.subscribe-form input,
-.subscribe-form-inline input {
+.subscribe-form input {
   width: 100%;
   padding: 0.85rem 1.1rem;
   font-size: 1rem;
@@ -221,8 +215,7 @@ header {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.subscribe-form input:focus,
-.subscribe-form-inline input:focus {
+.subscribe-form input:focus {
   outline: none;
   border-color: var(--color-terracotta);
   box-shadow: 0 0 0 3px rgba(200, 109, 81, 0.15);
@@ -243,16 +236,8 @@ header {
   line-height: 1.4;
 }
 
-.trust-microcopy {
-  font-size: 0.85rem;
-  color: #777;
-  font-style: italic;
-  margin-top: 1.5rem;
-  line-height: 1.4;
-}
-
 /* ==========================================================================
-   6. RESOURCES PAGE & GRID FIXES
+   6. RESOURCES & HOMEPAGE BLOCKS
    ========================================================================== */
 .resources-hero {
   text-align: center;
@@ -292,71 +277,6 @@ header {
   margin-bottom: 0.75rem;
 }
 
-.resource-card h2 {
-  font-size: 1.35rem;
-  margin-bottom: 0.75rem;
-  color: var(--color-text);
-}
-
-.resource-card p {
-  font-size: 0.95rem;
-  color: #555;
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
-}
-
-/* ==========================================================================
-   7. ABOUT PAGE & TRUST BLOCKS
-   ========================================================================== */
-.about-page {
-  max-width: 900px;
-}
-
-.founder-photo {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  object-fit: cover;
-  float: right;
-  margin: 0 0 1rem 1.5rem;
-  border: 3px solid var(--color-terracotta);
-}
-
-.standards-list {
-  list-style: none;
-  padding: 0;
-  margin-top: 1rem;
-}
-
-.standards-list li {
-  margin-bottom: 0.5rem;
-  color: #444;
-}
-
-.trust-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-.trust-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-
-.about-bio::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* ==========================================================================
-   8. HOMEPAGE SPECIFICS
-   ========================================================================== */
 .hero {
   text-align: center;
   padding: 3rem 1rem;
@@ -389,13 +309,6 @@ header {
   flex-wrap: wrap;
 }
 
-.trust-block-photo {
-  width: 100%;
-  max-width: 200px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
 .trust-block-content {
   flex: 1;
   min-width: 280px;
@@ -408,31 +321,8 @@ header {
   margin-top: 1.5rem;
 }
 
-.icon-circle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.icon-circle--terracotta { background-color: #fbebe6; color: var(--color-terracotta); }
-.icon-circle--plum { background-color: #f3eaf0; color: var(--color-plum); }
-.icon-circle--sage { background-color: #eef2ed; color: var(--color-sage); }
-
-.subscribe-form-inline {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  max-width: 450px;
-  margin: 1.5rem auto 0 auto;
-}
-
 /* ==========================================================================
-   9. FOOTER
+   7. FOOTER
    ========================================================================== */
 footer {
   background-color: #ffffff;
@@ -445,7 +335,7 @@ footer {
 }
 
 /* ==========================================================================
-   10. MOBILE RESPONSIVENESS
+   8. MOBILE RESPONSIVENESS
    ========================================================================== */
 @media (max-width: 768px) {
   .navbar {
@@ -463,11 +353,12 @@ footer {
     margin: 0 auto 1.5rem auto;
   }
 
-  .subscribe-form-inline {
+  .homepage-trust-block {
     flex-direction: column;
+    text-align: center;
   }
 
   .hero-buttons {
     flex-direction: column;
   }
-}
+   }
