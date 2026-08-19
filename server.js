@@ -342,7 +342,7 @@ app.get('/resources', (req, res) => {
   res.send(layout('resources', 'Resources', content));
 });
 
-// 5. Subscribe Page (GET)
+// 5. Subscribe Page (GET) - BOOK IMAGE INCLUDED (WITHOUT WHITE CONTAINER CARD)
 app.get('/subscribe', (req, res) => {
   const isSuccess = req.query.status === 'success';
   const content = `
@@ -353,6 +353,8 @@ app.get('/subscribe', (req, res) => {
         <p class="subscribe-subhead">
           Get the exact words to use when she shuts down, shuts you out, or won't tell you what's actually wrong — free, in under 5 minutes.
         </p>
+
+        <img src="/conversation-kit-cover.webp" alt="Cover of The First Conversation Starter Kit guide" class="lead-magnet-cover" />
 
         ${isSuccess ? '<p style="color: green; font-weight: bold; margin-bottom: 1rem;">Success! Check your inbox for your starter kit.</p>' : ''}
 
@@ -404,4 +406,4 @@ if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
-  }
+                }
