@@ -2,11 +2,11 @@
    GLOBAL VARIABLES & RESETS
    ========================================== */
 :root {
-  --color-primary: #8b3a3a; /* Terracotta */
+  --color-primary: #8b3a3a;
   --color-primary-hover: #722e2e;
-  --color-secondary: #4a2c3d; /* Plum */
+  --color-secondary: #4a2c3d;
   --color-sage: #5b7065;
-  --color-bg: #faf8f5; /* Warm off-white page background */
+  --color-bg: #faf8f5;
   --color-cream: #f4efe6;
   --color-text: #2d2b2a;
   --color-text-muted: #666666;
@@ -36,7 +36,6 @@ body {
   padding: 2rem 1.5rem;
 }
 
-/* Common Card Element */
 .card {
   background-color: var(--color-white);
   border-radius: var(--radius);
@@ -51,6 +50,9 @@ body {
 header {
   background-color: var(--color-white);
   border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .navbar {
@@ -60,6 +62,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .logo img {
@@ -87,22 +90,47 @@ header {
   color: var(--color-primary);
 }
 
-/* Fixed compact header buttons */
-.navbar .btn-primary,
-.navbar .btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1.25rem;
-  font-size: 0.95rem;
-  width: auto;
+/* HAMBURGER BUTTON (Hidden on Desktop) */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.hamburger-btn .bar {
+  width: 100%;
+  height: 3px;
+  background-color: var(--color-text);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburger-btn.active .bar:nth-child(1) {
+  transform: translateY(8.5px) rotate(45deg);
+}
+
+.hamburger-btn.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-btn.active .bar:nth-child(3) {
+  transform: translateY(-8.5px) rotate(-45deg);
 }
 
 /* ==========================================
    BUTTONS & LINKS
    ========================================== */
 .btn-primary {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--color-primary);
   color: var(--color-white) !important;
   padding: 0.75rem 1.5rem;
@@ -111,6 +139,7 @@ header {
   font-weight: 600;
   border: none;
   cursor: pointer;
+  white-space: nowrap;
   transition: background-color 0.2s ease;
 }
 
@@ -119,7 +148,9 @@ header {
 }
 
 .btn-secondary {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: transparent;
   color: var(--color-primary);
   padding: 0.75rem 1.5rem;
@@ -128,12 +159,13 @@ header {
   font-weight: 600;
   border: 1.5px solid var(--color-primary);
   cursor: pointer;
+  white-space: nowrap;
   transition: all 0.2s ease;
 }
 
 .btn-secondary:hover {
   background-color: var(--color-primary);
-  color: var(--color-white);
+  color: var(--color-white) !important;
 }
 
 .text-link {
@@ -144,17 +176,6 @@ header {
 
 .text-link:hover {
   text-decoration: underline;
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
 }
 
 /* ==========================================
@@ -168,39 +189,33 @@ header {
 }
 
 .hero h1 {
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
   line-height: 1.2;
   margin-bottom: 1rem;
 }
 
 .hero-subhead {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 3vw, 1.2rem);
   color: var(--color-text-muted);
   margin-bottom: 1.5rem;
 }
 
-/* Fixed Hero Buttons Alignment */
 .hero-buttons {
   display: flex;
   gap: 1rem;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 1.5rem;
-}
-
-.hero-buttons .btn-primary,
-.hero-buttons .btn-secondary {
-  width: auto;
-  text-align: center;
-  white-space: nowrap;
 }
 
 .homepage-trust-block {
+  margin: 2rem 0;
+}
+
+.trust-block-content-wrapper {
   display: flex;
   gap: 2rem;
   align-items: center;
-  margin: 2rem 0;
 }
 
 .trust-block-photo {
@@ -208,6 +223,7 @@ header {
   height: 140px;
   border-radius: 50%;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 .focus-grid {
@@ -215,10 +231,6 @@ header {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-top: 1.5rem;
-}
-
-.focus-card {
-  text-align: left;
 }
 
 .icon-circle {
@@ -244,33 +256,50 @@ header {
   margin-top: 0.75rem;
 }
 
-.subscribe-form-inline {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  max-width: 500px;
-  margin: 0 auto;
+.homepage-newsletter {
+  text-align: center;
+  margin-top: 3rem;
+  background-color: var(--color-cream);
+  border: 1px solid #e5dacb;
+  padding: 2.5rem 1.5rem;
 }
 
-.subscribe-form-inline input {
+.subscribe-form-inline {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  max-width: 520px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.subscribe-form-inline input[type="email"] {
   flex: 1;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
+  font-size: 1rem;
+  outline: none;
+  min-width: 0;
+  background: var(--color-white);
 }
 
 /* ==========================================
    ABOUT PAGE
    ========================================== */
-.about-bio {
+.about-bio-section {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2rem;
+  align-items: start;
   margin-bottom: 2rem;
 }
 
 .founder-photo {
   width: 200px;
   height: 200px;
-  aspect-ratio: 1 / 1;
-  border-radius: 50% !important;
+  border-radius: 50%;
   object-fit: cover;
   display: block;
 }
@@ -287,18 +316,19 @@ header {
   flex-direction: column;
 }
 
-/* FIX: Changed object-fit to 'contain' to show full picture */
+/* SHOWS ENTIRE ILUBINRIN FLYER WITHOUT CLIPPING */
 .trust-card img {
   width: 100%;
-  height: 200px;
+  height: 220px;
   object-fit: contain;
-  background-color: var(--color-cream); /* Add subtle background for contained images */
+  background-color: var(--color-cream);
   border-radius: var(--radius);
   margin-bottom: 0.75rem;
+  border: 1px solid var(--color-border);
 }
 
 /* ==========================================
-   RESOURCES PAGE
+   RESOURCES & SUBSCRIBE PAGES
    ========================================== */
 .resources-hero {
   text-align: center;
@@ -326,44 +356,21 @@ header {
   background-color: var(--color-cream);
 }
 
-/* ==========================================
-   SUBSCRIBE PAGE (NO CONTAINER / NO WHITE DIV)
-   ========================================== */
 .subscribe-page {
   max-width: 600px;
   margin: 0 auto;
 }
 
-.subscribe-hero,
-.subscribe-page section {
-  background: transparent !important;
-  background-color: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-  padding: 1rem 0 !important;
+.subscribe-hero {
   text-align: center;
 }
 
-.subscribe-hero h1 {
-  font-size: 2.2rem;
-  line-height: 1.25;
-  margin-bottom: 0.75rem;
-}
-
-.subscribe-subhead {
-  font-size: 1.1rem;
-  color: var(--color-text-muted);
-  margin-bottom: 1.5rem;
-}
-
 .lead-magnet-cover {
-  max-width: 240px;
+  max-width: 220px;
+  width: 100%;
   height: auto;
   margin: 1.5rem auto;
   display: block;
-  background: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
 }
 
 .subscribe-form {
@@ -379,7 +386,6 @@ header {
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   font-size: 1rem;
-  width: 100%;
 }
 
 .subscribe-checklist {
@@ -387,19 +393,6 @@ header {
   text-align: left;
   max-width: 440px;
   margin: 0 auto 1.5rem auto;
-}
-
-.subscribe-checklist li {
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
-  color: var(--color-text);
-}
-
-.trust-microcopy {
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-  max-width: 480px;
-  margin: 0 auto;
 }
 
 /* ==========================================
@@ -415,34 +408,64 @@ footer {
 }
 
 /* ==========================================
-   RESPONSIVE DESIGN
+   RESPONSIVE BREAKPOINTS (MOBILE ONLY)
    ========================================== */
 @media (max-width: 768px) {
-  .hero-buttons {
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: var(--color-white);
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 0;
+    gap: 1rem;
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    display: none; /* Hidden until toggled via JS */
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .trust-block-content-wrapper,
+  .about-bio-section {
+    grid-template-columns: 1fr !important;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .founder-photo,
+  .trust-block-photo {
+    margin: 0 auto 1rem auto;
+  }
+
+  .hero-buttons,
+  .subscribe-form-inline {
     flex-direction: column;
     width: 100%;
   }
 
   .hero-buttons .btn-primary,
-  .hero-buttons .btn-secondary {
+  .hero-buttons .btn-secondary,
+  .subscribe-form-inline input[type="email"],
+  .subscribe-form-inline .btn-primary {
     width: 100%;
   }
 
-  .homepage-trust-block {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .trust-block-photo {
-    width: 120px;
-    height: 120px;
-  }
-
-  .subscribe-form-inline {
-    flex-direction: column;
-  }
-
-  .hero h1 {
-    font-size: 1.8rem;
+  .resource-card--featured {
+    grid-column: auto;
   }
    }
