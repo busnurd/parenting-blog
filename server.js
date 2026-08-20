@@ -230,7 +230,7 @@ app.get('/about', (req, res) => {
             <p>Mentees now studying medicine, engineering, and nursing globally.</p>
           </article>
           <article class="trust-card">
-            <img src="/ilubinrin-radio-flyer.webp" alt="Ilubinrin radio broadcast" />
+            <img src="/ilubinrin-radio-flyer.jpg" alt="Ilubinrin radio broadcast" />
             <span class="resource-tag">MEDIA</span>
             <h3>Ilubinrin, Splash FM</h3>
             <p>Featured guest discussing communication gaps between parents and teens.</p>
@@ -333,4 +333,4 @@ if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
-    }
+}
