@@ -63,7 +63,6 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
 }
 
 .logo img {
@@ -83,7 +82,6 @@ header {
   text-decoration: none;
   color: var(--color-text);
   font-weight: 500;
-  transition: color 0.2s ease;
 }
 
 .nav-links a:hover,
@@ -91,7 +89,6 @@ header {
   color: var(--color-primary);
 }
 
-/* HAMBURGER BUTTON STYLES */
 .hamburger-btn {
   display: none;
   flex-direction: column;
@@ -102,7 +99,6 @@ header {
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 101;
 }
 
 .hamburger-btn .bar {
@@ -110,35 +106,24 @@ header {
   height: 3px;
   background-color: var(--color-text);
   border-radius: 2px;
-  transition: all 0.3s ease;
-}
-
-.hamburger-btn.active .bar:nth-child(1) {
-  transform: translateY(8.5px) rotate(45deg);
-}
-
-.hamburger-btn.active .bar:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger-btn.active .bar:nth-child(3) {
-  transform: translateY(-8.5px) rotate(-45deg);
 }
 
 /* ==========================================
    BUTTONS & LINKS
    ========================================== */
 .btn-primary {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--color-primary);
   color: var(--color-white) !important;
-  padding: 0.65rem 1.25rem;
+  padding: 0.75rem 1.5rem;
   border-radius: var(--radius);
   text-decoration: none;
   font-weight: 600;
   border: none;
   cursor: pointer;
-  text-align: center;
+  white-space: nowrap;
   transition: background-color 0.2s ease;
 }
 
@@ -147,22 +132,18 @@ header {
 }
 
 .btn-secondary {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: transparent;
   color: var(--color-primary);
-  padding: 0.65rem 1.25rem;
+  padding: 0.75rem 1.5rem;
   border-radius: var(--radius);
   text-decoration: none;
   font-weight: 600;
   border: 1.5px solid var(--color-primary);
   cursor: pointer;
-  text-align: center;
-  transition: all 0.2s ease;
-}
-
-.btn-secondary:hover {
-  background-color: var(--color-primary);
-  color: var(--color-white);
+  white-space: nowrap;
 }
 
 .text-link {
@@ -171,12 +152,8 @@ header {
   font-weight: 600;
 }
 
-.text-link:hover {
-  text-decoration: underline;
-}
-
 /* ==========================================
-   HOMEPAGE
+   HOMEPAGE & NEWSLETTER SECTION FIX
    ========================================== */
 .hero {
   text-align: center;
@@ -203,7 +180,6 @@ header {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 1.5rem;
 }
 
 .homepage-trust-block {
@@ -226,10 +202,6 @@ header {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-top: 1.5rem;
-}
-
-.focus-card {
-  text-align: left;
 }
 
 .icon-circle {
@@ -255,24 +227,55 @@ header {
   margin-top: 0.75rem;
 }
 
-.subscribe-form-inline {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  max-width: 500px;
-  margin: 0 auto;
+/* FIXED NEWSLETTER FORM STYLES */
+.homepage-newsletter {
+  text-align: center;
+  margin-top: 3rem;
+  background-color: var(--color-cream);
+  border: 1px solid #e5dacb;
+  padding: 2.5rem 1.5rem;
 }
 
-.subscribe-form-inline input {
-  flex: 1;
-  padding: 0.75rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
+.homepage-newsletter h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.newsletter-subtext {
+  color: var(--color-text-muted);
+  max-width: 550px;
+  margin: 0 auto 1.5rem auto;
   font-size: 1rem;
 }
 
+.subscribe-form-inline {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  max-width: 520px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.subscribe-form-inline input[type="email"] {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  outline: none;
+  min-width: 0;
+  background: var(--color-white);
+}
+
+.subscribe-form-inline input[type="email"]:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(139, 58, 58, 0.15);
+}
+
 /* ==========================================
-   ABOUT PAGE
+   ABOUT & RESOURCES
    ========================================== */
 .about-bio {
   margin-bottom: 2rem;
@@ -281,7 +284,6 @@ header {
 .founder-photo {
   width: 200px;
   height: 200px;
-  aspect-ratio: 1 / 1;
   border-radius: 50% !important;
   object-fit: cover;
   float: right;
@@ -303,22 +305,9 @@ header {
   margin-bottom: 0.75rem;
 }
 
-/* ==========================================
-   RESOURCES PAGE STYLES
-   ========================================== */
 .resources-hero {
   text-align: center;
   margin-bottom: 2.5rem;
-}
-
-.resources-hero h1 {
-  font-size: clamp(1.8rem, 4vw, 2.4rem);
-  margin-bottom: 0.5rem;
-}
-
-.resources-hero p {
-  color: var(--color-text-muted);
-  font-size: 1.1rem;
 }
 
 .resources-grid {
@@ -332,7 +321,6 @@ header {
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 1.75rem;
-  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -342,19 +330,6 @@ header {
 .resource-card--featured {
   grid-column: 1 / -1;
   background-color: var(--color-cream);
-  border-color: #e5dacb;
-}
-
-.resource-card h2 {
-  font-size: 1.3rem;
-  margin: 0.25rem 0 0.5rem 0;
-  color: var(--color-text);
-}
-
-.resource-card p {
-  color: #555;
-  font-size: 0.95rem;
-  line-height: 1.5;
 }
 
 /* ==========================================
@@ -365,12 +340,7 @@ header {
   margin: 0 auto;
 }
 
-.subscribe-hero,
-.subscribe-page section {
-  background: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-  padding: 1rem 0 !important;
+.subscribe-hero {
   text-align: center;
 }
 
@@ -388,7 +358,6 @@ header {
   gap: 0.75rem;
   max-width: 420px;
   margin: 0 auto 1.5rem auto;
-  width: 100%;
 }
 
 .subscribe-form input {
@@ -396,7 +365,6 @@ header {
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   font-size: 1rem;
-  width: 100%;
 }
 
 .subscribe-checklist {
@@ -406,20 +374,8 @@ header {
   margin: 0 auto 1.5rem auto;
 }
 
-.subscribe-checklist li {
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
-}
-
-.trust-microcopy {
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-  max-width: 480px;
-  margin: 0 auto;
-}
-
 /* ==========================================
-   FOOTER
+   FOOTER & RESPONSIVE DESIGN
    ========================================== */
 footer {
   text-align: center;
@@ -430,9 +386,6 @@ footer {
   font-size: 0.9rem;
 }
 
-/* ==========================================
-   RESPONSIVE DESIGN & MOBILE MENU
-   ========================================== */
 @media (max-width: 768px) {
   .hamburger-btn {
     display: flex;
@@ -445,22 +398,14 @@ footer {
     right: 0;
     background-color: var(--color-white);
     flex-direction: column;
-    align-items: stretch;
     padding: 1.5rem;
     gap: 1.25rem;
     border-bottom: 1px solid var(--color-border);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
     display: none;
   }
 
   .nav-links.active {
     display: flex;
-  }
-
-  .nav-links a {
-    display: block;
-    font-size: 1.1rem;
-    padding: 0.25rem 0;
   }
 
   .homepage-trust-block {
@@ -470,17 +415,16 @@ footer {
 
   .founder-photo {
     float: none;
-    display: block;
     margin: 0 auto 1.5rem auto;
   }
 
-  .hero-buttons {
+  .subscribe-form-inline {
     flex-direction: column;
     width: 100%;
   }
 
-  .hero-buttons .btn-primary,
-  .hero-buttons .btn-secondary {
+  .subscribe-form-inline input[type="email"],
+  .subscribe-form-inline .btn-primary {
     width: 100%;
   }
 
