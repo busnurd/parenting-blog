@@ -63,6 +63,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .logo img {
@@ -82,6 +83,7 @@ header {
   text-decoration: none;
   color: var(--color-text);
   font-weight: 500;
+  transition: color 0.2s ease;
 }
 
 .nav-links a:hover,
@@ -89,6 +91,7 @@ header {
   color: var(--color-primary);
 }
 
+/* HAMBURGER BUTTON STYLES */
 .hamburger-btn {
   display: none;
   flex-direction: column;
@@ -99,6 +102,7 @@ header {
   border: none;
   cursor: pointer;
   padding: 0;
+  z-index: 1001;
 }
 
 .hamburger-btn .bar {
@@ -106,6 +110,19 @@ header {
   height: 3px;
   background-color: var(--color-text);
   border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.hamburger-btn.active .bar:nth-child(1) {
+  transform: translateY(8.5px) rotate(45deg);
+}
+
+.hamburger-btn.active .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-btn.active .bar:nth-child(3) {
+  transform: translateY(-8.5px) rotate(-45deg);
 }
 
 /* ==========================================
@@ -144,6 +161,12 @@ header {
   border: 1.5px solid var(--color-primary);
   cursor: pointer;
   white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white) !important;
 }
 
 .text-link {
@@ -152,8 +175,12 @@ header {
   font-weight: 600;
 }
 
+.text-link:hover {
+  text-decoration: underline;
+}
+
 /* ==========================================
-   HOMEPAGE & NEWSLETTER SECTION FIX
+   HOMEPAGE & NEWSLETTER SECTION
    ========================================== */
 .hero {
   text-align: center;
@@ -227,7 +254,7 @@ header {
   margin-top: 0.75rem;
 }
 
-/* FIXED NEWSLETTER FORM STYLES */
+/* NEWSLETTER FORM STYLES */
 .homepage-newsletter {
   text-align: center;
   margin-top: 3rem;
@@ -275,7 +302,7 @@ header {
 }
 
 /* ==========================================
-   ABOUT & RESOURCES
+   ABOUT PAGE
    ========================================== */
 .about-bio {
   margin-bottom: 2rem;
@@ -284,6 +311,7 @@ header {
 .founder-photo {
   width: 200px;
   height: 200px;
+  aspect-ratio: 1 / 1;
   border-radius: 50% !important;
   object-fit: cover;
   float: right;
@@ -305,6 +333,9 @@ header {
   margin-bottom: 0.75rem;
 }
 
+/* ==========================================
+   RESOURCES PAGE
+   ========================================== */
 .resources-hero {
   text-align: center;
   margin-bottom: 2.5rem;
@@ -375,7 +406,7 @@ header {
 }
 
 /* ==========================================
-   FOOTER & RESPONSIVE DESIGN
+   FOOTER
    ========================================== */
 footer {
   text-align: center;
@@ -386,6 +417,9 @@ footer {
   font-size: 0.9rem;
 }
 
+/* ==========================================
+   MOBILE & RESPONSIVE BREAKPOINTS
+   ========================================== */
 @media (max-width: 768px) {
   .hamburger-btn {
     display: flex;
@@ -396,16 +430,30 @@ footer {
     top: 100%;
     left: 0;
     right: 0;
+    width: 100%;
     background-color: var(--color-white);
     flex-direction: column;
-    padding: 1.5rem;
-    gap: 1.25rem;
+    align-items: center;
+    padding: 1.5rem 0;
+    gap: 1rem;
     border-bottom: 1px solid var(--color-border);
-    display: none;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    display: none; /* Hidden until hamburger toggles .active */
   }
 
   .nav-links.active {
     display: flex;
+  }
+
+  .nav-links li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-links a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1.05rem;
   }
 
   .homepage-trust-block {
@@ -416,6 +464,16 @@ footer {
   .founder-photo {
     float: none;
     margin: 0 auto 1.5rem auto;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-buttons .btn-primary,
+  .hero-buttons .btn-secondary {
+    width: 100%;
   }
 
   .subscribe-form-inline {
@@ -431,4 +489,4 @@ footer {
   .resource-card--featured {
     grid-column: auto;
   }
-   }
+}
