@@ -9,7 +9,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// MySQL Database Connection Pool (Serverless-optimized)
+// MySQL Database Connection Pool
 const db = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
@@ -24,7 +24,6 @@ const db = mysql.createPool({
   connectTimeout: 10000
 });
 
-// Non-blocking Database Connection Test
 db.getConnection()
   .then((conn) => {
     console.log('Connected to MySQL Database successfully');
@@ -34,7 +33,7 @@ db.getConnection()
     console.error('Database connection error:', err.message);
   });
 
-// Express dynamic layout renderer
+// Express dynamic layout renderer with Favicon & Hamburger Menu
 function layout(activePage, title, bodyContent) {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -42,6 +41,12 @@ function layout(activePage, title, bodyContent) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title} | Teen Girls Parenting</title>
+  
+  <!-- FAVICON FIX -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -50,12 +55,20 @@ function layout(activePage, title, bodyContent) {
       <div class="logo">
         <a href="/"><img src="/Teen Girls Parenting Logo.webp" alt="Teen Girls Parenting Logo"></a>
       </div>
-      <ul class="nav-links">
+
+      <!-- HAMBURGER BUTTON FOR MOBILE -->
+      <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Navigation Menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <ul class="nav-links" id="nav-links">
         <li><a href="/" class="${activePage === 'home' ? 'active' : ''}">Home</a></li>
         <li><a href="/about" class="${activePage === 'about' ? 'active' : ''}">About</a></li>
         <li><a href="/blog" class="${activePage === 'blog' ? 'active' : ''}">Blog</a></li>
         <li><a href="/resources" class="${activePage === 'resources' ? 'active' : ''}">Resources</a></li>
-        <li><a href="/subscribe" class="${activePage === 'subscribe' ? 'active' : ''}">Subscribe</a></li>
+        <li><a href="/subscribe" class="btn-primary ${activePage === 'subscribe' ? 'active' : ''}">Subscribe</a></li>
       </ul>
     </nav>
   </header>
@@ -72,44 +85,21 @@ function layout(activePage, title, bodyContent) {
 </html>`;
 }
 
-// ==========================================
-// API ENDPOINTS FOR FRONTEND (js/main.js)
-// ==========================================
-
-// Get all blog posts
+// API ENDPOINTS
 app.get('/api/posts', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM posts ORDER BY created_at DESC');
     res.json(rows);
   } catch (err) {
     console.error('Error fetching posts:', err.message);
-    res.status(500).json({ error: 'Failed to load posts from database' });
+    res.status(500).json({ error: 'Failed to load posts' });
   }
 });
 
-// Get single blog post by ID
-app.get('/api/posts/:id', async (req, res) => {
-  try {
-    const [rows] = await db.query('SELECT * FROM posts WHERE id = ?', [req.params.id]);
-    if (rows.length === 0) {
-      return res.status(404).json({ error: 'Post not found' });
-    }
-    res.json(rows[0]);
-  } catch (err) {
-    console.error('Error fetching single post:', err.message);
-    res.status(500).json({ error: 'Database query failed' });
-  }
-});
-
-// ==========================================
 // PAGE ROUTES
-// ==========================================
-
-// 1. Home Page
 app.get('/', (req, res) => {
   const content = `
     <main class="homepage container">
-      <!-- HERO -->
       <section class="hero">
         <h1>Thoughtful Guidance for Raising Teenage Daughters</h1>
         <p class="hero-subhead">
@@ -121,7 +111,6 @@ app.get('/', (req, res) => {
         </div>
       </section>
 
-      <!-- TRUST BLOCK -->
       <section class="homepage-trust-block card">
         <img src="/founder-photo.webp" alt="Busari Nurudeen Olayemi, founder of Teen Girls Parenting" class="trust-block-photo" />
         <div class="trust-block-content">
@@ -133,7 +122,6 @@ app.get('/', (req, res) => {
         </div>
       </section>
 
-      <!-- CORE FOCUS AREAS -->
       <section class="focus-areas">
         <h2 style="text-align: center; margin-bottom: 0.5rem;">What We Focus On</h2>
         <p class="section-subhead" style="text-align: center; color: #666; margin-bottom: 1.5rem;">Core pillars designed to support you through every stage of raising a teenage daughter.</p>
@@ -162,18 +150,14 @@ app.get('/', (req, res) => {
         </div>
       </section>
 
-      <!-- RECENT ARTICLES -->
       <section class="recent-articles" style="margin-top: 3rem;">
         <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
           <h2>Latest Articles</h2>
           <a href="/blog" class="text-link">View All Articles &rarr;</a>
         </div>
-        <div class="article-grid focus-grid" id="posts-container">
-          <!-- Dynamic posts populate here -->
-        </div>
+        <div class="article-grid focus-grid" id="posts-container"></div>
       </section>
 
-      <!-- NEWSLETTER CTA -->
       <section class="homepage-newsletter card" style="text-align: center; margin-top: 3rem; background: var(--color-cream);">
         <h2>Stop Guessing What to Say to Her</h2>
         <p style="margin: 0.5rem 0 1rem 0;">
@@ -189,7 +173,7 @@ app.get('/', (req, res) => {
   res.send(layout('home', 'Home', content));
 });
 
-// 2. About Page
+// 2. About Page (UPDATED WITH 3 RECOGNITION ITEMS & EXACT COPY)
 app.get('/about', (req, res) => {
   const content = `
     <main class="about-page container">
@@ -239,35 +223,44 @@ app.get('/about', (req, res) => {
         </div>
       </section>
 
+      <!-- RECOGNITION & REAL IMPACT (3 RESTRUCTURED ITEMS) -->
       <section class="trust-highlights card">
         <h2>Recognition & Real Impact</h2>
 
         <div class="trust-grid">
+          <!-- Item 1: UNESCO -->
           <article class="trust-card">
             <img src="/unesco-goi-peace-certificate.webp" alt="Certificate of Recognition from Goi Peace Foundation and UNESCO, 2021" />
             <span class="resource-tag">INTERNATIONAL RECOGNITION</span>
             <h3>UNESCO & Goi Peace Foundation, 2021</h3>
             <p>
-              Recognized for mentoring a team of girls to win the 2021 International Essay Contest for Young People with a multimedia proposal on the impact of COVID-19.
+              In 2021, I trained a team of girls to submit a multimedia proposal on the impact of COVID-19 for an international essay contest. They won a trip to the United States, though lockdown kept us from attending. The Goi Peace Foundation, in partnership with UNESCO, personally recognized the mentorship behind that achievement.
             </p>
           </article>
 
+          <!-- Item 2: Real Impact, Global Reach -->
           <article class="trust-card">
             <img src="/founder-mentoring-moment.webp" alt="Busari Nurudeen Olayemi mentoring teenage girls in the school computer room" />
+            <span class="resource-tag">REAL IMPACT</span>
+            <h3>Global Reach</h3>
+            <p>
+              What started in one computer lab has reached further than I ever imagined. Girls I mentored during those five years are now studying medicine, nursing, accounting, robotics engineering, criminology and dozens of other fields across the world. Different countries, different disciplines — but the same thing carried them forward: someone who listened first and believed in them early.
+            </p>
+          </article>
+
+          <!-- Item 3: Radio Show -->
+          <article class="trust-card">
+            <img src="/ilubinrin-radio-flyer.webp" alt="Ilubinrin radio show flyer, Splash FM, featuring Busari Nurudeen Olayemi" />
             <span class="resource-tag">MEDIA</span>
             <h3>Ilubinrin, Splash FM</h3>
             <p>
-              On-air 17th September 2025, speaking to thousands of listeners about the silence between teenage girls and their parents — and what closes it.
+              In September 2025, I was invited onto Ilubinrin, a Yoruba radio programme meaning "women's village," to speak about teenage girls and the silence growing between them and their parents. Mothers called in mid-show. Fathers reached out after. That single broadcast confirmed what five years of listening had already taught me.
             </p>
           </article>
         </div>
-
-        <p class="impact-line" style="margin-top: 1.5rem; font-size: 0.95rem; color: #444;">
-          Two of the girls I mentored, <strong>Evelyn</strong> and <strong>Cindy</strong>, went on to build real futures shaped in part by those conversations — one now an emerging voice online, the other studying Criminology. Their stories are part of why this work continues.
-        </p>
       </section>
 
-      <section class="about-cta card" style="text-align: center;">
+      <section class="about-cta card" style="text-align: center; margin-top: 2rem;">
         <h2>Want Practical Help, Not Just My Story?</h2>
         <p style="margin: 0.5rem 0 1rem 0;">Get the free Conversation Starter Kit and one useful email a week.</p>
         <a href="/subscribe" class="btn-primary">Get the Free Kit</a>
@@ -277,21 +270,17 @@ app.get('/about', (req, res) => {
   res.send(layout('about', 'About Us', content));
 });
 
-// 3. Blog Page
 app.get('/blog', (req, res) => {
   const content = `
     <main class="container">
       <h1 style="text-align: center; margin-bottom: 0.5rem;">Parenting Insights & Articles</h1>
       <p style="text-align: center; color: #666; margin-bottom: 2rem;">Practical advice and research-backed frameworks for raising confident teen daughters.</p>
-      <div id="posts-container" class="focus-grid">
-        <!-- Populated by main.js fetching /api/posts -->
-      </div>
+      <div id="posts-container" class="focus-grid"></div>
     </main>
   `;
   res.send(layout('blog', 'Blog', content));
 });
 
-// 4. Resources Page
 app.get('/resources', (req, res) => {
   const content = `
     <main class="resources-page container">
@@ -342,14 +331,12 @@ app.get('/resources', (req, res) => {
   res.send(layout('resources', 'Resources', content));
 });
 
-// 5. Subscribe Page (GET) - BOOK IMAGE INCLUDED (WITHOUT WHITE CONTAINER CARD)
 app.get('/subscribe', (req, res) => {
   const isSuccess = req.query.status === 'success';
   const content = `
     <main class="subscribe-page container">
       <section class="subscribe-hero">
         <h1>Stop Guessing What to Say to Her</h1>
-
         <p class="subscribe-subhead">
           Get the exact words to use when she shuts down, shuts you out, or won't tell you what's actually wrong — free, in under 5 minutes.
         </p>
@@ -359,12 +346,8 @@ app.get('/subscribe', (req, res) => {
         ${isSuccess ? '<p style="color: green; font-weight: bold; margin-bottom: 1rem;">Success! Check your inbox for your starter kit.</p>' : ''}
 
         <form class="subscribe-form" action="/subscribe" method="POST">
-          <label for="first-name" class="visually-hidden">First Name</label>
           <input type="text" id="first-name" name="firstName" placeholder="Your First Name" required />
-
-          <label for="email" class="visually-hidden">Email Address</label>
           <input type="email" id="email" name="email" placeholder="Your Email Address" required />
-
           <button type="submit" class="btn-primary">Send Me the Free Kit</button>
         </form>
 
@@ -383,13 +366,11 @@ app.get('/subscribe', (req, res) => {
   res.send(layout('subscribe', 'Subscribe', content));
 });
 
-// 6. Subscribe Action (POST)
 app.post('/subscribe', async (req, res) => {
   const { firstName, email } = req.body;
   if (!email) {
     return res.status(400).send('Email is required.');
   }
-
   try {
     console.log(`New Subscriber: ${firstName || 'N/A'} <${email}>`);
     res.redirect('/subscribe?status=success');
@@ -399,7 +380,6 @@ app.post('/subscribe', async (req, res) => {
   }
 });
 
-// Export app for Vercel
 module.exports = app;
 
 if (require.main === module) {
