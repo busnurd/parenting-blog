@@ -24,15 +24,6 @@ const db = mysql.createPool({
   connectTimeout: 10000
 });
 
-db.getConnection()
-  .then((conn) => {
-    console.log('Connected to MySQL Database successfully');
-    conn.release();
-  })
-  .catch((err) => {
-    console.error('Database connection error:', err.message);
-  });
-
 // Express dynamic layout renderer with Favicon & Hamburger Menu
 function layout(activePage, title, bodyContent) {
   return `<!DOCTYPE html>
@@ -42,7 +33,7 @@ function layout(activePage, title, bodyContent) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title} | Teen Girls Parenting</title>
   
-  <!-- FAVICON FIX -->
+  <!-- FAVICON -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -56,7 +47,6 @@ function layout(activePage, title, bodyContent) {
         <a href="/"><img src="/Teen Girls Parenting Logo.webp" alt="Teen Girls Parenting Logo"></a>
       </div>
 
-      <!-- HAMBURGER BUTTON FOR MOBILE -->
       <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Navigation Menu">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -85,18 +75,19 @@ function layout(activePage, title, bodyContent) {
 </html>`;
 }
 
-// API ENDPOINTS
+// SAFE API ENDPOINT FOR POSTS
 app.get('/api/posts', async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT * FROM posts ORDER BY created_at DESC');
+    const [rows] = await db.query('SELECT * FROM posts ORDER BY id DESC');
     res.json(rows);
   } catch (err) {
     console.error('Error fetching posts:', err.message);
-    res.status(500).json({ error: 'Failed to load posts' });
+    // Return empty array instead of 500 status so client side handles gracefully
+    res.json([]);
   }
 });
 
-// PAGE ROUTES
+// HOMEPAGE
 app.get('/', (req, res) => {
   const content = `
     <main class="homepage container">
@@ -173,7 +164,7 @@ app.get('/', (req, res) => {
   res.send(layout('home', 'Home', content));
 });
 
-// 2. About Page (UPDATED WITH 3 RECOGNITION ITEMS & EXACT COPY)
+// ABOUT PAGE (EXACT COPY UPDATES)
 app.get('/about', (req, res) => {
   const content = `
     <main class="about-page container">
@@ -223,12 +214,12 @@ app.get('/about', (req, res) => {
         </div>
       </section>
 
-      <!-- RECOGNITION & REAL IMPACT (3 RESTRUCTURED ITEMS) -->
+      <!-- RECOGNITION & REAL IMPACT (3 SEPARATE ITEMS WITH EXACT UPDATED TEXT) -->
       <section class="trust-highlights card">
         <h2>Recognition & Real Impact</h2>
 
         <div class="trust-grid">
-          <!-- Item 1: UNESCO -->
+          <!-- Item 1 -->
           <article class="trust-card">
             <img src="/unesco-goi-peace-certificate.webp" alt="Certificate of Recognition from Goi Peace Foundation and UNESCO, 2021" />
             <span class="resource-tag">INTERNATIONAL RECOGNITION</span>
@@ -238,9 +229,9 @@ app.get('/about', (req, res) => {
             </p>
           </article>
 
-          <!-- Item 2: Real Impact, Global Reach -->
+          <!-- Item 2 -->
           <article class="trust-card">
-            <img src="/founder-mentoring-moment.webp" alt="Busari Nurudeen Olayemi mentoring teenage girls in the school computer room" />
+            <img src="/founder-mentoring-moment.webp" alt="Busari Nurudeen Olayemi mentoring teenage girls" />
             <span class="resource-tag">REAL IMPACT</span>
             <h3>Global Reach</h3>
             <p>
@@ -248,7 +239,7 @@ app.get('/about', (req, res) => {
             </p>
           </article>
 
-          <!-- Item 3: Radio Show -->
+          <!-- Item 3 -->
           <article class="trust-card">
             <img src="/ilubinrin-radio-flyer.webp" alt="Ilubinrin radio show flyer, Splash FM, featuring Busari Nurudeen Olayemi" />
             <span class="resource-tag">MEDIA</span>
@@ -386,4 +377,4 @@ if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
-                }
+                                          }
