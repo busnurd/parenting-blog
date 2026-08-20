@@ -33,7 +33,7 @@ db.getConnection()
     console.error('Database connection error:', err.message);
   });
 
-// Express dynamic layout renderer with Favicon & Hamburger Menu
+// Dynamic layout renderer
 function layout(activePage, title, bodyContent) {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -42,7 +42,6 @@ function layout(activePage, title, bodyContent) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title} | Teen Girls Parenting</title>
   
-  <!-- FAVICON -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -91,7 +90,7 @@ app.get('/api/posts', async (req, res) => {
     res.json(rows);
   } catch (err) {
     console.error('Error fetching posts:', err.message);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Database connection issue. Check server logs.' });
   }
 });
 
@@ -157,13 +156,13 @@ app.get('/', (req, res) => {
         <div class="article-grid focus-grid" id="posts-container"></div>
       </section>
 
-      <section class="homepage-newsletter card" style="text-align: center; margin-top: 3rem; background: var(--color-cream);">
+      <section class="homepage-newsletter card">
         <h2>Stop Guessing What to Say to Her</h2>
-        <p style="margin: 0.5rem 0 1rem 0;">
+        <p class="newsletter-subtext">
           Get the free Conversation Starter Kit — exact words for the moments you feel most stuck — plus one useful parenting email a week.
         </p>
         <form class="subscribe-form-inline" action="/subscribe" method="GET">
-          <input type="email" placeholder="Enter your email address" required />
+          <input type="email" name="email" placeholder="Enter your email address" required />
           <button type="submit" class="btn-primary">Get the Free Kit</button>
         </form>
       </section>
@@ -191,10 +190,10 @@ app.get('/about', (req, res) => {
           I wasn't looking to start a movement. I was just the adult they chose to trust. For five years, I worked as an IT professional inside a girls-only secondary school — and slowly, without any announcement, I became the adult those teenage girls talked to. Not their parents. Not their teachers. Me.
         </p>
         <p>
-          They told me about anxiety they carried every morning, friendships quietly destroying their self-worth, and the conversations they desperately wanted to have with their own parents but couldn't find the words for. Not because their parents didn't love them — but because love alone doesn't always bridge that silence.
+          They told me about anxiety they carried every morning, friendships quietly destroying their self-worth, and the conversations they desperately wanted to have with their own parents but couldn't find the words for.
         </p>
         <p>
-          I made a promise that what I heard wouldn't stay in that office. This platform is that promise. I'm not a licensed therapist — what I bring is five years of hands-on experience earning teenage girls' trust, paired with published research, not just opinion.
+          I made a promise that what I heard wouldn't stay in that office. This platform is that promise.
         </p>
       </section>
 
@@ -203,9 +202,6 @@ app.get('/about', (req, res) => {
           <h2>Our Mission</h2>
           <p>
             Modern parenting is filled with overwhelming and conflicting advice. Teen Girls Parenting was founded to cut through the noise with calm, evidence-informed perspective on raising confident, emotionally secure daughters.
-          </p>
-          <p style="margin-top: 0.75rem;">
-            We focus on actionable strategies for communication, emotional regulation, and building resilient parent-daughter connection.
           </p>
         </div>
 
@@ -216,45 +212,30 @@ app.get('/about', (req, res) => {
             <li>&check; Dr. Kristin Neff's research on self-compassion</li>
             <li>&check; NIH / PMC peer-reviewed adolescent development studies</li>
             <li>&check; WHO global adolescent mental health data</li>
-            <li>&check; Stanford, CDC, Dove Self-Esteem Project & Journal of Adolescence research</li>
-            <li>&check; Zero shaming or perfectionist standards</li>
           </ul>
         </div>
       </section>
 
-      <!-- RECOGNITION & REAL IMPACT (3 RESTRUCTURED ITEMS) -->
       <section class="trust-highlights card">
         <h2>Recognition & Real Impact</h2>
-
         <div class="trust-grid">
-          <!-- Item 1 -->
           <article class="trust-card">
-            <img src="/unesco-goi-peace-certificate.webp" alt="Certificate of Recognition from Goi Peace Foundation and UNESCO, 2021" />
+            <img src="/unesco-goi-peace-certificate.webp" alt="Certificate of Recognition" />
             <span class="resource-tag">INTERNATIONAL RECOGNITION</span>
-            <h3>UNESCO & Goi Peace Foundation, 2021</h3>
-            <p>
-              In 2021, I trained a team of girls to submit a multimedia proposal on the impact of COVID-19 for an international essay contest. They won a trip to the United States, though lockdown kept us from attending. The Goi Peace Foundation, in partnership with UNESCO, personally recognized the mentorship behind that achievement.
-            </p>
+            <h3>UNESCO & Goi Peace Foundation</h3>
+            <p>Recognized for mentoring teenage girls to international competition achievement.</p>
           </article>
-
-          <!-- Item 2 -->
           <article class="trust-card">
-            <img src="/founder-mentoring-moment.webp" alt="Busari Nurudeen Olayemi mentoring teenage girls" />
+            <img src="/founder-mentoring-moment.webp" alt="Mentoring moment" />
             <span class="resource-tag">REAL IMPACT</span>
             <h3>Global Reach</h3>
-            <p>
-              What started in one computer lab has reached further than I ever imagined. Girls I mentored during those five years are now studying medicine, nursing, accounting, robotics engineering, criminology and dozens of other fields across the world. Different countries, different disciplines — but the same thing carried them forward: someone who listened first and believed in them early.
-            </p>
+            <p>Mentees now studying medicine, engineering, and nursing globally.</p>
           </article>
-
-          <!-- Item 3 -->
           <article class="trust-card">
-            <img src="/ilubinrin-radio-flyer.webp" alt="Ilubinrin radio show flyer, Splash FM, featuring Busari Nurudeen Olayemi" />
+            <img src="/ilubinrin-radio-flyer.webp" alt="Ilubinrin radio broadcast" />
             <span class="resource-tag">MEDIA</span>
             <h3>Ilubinrin, Splash FM</h3>
-            <p>
-              In September 2025, I was invited onto Ilubinrin, a Yoruba radio programme meaning "women's village," to speak about teenage girls and the silence growing between them and their parents. Mothers called in mid-show. Fathers reached out after. That single broadcast confirmed what five years of listening had already taught me.
-            </p>
+            <p>Featured guest discussing communication gaps between parents and teens.</p>
           </article>
         </div>
       </section>
@@ -292,9 +273,7 @@ app.get('/resources', (req, res) => {
         <article class="resource-card resource-card--featured">
           <span class="resource-tag">FREE DOWNLOAD</span>
           <h2>The First Conversation Starter Kit</h2>
-          <p>
-            Exact scripts for the moments you feel most stuck — when she shuts down, shuts you out, or won't say what's wrong. Free instant download, plus our weekly email.
-          </p>
+          <p>Exact scripts for the moments you feel most stuck when she shuts down.</p>
           <a href="/subscribe" class="btn-primary" style="width: fit-content;">Get the Free Kit</a>
         </article>
 
@@ -302,27 +281,9 @@ app.get('/resources', (req, res) => {
           <div>
             <span class="resource-tag">24/7 HELPLINE</span>
             <h2>Parent Support Line</h2>
-            <p>Confidential emotional support and guidance for parents and caregivers facing immediate stress or crisis.</p>
+            <p>Confidential emotional support and guidance for parents facing immediate stress.</p>
           </div>
           <a href="#" class="btn-secondary">Call Support Line</a>
-        </article>
-
-        <article class="resource-card">
-          <div>
-            <span class="resource-tag">DIGITAL DOWNLOAD</span>
-            <h2>Toddler Emotional Regulation Guide</h2>
-            <p>A printable step-by-step cheat sheet for de-escalating tantrums and helping children process big feelings.</p>
-          </div>
-          <a href="#" class="btn-secondary">Download PDF Guide</a>
-        </article>
-
-        <article class="resource-card">
-          <div>
-            <span class="resource-tag">INTERACTIVE CHECKLIST</span>
-            <h2>Screen Time Family Agreement</h2>
-            <p>A customizable family contract template to establish healthy tech boundaries for kids and teenagers.</p>
-          </div>
-          <a href="#" class="btn-secondary">Access Template</a>
         </article>
       </section>
     </main>
@@ -345,8 +306,8 @@ app.get('/subscribe', (req, res) => {
         ${isSuccess ? '<p style="color: green; font-weight: bold; margin-bottom: 1rem;">Success! Check your inbox for your starter kit.</p>' : ''}
 
         <form class="subscribe-form" action="/subscribe" method="POST">
-          <input type="text" id="first-name" name="firstName" placeholder="Your First Name" required />
-          <input type="email" id="email" name="email" placeholder="Your Email Address" required />
+          <input type="text" name="firstName" placeholder="Your First Name" required />
+          <input type="email" name="email" placeholder="Your Email Address" required />
           <button type="submit" class="btn-primary">Send Me the Free Kit</button>
         </form>
 
@@ -355,10 +316,6 @@ app.get('/subscribe', (req, res) => {
           <li>&check; One short, useful email a week — real strategies, not fluff</li>
           <li>&check; No spam, no sponsored clutter, unsubscribe anytime</li>
         </ul>
-
-        <p class="trust-microcopy">
-          Written by someone who spent years as the adult teenage girls actually talked to — backed by real research, not guesswork.
-        </p>
       </section>
     </main>
   `;
@@ -367,16 +324,9 @@ app.get('/subscribe', (req, res) => {
 
 app.post('/subscribe', async (req, res) => {
   const { firstName, email } = req.body;
-  if (!email) {
-    return res.status(400).send('Email is required.');
-  }
-  try {
-    console.log(`New Subscriber: ${firstName || 'N/A'} <${email}>`);
-    res.redirect('/subscribe?status=success');
-  } catch (err) {
-    console.error('Subscribe error:', err);
-    res.status(500).send('Server error. Please try again.');
-  }
+  if (!email) return res.status(400).send('Email is required.');
+  console.log(`Subscriber: ${firstName || 'N/A'} <${email}>`);
+  res.redirect('/subscribe?status=success');
 });
 
 module.exports = app;
