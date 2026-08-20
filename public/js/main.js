@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Mobile Hamburger Toggle
+  // Mobile Hamburger Toggle
   const hamburgerBtn = document.getElementById('hamburger-btn');
   const navLinks = document.getElementById('nav-links');
 
@@ -17,30 +17,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. Fetch Blog Posts
+  // Fetch Blog Posts with Resilient Error Handling
   const postsContainer = document.getElementById('posts-container');
   if (postsContainer) {
     fetch('/api/posts')
       .then((res) => {
-        if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+        if (!res.ok) throw new Error('Database connection issue');
         return res.json();
       })
       .then((posts) => {
-        console.log('Posts fetched from DB:', posts);
-
         if (!posts || !Array.isArray(posts) || posts.length === 0) {
-          postsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 2rem;">No articles published yet.</p>';
+          postsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #666;">No articles published yet.</p>';
           return;
         }
 
         postsContainer.innerHTML = posts
           .map((post) => {
-            // Flexible fallback for column names
             const id = post.id || post.post_id || '';
             const title = post.title || post.post_title || 'Untitled Article';
             const category = post.category || post.tag || 'ARTICLE';
             const rawBody = post.excerpt || post.description || post.content || '';
-            const summary = rawBody.replace(/<[^>]*>?/gm, '').substring(0, 130) + '...';
+            const summary = rawBody.replace(/<[^>]*>?/gm, '').substring(0, 120) + '...';
 
             return `
               <article class="focus-card card">
@@ -54,8 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
           .join('');
       })
       .catch((err) => {
-        console.error('API Error:', err);
-        postsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #8b3a3a;">Error connecting to database. Please check server logs.</p>';
+        console.warn('API connection failed:', err);
+        postsContainer.innerHTML = `
+          <div style="grid-column: 1/-1; text-align: center; padding: 2.5rem; background: #fff5f5; border: 1px solid #fed7d7; border-radius: 8px;">
+            <p style="color: #c53030; font-weight: 600; margin-bottom: 0.25rem;">Unable to load articles right now.</p>
+            <p style="color: #742a2a; font-size: 0.9rem;">Please check back shortly or verify your MySQL database connection credentials on Vercel/environment setup.</p>
+          </div>
+        `;
       });
   }
 });
