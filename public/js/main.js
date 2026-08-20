@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile Hamburger Toggle Logic
+  // 1. Mobile Hamburger Toggle Logic
   const hamburgerBtn = document.getElementById('hamburger-btn');
   const navLinks = document.getElementById('nav-links');
 
@@ -18,31 +18,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Dynamic Blog Post Loader (if on blog or home page)
+  // 2. Dynamic Blog Post Fetcher
   const postsContainer = document.getElementById('posts-container');
   if (postsContainer) {
     fetch('/api/posts')
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((posts) => {
         if (!posts || posts.length === 0) {
-          postsContainer.innerHTML = '<p>No articles published yet.</p>';
+          postsContainer.innerHTML = '<p style="text-align: center; grid-column: 1/-1; padding: 2rem;">No articles published yet.</p>';
           return;
         }
+
         postsContainer.innerHTML = posts
-          .map(
-            (post) => `
-            <article class="focus-card card">
-              <span class="resource-tag">${post.category || 'ARTICLE'}</span>
-              <h3 style="margin-top: 0.5rem;">${post.title}</h3>
-              <p style="font-size: 0.95rem; color: #555; margin: 0.5rem 0;">${post.excerpt || ''}</p>
-              <a href="/blog/${post.id}" class="text-link">Read article &rarr;</a>
-            </article>
-          `
-          )
+          .map((post) => {
+            const title = post.title || 'Untitled Post';
+            const category = post.category || post.tag || 'ARTICLE';
+            const excerpt = post.excerpt || post.description || post.content || '';
+            const truncatedExcerpt = excerpt.length > 120 ? excerpt.substring(0, 120) + '...' : excerpt;
+            const postId = post.id || post.post_id || '#';
+
+            return `
+              <article class="focus-card card">
+                <span class="resource-tag">${category.toUpperCase()}</span>
+                <h3 style="margin-top: 0.5rem;">${title}</h3>
+                <p style="font-size: 0.95rem; color: #555; margin: 0.5rem 0;">${truncatedExcerpt}</p>
+                <a href="/blog/${postId}" class="text-link">Read article &rarr;</a>
+              </article>
+            `;
+          })
           .join('');
       })
       .catch((err) => {
-        console.error('Error loading posts:', err);
+        console.error('Error fetching blog posts:', err);
+        postsContainer.innerHTML = '<p style="text-align: center; grid-column: 1/-1; color: #8b3a3a;">Failed to load articles. Please refresh the page.</p>';
       });
   }
 });
