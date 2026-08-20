@@ -24,6 +24,15 @@ const db = mysql.createPool({
   connectTimeout: 10000
 });
 
+db.getConnection()
+  .then((conn) => {
+    console.log('Connected to MySQL Database successfully');
+    conn.release();
+  })
+  .catch((err) => {
+    console.error('Database connection error:', err.message);
+  });
+
 // Express dynamic layout renderer with Favicon & Hamburger Menu
 function layout(activePage, title, bodyContent) {
   return `<!DOCTYPE html>
@@ -75,15 +84,14 @@ function layout(activePage, title, bodyContent) {
 </html>`;
 }
 
-// SAFE API ENDPOINT FOR POSTS
+// API ENDPOINT FOR POSTS
 app.get('/api/posts', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM posts ORDER BY id DESC');
     res.json(rows);
   } catch (err) {
     console.error('Error fetching posts:', err.message);
-    // Return empty array instead of 500 status so client side handles gracefully
-    res.json([]);
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -164,7 +172,7 @@ app.get('/', (req, res) => {
   res.send(layout('home', 'Home', content));
 });
 
-// ABOUT PAGE (EXACT COPY UPDATES)
+// ABOUT PAGE
 app.get('/about', (req, res) => {
   const content = `
     <main class="about-page container">
@@ -214,7 +222,7 @@ app.get('/about', (req, res) => {
         </div>
       </section>
 
-      <!-- RECOGNITION & REAL IMPACT (3 SEPARATE ITEMS WITH EXACT UPDATED TEXT) -->
+      <!-- RECOGNITION & REAL IMPACT (3 RESTRUCTURED ITEMS) -->
       <section class="trust-highlights card">
         <h2>Recognition & Real Impact</h2>
 
@@ -377,4 +385,4 @@ if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
-                                          }
+    }
