@@ -9,8 +9,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Dynamic SSL Config for Remote MySQL Hosts
-const dbConfig = {
+// MySQL Database Connection Pool
+const db = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
@@ -22,16 +22,18 @@ const dbConfig = {
   enableKeepAlive: true,
   keepAliveInitialDelay: 0,
   connectTimeout: 10000
-};
+});
 
-// Auto-enable SSL if connecting to a remote host (non-localhost)
-if (process.env.DB_HOST && process.env.DB_HOST !== 'localhost' && process.env.DB_HOST !== '127.0.0.1') {
-  dbConfig.ssl = { rejectUnauthorized: false };
-}
+db.getConnection()
+  .then((conn) => {
+    console.log('Connected to MySQL Database successfully');
+    conn.release();
+  })
+  .catch((err) => {
+    console.error('Database connection error:', err.message);
+  });
 
-const db = mysql.createPool(dbConfig);
-
-// Dynamic layout renderer
+// Express dynamic layout renderer with Favicon & Hamburger Menu
 function layout(activePage, title, bodyContent) {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -81,14 +83,14 @@ function layout(activePage, title, bodyContent) {
 </html>`;
 }
 
-// API ENDPOINT FOR POSTS WITH DETAILED LOGGING
+// API ENDPOINT FOR POSTS
 app.get('/api/posts', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM posts ORDER BY id DESC');
     res.json(rows);
   } catch (err) {
-    console.error('SERVER DB ERROR:', err);
-    res.status(500).json({ error: err.message || 'Database query failed' });
+    console.error('Error fetching posts:', err.message);
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -108,13 +110,15 @@ app.get('/', (req, res) => {
       </section>
 
       <section class="homepage-trust-block card">
-        <img src="/founder-photo.webp" alt="Busari Nurudeen Olayemi, founder of Teen Girls Parenting" class="trust-block-photo" />
-        <div class="trust-block-content">
-          <h2>Written by Someone Who's Actually Done This</h2>
-          <p>
-            Recognized by UNESCO and the Goi Peace Foundation for mentoring teenage girls to international recognition. Five years as the adult hundreds of girls chose to confide in — not theory, real experience, backed by real research.
-          </p>
-          <a href="/about" class="text-link">Read the full story &rarr;</a>
+        <div style="display: flex; gap: 2rem; align-items: center;">
+            <img src="/founder-photo.webp" alt="Busari Nurudeen Olayemi, founder of Teen Girls Parenting" class="trust-block-photo" />
+            <div class="trust-block-content">
+                <h2>Written by Someone Who's Actually Done This</h2>
+                <p>
+                    Recognized by UNESCO and the Goi Peace Foundation for mentoring teenage girls to international recognition. Five years as the adult hundreds of girls chose to confide in — not theory, real experience, backed by real research.
+                </p>
+                <a href="/about" class="text-link">Read the full story &rarr;</a>
+            </div>
         </div>
       </section>
 
@@ -154,13 +158,13 @@ app.get('/', (req, res) => {
         <div class="article-grid focus-grid" id="posts-container"></div>
       </section>
 
-      <section class="homepage-newsletter card">
+      <section class="homepage-newsletter card" style="text-align: center; margin-top: 3rem; background: var(--color-cream);">
         <h2>Stop Guessing What to Say to Her</h2>
-        <p class="newsletter-subtext">
+        <p style="margin: 0.5rem 0 1rem 0;">
           Get the free Conversation Starter Kit — exact words for the moments you feel most stuck — plus one useful parenting email a week.
         </p>
         <form class="subscribe-form-inline" action="/subscribe" method="GET">
-          <input type="email" name="email" placeholder="Enter your email address" required />
+          <input type="email" placeholder="Enter your email address" required />
           <button type="submit" class="btn-primary">Get the Free Kit</button>
         </form>
       </section>
@@ -180,19 +184,21 @@ app.get('/about', (req, res) => {
         </p>
       </section>
 
-      <section class="about-bio card">
+      <section class="about-bio-section card" style="display: grid; grid-template-columns: 200px 1fr; gap: 2rem; align-items: start; margin-bottom: 2rem;">
         <img src="/founder-photo.webp" alt="Busari Nurudeen Olayemi, founder of Teen Girls Parenting" class="founder-photo" />
 
-        <h2>Why I Started This</h2>
-        <p>
-          I wasn't looking to start a movement. I was just the adult they chose to trust. For five years, I worked as an IT professional inside a girls-only secondary school — and slowly, without any announcement, I became the adult those teenage girls talked to. Not their parents. Not their teachers. Me.
-        </p>
-        <p>
-          They told me about anxiety they carried every morning, friendships quietly destroying their self-worth, and the conversations they desperately wanted to have with their own parents but couldn't find the words for.
-        </p>
-        <p>
-          I made a promise that what I heard wouldn't stay in that office. This platform is that promise.
-        </p>
+        <div class="about-bio-content">
+            <h2>Why I Started This</h2>
+            <p>
+              I wasn't looking to start a movement. I was just the adult they chose to trust. For five years, I worked as an IT professional inside a girls-only secondary school — and slowly, without any announcement, I became the adult those teenage girls talked to. Not their parents. Not their teachers. Me.
+            </p>
+            <p style="margin-top: 1rem;">
+              They told me about anxiety they carried every morning, friendships quietly destroying their self-worth, and the conversations they desperately wanted to have with their own parents but couldn't find the words for. Not because their parents didn't love them — but because love alone doesn't always bridge that silence.
+            </p>
+            <p style="margin-top: 1rem;">
+              I made a promise that what I heard wouldn't stay in that office. This platform is that promise. I'm not a licensed therapist — what I bring is five years of hands-on experience earning teenage girls' trust, paired with published research, not just opinion.
+            </p>
+        </div>
       </section>
 
       <section class="about-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
@@ -200,6 +206,9 @@ app.get('/about', (req, res) => {
           <h2>Our Mission</h2>
           <p>
             Modern parenting is filled with overwhelming and conflicting advice. Teen Girls Parenting was founded to cut through the noise with calm, evidence-informed perspective on raising confident, emotionally secure daughters.
+          </p>
+          <p style="margin-top: 0.75rem;">
+            We focus on actionable strategies for communication, emotional regulation, and building resilient parent-daughter connection.
           </p>
         </div>
 
@@ -210,30 +219,41 @@ app.get('/about', (req, res) => {
             <li>&check; Dr. Kristin Neff's research on self-compassion</li>
             <li>&check; NIH / PMC peer-reviewed adolescent development studies</li>
             <li>&check; WHO global adolescent mental health data</li>
+            <li>&check; Stanford, CDC, Dove Self-Esteem Project & Journal of Adolescence research</li>
+            <li>&check; Zero shaming or perfectionist standards</li>
           </ul>
         </div>
       </section>
 
       <section class="trust-highlights card">
         <h2>Recognition & Real Impact</h2>
+
         <div class="trust-grid">
           <article class="trust-card">
-            <img src="/unesco-goi-peace-certificate.webp" alt="Certificate of Recognition" />
+            <img src="/unesco-goi-peace-certificate.webp" alt="Certificate of Recognition from Goi Peace Foundation and UNESCO, 2021" />
             <span class="resource-tag">INTERNATIONAL RECOGNITION</span>
-            <h3>UNESCO & Goi Peace Foundation</h3>
-            <p>Recognized for mentoring teenage girls to international competition achievement.</p>
+            <h3>UNESCO & Goi Peace Foundation, 2021</h3>
+            <p>
+              Recognized for mentoring teenage girls to international competition achievement in the 2021 International Essay Contest for Young People.
+            </p>
           </article>
+
           <article class="trust-card">
-            <img src="/founder-mentoring-moment.webp" alt="Mentoring moment" />
+            <img src="/founder-mentoring-moment.webp" alt="Busari Nurudeen Olayemi mentoring teenage girls" />
             <span class="resource-tag">REAL IMPACT</span>
             <h3>Global Reach</h3>
-            <p>Mentees now studying medicine, engineering, and nursing globally.</p>
+            <p>
+              Mentees now studying medicine, robotics engineering, accounting, nursing, and criminology globally, from China to Nigeria.
+            </p>
           </article>
+
           <article class="trust-card">
             <img src="/ilubinrin-radio-flyer.jpg" alt="Ilubinrin radio broadcast" />
             <span class="resource-tag">MEDIA</span>
             <h3>Ilubinrin, Splash FM</h3>
-            <p>Featured guest discussing communication gaps between parents and teens.</p>
+            <p>
+              Guest speaker on parenting teenage girls on "Ilubinrin" (The Village of Women), Yoruba radio, Splash FM.
+            </p>
           </article>
         </div>
       </section>
@@ -271,7 +291,9 @@ app.get('/resources', (req, res) => {
         <article class="resource-card resource-card--featured">
           <span class="resource-tag">FREE DOWNLOAD</span>
           <h2>The First Conversation Starter Kit</h2>
-          <p>Exact scripts for the moments you feel most stuck when she shuts down.</p>
+          <p>
+            Exact scripts for the moments you feel most stuck — when she shuts down, shuts you out, or won't say what's wrong. Free instant download, plus our weekly email.
+          </p>
           <a href="/subscribe" class="btn-primary" style="width: fit-content;">Get the Free Kit</a>
         </article>
 
@@ -279,9 +301,27 @@ app.get('/resources', (req, res) => {
           <div>
             <span class="resource-tag">24/7 HELPLINE</span>
             <h2>Parent Support Line</h2>
-            <p>Confidential emotional support and guidance for parents facing immediate stress.</p>
+            <p>Confidential emotional support and guidance for parents and caregivers facing immediate stress or crisis.</p>
           </div>
           <a href="#" class="btn-secondary">Call Support Line</a>
+        </article>
+
+        <article class="resource-card">
+          <div>
+            <span class="resource-tag">DIGITAL DOWNLOAD</span>
+            <h2>Toddler Emotional Regulation Guide</h2>
+            <p>A printable step-by-step cheat sheet for de-escalating tantrums and helping children process big feelings.</p>
+          </div>
+          <a href="#" class="btn-secondary">Download PDF Guide</a>
+        </article>
+
+        <article class="resource-card">
+          <div>
+            <span class="resource-tag">INTERACTIVE CHECKLIST</span>
+            <h2>Screen Time Family Agreement</h2>
+            <p>A customizable family contract template to establish healthy tech boundaries for kids and teenagers.</p>
+          </div>
+          <a href="#" class="btn-secondary">Access Template</a>
         </article>
       </section>
     </main>
@@ -304,8 +344,8 @@ app.get('/subscribe', (req, res) => {
         ${isSuccess ? '<p style="color: green; font-weight: bold; margin-bottom: 1rem;">Success! Check your inbox for your starter kit.</p>' : ''}
 
         <form class="subscribe-form" action="/subscribe" method="POST">
-          <input type="text" name="firstName" placeholder="Your First Name" required />
-          <input type="email" name="email" placeholder="Your Email Address" required />
+          <input type="text" id="first-name" name="firstName" placeholder="Your First Name" required />
+          <input type="email" id="email" name="email" placeholder="Your Email Address" required />
           <button type="submit" class="btn-primary">Send Me the Free Kit</button>
         </form>
 
@@ -314,6 +354,10 @@ app.get('/subscribe', (req, res) => {
           <li>&check; One short, useful email a week — real strategies, not fluff</li>
           <li>&check; No spam, no sponsored clutter, unsubscribe anytime</li>
         </ul>
+
+        <p class="trust-microcopy">
+          Written by someone who spent years as the adult teenage girls actually talked to — backed by real research, not guesswork.
+        </p>
       </section>
     </main>
   `;
@@ -322,9 +366,16 @@ app.get('/subscribe', (req, res) => {
 
 app.post('/subscribe', async (req, res) => {
   const { firstName, email } = req.body;
-  if (!email) return res.status(400).send('Email is required.');
-  console.log(`Subscriber: ${firstName || 'N/A'} <${email}>`);
-  res.redirect('/subscribe?status=success');
+  if (!email) {
+    return res.status(400).send('Email is required.');
+  }
+  try {
+    console.log(`New Subscriber: ${firstName || 'N/A'} <${email}>`);
+    res.redirect('/subscribe?status=success');
+  } catch (err) {
+    console.error('Subscribe error:', err);
+    res.status(500).send('Server error. Please try again.');
+  }
 });
 
 module.exports = app;
@@ -333,4 +384,4 @@ if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
-}
+  }
