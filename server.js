@@ -9,8 +9,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// MySQL Database Connection Pool
-const db = mysql.createPool({
+// Dynamic SSL Config for Remote MySQL Hosts
+const dbConfig = {
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
@@ -22,16 +22,14 @@ const db = mysql.createPool({
   enableKeepAlive: true,
   keepAliveInitialDelay: 0,
   connectTimeout: 10000
-});
+};
 
-db.getConnection()
-  .then((conn) => {
-    console.log('Connected to MySQL Database successfully');
-    conn.release();
-  })
-  .catch((err) => {
-    console.error('Database connection error:', err.message);
-  });
+// Auto-enable SSL if connecting to a remote host (non-localhost)
+if (process.env.DB_HOST && process.env.DB_HOST !== 'localhost' && process.env.DB_HOST !== '127.0.0.1') {
+  dbConfig.ssl = { rejectUnauthorized: false };
+}
+
+const db = mysql.createPool(dbConfig);
 
 // Dynamic layout renderer
 function layout(activePage, title, bodyContent) {
@@ -83,14 +81,14 @@ function layout(activePage, title, bodyContent) {
 </html>`;
 }
 
-// API ENDPOINT FOR POSTS
+// API ENDPOINT FOR POSTS WITH DETAILED LOGGING
 app.get('/api/posts', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM posts ORDER BY id DESC');
     res.json(rows);
   } catch (err) {
-    console.error('Error fetching posts:', err.message);
-    res.status(500).json({ error: 'Database connection issue. Check server logs.' });
+    console.error('SERVER DB ERROR:', err);
+    res.status(500).json({ error: err.message || 'Database query failed' });
   }
 });
 
