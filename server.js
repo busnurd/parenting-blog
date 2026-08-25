@@ -6,16 +6,16 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 1. Parsing Middleware
+// Body Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 2. Static Asset Routes (Serves CSS, JS, Images, and Public files)
-app.use(express.static(path.join(__dirname)));
+// Serve all static assets from root, views, and public folders
+app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 3. Railway MySQL Connection Pool
+// Database Connection
 const db = mysql.createPool({
   host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
   user: process.env.MYSQLUSER || process.env.DB_USER || 'root',
@@ -27,7 +27,7 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-// 4. Database Schema Setup & Seed Data
+// Database Initialization
 const initDB = () => {
   const createUsersTable = `
     CREATE TABLE IF NOT EXISTS users (
@@ -62,11 +62,10 @@ const initDB = () => {
       console.error('Error creating posts table:', err);
     } else {
       console.log('✅ Posts table ready.');
-      // Auto-insert a starter post if empty
       db.query('SELECT COUNT(*) AS count FROM posts', (err, results) => {
-        if (!err && results[0].count === 0) {
-          const samplePost = `INSERT INTO posts (title, content) VALUES ('Welcome to Parenting Blog', 'This is your first official post on the new Railway database!')`;
-          db.query(samplePost, () => console.log('✅ Seeded sample blog post.'));
+        if (!err && results && results[0].count === 0) {
+          const samplePost = `INSERT INTO posts (title, content) VALUES ('Welcome to Parenting Blog', 'This is your first official article loaded directly from your new Railway MySQL database!')`;
+          db.query(samplePost, () => console.log('✅ Seeded initial post.'));
         }
       });
     }
@@ -83,26 +82,14 @@ db.getConnection((err, connection) => {
   }
 });
 
-// 5. Page HTML Routes
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
-});
+// HTML Page Routes
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'views', 'index.html')));
+app.get('/about', (req, res) => res.sendFile(path.join(__dirname, 'views', 'about.html')));
+app.get('/resources', (req, res) => res.sendFile(path.join(__dirname, 'views', 'resources.html')));
+app.get('/subscribe', (req, res) => res.sendFile(path.join(__dirname, 'views', 'subscribe.html')));
 
-app.get('/about', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'about.html'));
-});
-
-app.get('/resources', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'resources.html'));
-});
-
-app.get('/subscribe', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'subscribe.html'));
-});
-
-// Explicit Blog / Articles Route
-app.get(['/blog', '/articles', '/posts'], (req, res) => {
-  // Checks views/blog.html first, then falls back to views/articles.html
+// Blog & Articles Page Routes
+app.get(['/blog', '/articles', '/posts', '/blog.html', '/articles.html'], (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'blog.html'), (err) => {
     if (err) {
       res.sendFile(path.join(__dirname, 'views', 'articles.html'), (err2) => {
@@ -112,21 +99,22 @@ app.get(['/blog', '/articles', '/posts'], (req, res) => {
   });
 });
 
-// 6. API Route for Blog Data
+// API Route for Fetching Posts (Never leaves client hanging)
 app.get('/api/posts', (req, res) => {
   db.query('SELECT * FROM posts ORDER BY created_at DESC', (err, results) => {
-    if (err) return res.status(500).json({ error: 'Database error' });
-    res.json(results);
+    if (err) {
+      console.error('Database query error:', err);
+      return res.status(500).json({ error: 'Database connection error', details: err.message });
+    }
+    res.json(results || []);
   });
 });
 
-// 7. 404 Route
+// 404 Route
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, 'views', '404.html'), (err) => {
     if (err) res.status(404).send('<h1>404 - Page Not Found</h1>');
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server active on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
