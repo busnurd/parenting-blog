@@ -6,16 +6,15 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Body Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve all static assets from root, views, and public folders
+// Serve static assets from root and views
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Database Connection
+// Railway MySQL Connection Pool
 const db = mysql.createPool({
   host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
   user: process.env.MYSQLUSER || process.env.DB_USER || 'root',
@@ -27,7 +26,7 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-// Database Initialization
+// Auto-Create Database Tables & Seed Starter Post
 const initDB = () => {
   const createUsersTable = `
     CREATE TABLE IF NOT EXISTS users (
@@ -64,8 +63,8 @@ const initDB = () => {
       console.log('✅ Posts table ready.');
       db.query('SELECT COUNT(*) AS count FROM posts', (err, results) => {
         if (!err && results && results[0].count === 0) {
-          const samplePost = `INSERT INTO posts (title, content) VALUES ('Welcome to Parenting Blog', 'This is your first official article loaded directly from your new Railway MySQL database!')`;
-          db.query(samplePost, () => console.log('✅ Seeded initial post.'));
+          const samplePost = `INSERT INTO posts (title, content) VALUES ('Welcome to Parenting Blog', 'This is your first official post on the new Railway database!')`;
+          db.query(samplePost, () => console.log('✅ Seeded initial blog post.'));
         }
       });
     }
@@ -88,24 +87,15 @@ app.get('/about', (req, res) => res.sendFile(path.join(__dirname, 'views', 'abou
 app.get('/resources', (req, res) => res.sendFile(path.join(__dirname, 'views', 'resources.html')));
 app.get('/subscribe', (req, res) => res.sendFile(path.join(__dirname, 'views', 'subscribe.html')));
 
-// Blog & Articles Page Routes
-app.get(['/blog', '/articles', '/posts', '/blog.html', '/articles.html'], (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'blog.html'), (err) => {
-    if (err) {
-      res.sendFile(path.join(__dirname, 'views', 'articles.html'), (err2) => {
-        if (err2) res.sendFile(path.join(__dirname, 'views', 'index.html'));
-      });
-    }
-  });
+// Direct Route for blog.html
+app.get(['/blog', '/blog.html', '/articles'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'blog.html'));
 });
 
-// API Route for Fetching Posts (Never leaves client hanging)
+// API Route for Blog Data
 app.get('/api/posts', (req, res) => {
   db.query('SELECT * FROM posts ORDER BY created_at DESC', (err, results) => {
-    if (err) {
-      console.error('Database query error:', err);
-      return res.status(500).json({ error: 'Database connection error', details: err.message });
-    }
+    if (err) return res.status(500).json({ error: 'Database query failed' });
     res.json(results || []);
   });
 });
