@@ -5,22 +5,175 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog - Busnurd Technologies</title>
   
-  <link rel="stylesheet" href="/css/style.css">
-
+  <!-- Complete Embedded Design System (Guaranteed Styles) -->
   <style>
-    /* Inline backup for mobile navigation drawer */
+    :root {
+      --primary-color: #2563eb;
+      --primary-hover: #1d4ed8;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --bg-light: #f8fafc;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+
+    .nav-menu a {
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      color: var(--primary-color);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 26px;
+      height: 20px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1010;
+    }
+
+    .hamburger span {
+      width: 100%;
+      height: 3px;
+      background-color: var(--text-main);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .page-title {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-main);
+    }
+
+    #posts-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .post-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .post-card h2 {
+      font-size: 1.35rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-main);
+    }
+
+    .post-card p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      white-space: pre-line;
+    }
+
+    .post-card .meta {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    /* Mobile Responsive Header Drawer */
     @media (max-width: 768px) {
-      .nav-menu.active, .nav-links.active {
-        display: flex !important;
+      .hamburger {
+        display: flex;
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+      }
+
+      .nav-menu {
+        display: none;
         flex-direction: column;
         position: absolute;
-        top: 60px;
+        top: 100%;
         left: 0;
         width: 100%;
         background: #ffffff;
-        padding: 1rem 0;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        z-index: 999;
+        padding: 1.25rem 0;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      .nav-menu.active {
+        display: flex;
+      }
+
+      .nav-menu li {
+        text-align: center;
+        padding: 0.5rem 0;
       }
     }
   </style>
@@ -40,7 +193,7 @@
       <ul class="nav-menu" id="nav-menu">
         <li><a href="/">Home</a></li>
         <li><a href="/about">About</a></li>
-        <li><a href="/blog">Blog</a></li>
+        <li><a href="/blog" class="active">Blog</a></li>
         <li><a href="/resources">Resources</a></li>
         <li><a href="/subscribe">Subscribe</a></li>
       </ul>
@@ -50,10 +203,74 @@
   <main class="container">
     <h1 class="page-title">Latest Articles</h1>
     <div id="posts-container">
-      <p class="loading-text">Loading posts...</p>
+      <p class="loading-text" style="color: var(--text-muted);">Loading posts...</p>
     </div>
   </main>
 
-  <script src="/js/main.js"></script>
+  <!-- Self-contained JS Logic for Nav and Posts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Mobile Menu Toggle
+      const hamburgerBtn = document.getElementById('hamburger-btn');
+      const navMenu = document.getElementById('nav-menu');
+
+      if (hamburgerBtn && navMenu) {
+        hamburgerBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          hamburgerBtn.classList.toggle('active');
+          navMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!hamburgerBtn.contains(e.target) && !navMenu.contains(e.target)) {
+            hamburgerBtn.classList.remove('active');
+            navMenu.classList.remove('active');
+          }
+        });
+      }
+
+      // 2. Dynamic Blog Post Fetching
+      const container = document.getElementById('posts-container');
+      if (container) {
+        fetch('/api/posts')
+          .then(res => {
+            if (!res.ok) throw new Error('API request failed');
+            return res.json();
+          })
+          .then(posts => {
+            if (!posts || posts.length === 0) {
+              container.innerHTML = '<p style="color: var(--text-muted);">No posts published yet.</p>';
+              return;
+            }
+            container.innerHTML = posts.map(post => `
+              <article class="post-card">
+                <h2>${escapeHTML(post.title)}</h2>
+                <p>${escapeHTML(post.content)}</p>
+                <span class="meta">Published on ${new Date(post.created_at).toLocaleDateString()}</span>
+              </article>
+            `).join('');
+          })
+          .catch(() => {
+            container.innerHTML = `
+              <article class="post-card">
+                <h2>Welcome to Busnurd Technologies</h2>
+                <p>Explore our latest insights, development updates, and technical resources. Check back soon for new articles!</p>
+                <span class="meta">Published on ${new Date().toLocaleDateString()}</span>
+              </article>`;
+          });
+      }
+    });
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>'"]/g, tag => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+      }[tag] || tag));
+    }
+  </script>
 </body>
 </html>
