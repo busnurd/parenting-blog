@@ -4,17 +4,16 @@ const mysql = require('mysql2');
 require('dotenv').config();
 
 const app = express();
-
-// 1. Dynamic Port for Railway
 const PORT = process.env.PORT || 3000;
 
-// 2. Middleware & Static Asset Serving (views & public)
+// Middleware & Static Files (Serves everything inside 'views' and root)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'views')));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/css', express.static(path.join(__dirname, 'views', 'css')));
+app.use('/js', express.static(path.join(__dirname, 'views', 'js')));
 
-// 3. Railway MySQL Connection Pool
+// Railway MySQL Connection
 const db = mysql.createPool({
   host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
   user: process.env.MYSQLUSER || process.env.DB_USER || 'root',
@@ -26,7 +25,7 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-// 4. Auto-Create Schema (users, posts, settings)
+// Auto-Create Database Tables & Seed Sample Post
 const initDB = () => {
   const createUsersTable = `
     CREATE TABLE IF NOT EXISTS users (
@@ -43,8 +42,7 @@ const initDB = () => {
       title VARCHAR(255) NOT NULL,
       content TEXT NOT NULL,
       author_id INT,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE SET NULL
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`;
 
   const createSettingsTable = `
@@ -54,69 +52,61 @@ const initDB = () => {
       setting_value TEXT
     );`;
 
-  db.query(createUsersTable, (err) => {
-    if (err) console.error('Error creating users table:', err);
-    else console.log('✅ Users table ready.');
-  });
+  db.query(createUsersTable);
+  db.query(createSettingsTable);
 
   db.query(createPostsTable, (err) => {
-    if (err) console.error('Error creating posts table:', err);
-    else console.log('✅ Posts table ready.');
-  });
-
-  db.query(createSettingsTable, (err) => {
-    if (err) console.error('Error creating settings table:', err);
-    else console.log('✅ Settings table ready.');
+    if (err) {
+      console.error('Error creating posts table:', err);
+    } else {
+      console.log('✅ Posts table ready.');
+      // Seed a test post if empty so articles page displays content
+      db.query('SELECT COUNT(*) AS count FROM posts', (err, results) => {
+        if (!err && results[0].count === 0) {
+          const samplePost = `INSERT INTO posts (title, content) VALUES ('Welcome to Parenting Blog', 'This is your first official post on the new Railway database!')`;
+          db.query(samplePost, () => console.log('✅ Seeded sample blog post.'));
+        }
+      });
+    }
   });
 };
 
-// Verify Connection & Execute Schema Creation
 db.getConnection((err, connection) => {
   if (err) {
     console.error('❌ Database connection error:', err.message);
   } else {
-    console.log('✅ Connected to Railway MySQL database!');
+    console.log('✅ Connected to Railway MySQL!');
     connection.release();
     initDB();
   }
 });
 
-// 5. Page Routes Pointing to 'views'
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
+// Page Routes (Serving HTML files from 'views')
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'views', 'index.html')));
+app.get('/about', (req, res) => res.sendFile(path.join(__dirname, 'views', 'about.html')));
+app.get('/resources', (req, res) => res.sendFile(path.join(__dirname, 'views', 'resources.html')));
+app.get('/subscribe', (req, res) => res.sendFile(path.join(__dirname, 'views', 'subscribe.html')));
+
+// Catch-all route for "View Articles" links (e.g., /articles, /blog, or /posts)
+app.get(['/articles', '/blog', '/posts'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'articles.html'), (err) => {
+    if (err) res.sendFile(path.join(__dirname, 'views', 'index.html'));
+  });
 });
 
-app.get('/about', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'about.html'));
-});
-
-app.get('/resources', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'resources.html'));
-});
-
-app.get('/subscribe', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'subscribe.html'));
-});
-
-// 6. API Route for Fetching Blog Posts
+// API Endpoint for Fetching Posts
 app.get('/api/posts', (req, res) => {
   db.query('SELECT * FROM posts ORDER BY created_at DESC', (err, results) => {
-    if (err) {
-      console.error('Error fetching posts:', err);
-      return res.status(500).json({ error: 'Database error fetching posts' });
-    }
+    if (err) return res.status(500).json({ error: 'Database query failed' });
     res.json(results);
   });
 });
 
-// 404 Fallback Route
+// 404 Fallback
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, 'views', '404.html'), (err) => {
     if (err) res.status(404).send('<h1>404 - Page Not Found</h1>');
   });
 });
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`🚀 Server active on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server listening on port ${PORT}`));
