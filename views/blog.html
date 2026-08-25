@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog - Parenting Blog</title>
   
-  <!-- Serves your exact CSS file regardless of subfolder path -->
+  <!-- Links to your actual CSS stylesheet -->
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/style.css">
 </head>
@@ -38,15 +38,13 @@
     </div>
   </main>
 
-  <!-- Connects to your existing main.js script -->
+  <!-- Connects your main.js script for mobile menu handling -->
   <script src="/js/main.js"></script>
   <script src="/main.js"></script>
 
-  <!-- Database Article Fetcher -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById('posts-container');
-
       if (container) {
         fetch('/api/posts')
           .then(res => res.json())
@@ -55,7 +53,6 @@
               container.innerHTML = '<p>No posts available yet.</p>';
               return;
             }
-
             container.innerHTML = posts.map(post => `
               <article class="post-card">
                 <h2>${post.title}</h2>
@@ -64,9 +61,8 @@
               </article>
             `).join('');
           })
-          .catch(err => {
-            console.error('Fetch error:', err);
-            container.innerHTML = '<p style="color: red;">Failed to load blog posts. Please refresh.</p>';
+          .catch(() => {
+            container.innerHTML = '<p style="color: red;">Failed to load blog posts.</p>';
           });
       }
     });
