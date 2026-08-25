@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog - Parenting Blog</title>
   
-  <!-- Links to your actual CSS stylesheet -->
+  <!-- Root CSS file links -->
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/style.css">
 </head>
@@ -38,34 +38,8 @@
     </div>
   </main>
 
-  <!-- Connects your main.js script for mobile menu handling -->
+  <!-- Connects to your main.js script -->
   <script src="/js/main.js"></script>
   <script src="/main.js"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const container = document.getElementById('posts-container');
-      if (container) {
-        fetch('/api/posts')
-          .then(res => res.json())
-          .then(posts => {
-            if (!posts || posts.length === 0) {
-              container.innerHTML = '<p>No posts available yet.</p>';
-              return;
-            }
-            container.innerHTML = posts.map(post => `
-              <article class="post-card">
-                <h2>${post.title}</h2>
-                <p>${post.content}</p>
-                <span class="meta">Published: ${new Date(post.created_at).toLocaleDateString()}</span>
-              </article>
-            `).join('');
-          })
-          .catch(() => {
-            container.innerHTML = '<p style="color: red;">Failed to load blog posts.</p>';
-          });
-      }
-    });
-  </script>
 </body>
 </html>
