@@ -94,20 +94,117 @@
     <!-- NEWSLETTER CTA -->
     <section class="homepage-newsletter card">
       <h2>Stop Guessing What to Say to Her</h2>
-      <p>
-        Get the free Conversation Starter Kit — exact words for the moments you feel most stuck — plus one useful parenting email a week.
-      </p>
-      <form class="subscribe-form-inline" action="/subscribe" method="GET">
-        <input type="email" placeholder="Enter your email address" required />
-        <button type="submit" class="btn-primary">Get the Free Kit</button>
-      </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Busnurd Technologies</title>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <style>
+    :root {
+      --terracotta: #8b3a3a;
+      --plum: #4a2c3d;
+      --sage: #5b7065;
+      --off-white: #faf8f5;
+      --card-bg: #ffffff;
+      --text-main: #2b2b2b;
+      --border-color: #e5dfd8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: var(--off-white); color: var(--text-main); line-height: 1.6; }
+
+    header { background: #ffffff; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+    .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; }
+    .logo { font-size: 1.25rem; font-weight: 700; color: var(--terracotta); text-decoration: none; }
+    
+    .nav-menu { display: flex; list-style: none; gap: 1.5rem; }
+    .nav-menu a { text-decoration: none; color: var(--plum); font-weight: 600; transition: color 0.2s; }
+    .nav-menu a:hover, .nav-menu a.active { color: var(--terracotta); }
+
+    .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 26px; height: 20px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 1010; }
+    .hamburger span { width: 100%; height: 3px; background-color: var(--plum); border-radius: 2px; transition: all 0.3s ease; }
+
+    .hero { max-width: 900px; margin: 4rem auto; text-align: center; padding: 0 1.5rem; }
+    .hero h1 { font-size: 2.5rem; color: var(--plum); margin-bottom: 1rem; }
+    .hero p { font-size: 1.15rem; color: var(--sage); margin-bottom: 2rem; }
+    .btn-primary { background: var(--terracotta); color: #fff; padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; }
+    .btn-primary:hover { background: #722e2e; }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+      .hamburger.active span:nth-child(2) { opacity: 0; }
+      .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+      .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #ffffff;
+        padding: 1.25rem 0;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+      .nav-menu.active { display: flex; }
+      .nav-menu li { text-align: center; padding: 0.5rem 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <a href="/" class="logo">Busnurd Technologies</a>
+      
+      <button class="hamburger" id="hamburger-btn" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/resources">Resources</a></li>
+        <li><a href="/subscribe">Subscribe</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Welcome to Busnurd Technologies</h1>
+      <p>Empowering digital solutions, full-stack engineering, and insightful articles.</p>
+      <a href="/blog" class="btn-primary">Explore Our Blog</a>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2026 Teen Girls Parenting. All rights reserved.</p>
-  </footer>
-
   <script src="/js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('hamburger-btn');
+      const menu = document.getElementById('nav-menu');
+      if (btn && menu) {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          btn.classList.toggle('active');
+          menu.classList.toggle('active');
+        });
+        document.addEventListener('click', (e) => {
+          if (!btn.contains(e.target) && !menu.contains(e.target)) {
+            btn.classList.remove('active');
+            menu.classList.remove('active');
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>
