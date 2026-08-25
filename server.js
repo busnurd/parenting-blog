@@ -9,12 +9,12 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static assets cleanly across all folder structures
+// Serve static assets out of public directory
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/css', express.static(path.join(__dirname, 'public', 'css')));
+app.use('/js', express.static(path.join(__dirname, 'public', 'js')));
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'views')));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/css', express.static(path.join(__dirname, 'css')));
-app.use('/js', express.static(path.join(__dirname, 'js')));
 
 // Railway MySQL Connection Pool
 const db = mysql.createPool({
@@ -28,7 +28,7 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-// Auto-Create DB Tables & Seed Initial Article
+// Auto-Create DB Tables & Seed Post
 const initDB = () => {
   const createUsersTable = `CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(50), email VARCHAR(100), password VARCHAR(255));`;
   const createPostsTable = `CREATE TABLE IF NOT EXISTS posts (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255) NOT NULL, content TEXT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);`;
@@ -40,7 +40,7 @@ const initDB = () => {
     if (!err) {
       db.query('SELECT COUNT(*) AS count FROM posts', (err, results) => {
         if (!err && results && results[0].count === 0) {
-          db.query(`INSERT INTO posts (title, content) VALUES ('Welcome to Parenting Blog', 'This is your first live article loaded from Railway MySQL!')`);
+          db.query(`INSERT INTO posts (title, content) VALUES ('Welcome to Busnurd Technologies', 'This is your first live article loaded from Railway MySQL!')`);
         }
       });
     }
