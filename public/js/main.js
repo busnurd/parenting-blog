@@ -1,63 +1,112 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // Mobile Hamburger Toggle
-  const hamburgerBtn = document.getElementById('hamburger-btn');
-  const navLinks = document.getElementById('nav-links');
+/**
+ * Busnurd Technologies - Parenting Blog Main Script
+ * Global UI Handler & Mobile Navigation
+ */
 
-  if (hamburgerBtn && navLinks) {
-    hamburgerBtn.addEventListener('click', () => {
+document.addEventListener('DOMContentLoaded', () => {
+  // ==========================================
+  // 1. Mobile Hamburger Menu Toggle
+  // ==========================================
+  const hamburgerBtn = document.getElementById('hamburger-btn') || document.querySelector('.hamburger');
+  const navMenu = document.getElementById('nav-menu') || document.querySelector('.nav-menu') || document.querySelector('nav ul');
+
+  if (hamburgerBtn && navMenu) {
+    hamburgerBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       hamburgerBtn.classList.toggle('active');
-      navLinks.classList.toggle('active');
+      navMenu.classList.toggle('active');
     });
 
-    document.addEventListener('click', (event) => {
-      if (!hamburgerBtn.contains(event.target) && !navLinks.contains(event.target)) {
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!hamburgerBtn.contains(e.target) && !navMenu.contains(e.target)) {
         hamburgerBtn.classList.remove('active');
-        navLinks.classList.remove('active');
+        navMenu.classList.remove('active');
       }
     });
+
+    // Close menu when tapping a link on mobile
+    navMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburgerBtn.classList.remove('active');
+        navMenu.classList.remove('active');
+      });
+    });
   }
 
-  // Fetch Blog Posts with Resilient Error Handling
-  const postsContainer = document.getElementById('posts-container');
+  // ==========================================
+  // 2. Active Page Link Highlighting
+  // ==========================================
+  const currentPath = window.location.pathname;
+  const navLinks = document.querySelectorAll('nav a, .nav-menu a');
+
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    if (href === currentPath || (currentPath === '/' && href === '/index.html')) {
+      link.classList.add('active');
+    }
+  });
+
+  // ==========================================
+  // 3. Dynamic Blog / Article Fetcher
+  // ==========================================
+  const postsContainer = document.getElementById('posts-container') || document.getElementById('articles-container') || document.querySelector('.articles-list');
+
   if (postsContainer) {
-    fetch('/api/posts')
-      .then((res) => {
-        if (!res.ok) throw new Error('Database connection issue');
-        return res.json();
-      })
-      .then((posts) => {
-        if (!posts || !Array.isArray(posts) || posts.length === 0) {
-          postsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #666;">No articles published yet.</p>';
-          return;
-        }
-
-        postsContainer.innerHTML = posts
-          .map((post) => {
-            const id = post.id || post.post_id || '';
-            const title = post.title || post.post_title || 'Untitled Article';
-            const category = post.category || post.tag || 'ARTICLE';
-            const rawBody = post.excerpt || post.description || post.content || '';
-            const summary = rawBody.replace(/<[^>]*>?/gm, '').substring(0, 120) + '...';
-
-            return `
-              <article class="focus-card card">
-                <span class="resource-tag">${String(category).toUpperCase()}</span>
-                <h3 style="margin-top: 0.5rem; color: var(--color-text);">${title}</h3>
-                <p style="font-size: 0.95rem; color: #555; margin: 0.5rem 0;">${summary}</p>
-                <a href="/blog/${id}" class="text-link">Read article &rarr;</a>
-              </article>
-            `;
-          })
-          .join('');
-      })
-      .catch((err) => {
-        console.warn('API connection failed:', err);
-        postsContainer.innerHTML = `
-          <div style="grid-column: 1/-1; text-align: center; padding: 2.5rem; background: #fff5f5; border: 1px solid #fed7d7; border-radius: 8px;">
-            <p style="color: #c53030; font-weight: 600; margin-bottom: 0.25rem;">Unable to load articles right now.</p>
-            <p style="color: #742a2a; font-size: 0.9rem;">Please check back shortly or verify your MySQL database connection credentials on Vercel/environment setup.</p>
-          </div>
-        `;
-      });
+    fetchBlogPosts(postsContainer);
   }
 });
+
+/**
+ * Fetches published posts from the backend Railway MySQL API
+ * @param {HTMLElement} container 
+ */
+function fetchBlogPosts(container) {
+  fetch('/api/posts')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(posts => {
+      if (!posts || posts.length === 0) {
+        container.innerHTML = `
+          <div class="no-posts" style="text-align: center; padding: 2rem;">
+            <p>No articles published yet. Check back soon!</p>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = posts.map(post => `
+        <article class="post-card">
+          <h2>${escapeHTML(post.title)}</h2>
+          <p>${escapeHTML(post.content)}</p>
+          <span class="meta">Published on ${new Date(post.created_at).toLocaleDateString()}</span>
+        </article>
+      `).join('');
+    })
+    .catch(error => {
+      console.error('Error fetching blog posts:', error);
+      container.innerHTML = `
+        <div class="error-message" style="text-align: center; color: #e53e3e; padding: 2rem;">
+          <p>Unable to load posts right now. Please try refreshing the page.</p>
+        </div>`;
+    });
+}
+
+/**
+ * Utility: Sanitizes input to prevent XSS issues
+ * @param {string} str 
+ * @returns {string}
+ */
+function escapeHTML(str) {
+  if (!str) return '';
+  return str.replace(/[&<>'"]/g, tag => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&#39;',
+    '"': '&quot;'
+  }[tag] || tag));
+}
