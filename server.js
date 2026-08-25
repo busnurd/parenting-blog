@@ -6,14 +6,16 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware & Static Files (Serves everything inside 'views' and root)
+// 1. Parsing Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'views')));
-app.use('/css', express.static(path.join(__dirname, 'views', 'css')));
-app.use('/js', express.static(path.join(__dirname, 'views', 'js')));
 
-// Railway MySQL Connection
+// 2. Static Asset Routes (Serves CSS, JS, Images, and Public files)
+app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// 3. Railway MySQL Connection Pool
 const db = mysql.createPool({
   host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
   user: process.env.MYSQLUSER || process.env.DB_USER || 'root',
@@ -25,7 +27,7 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-// Auto-Create Database Tables & Seed Sample Post
+// 4. Database Schema Setup & Seed Data
 const initDB = () => {
   const createUsersTable = `
     CREATE TABLE IF NOT EXISTS users (
@@ -60,7 +62,7 @@ const initDB = () => {
       console.error('Error creating posts table:', err);
     } else {
       console.log('✅ Posts table ready.');
-      // Seed a test post if empty so articles page displays content
+      // Auto-insert a starter post if empty
       db.query('SELECT COUNT(*) AS count FROM posts', (err, results) => {
         if (!err && results[0].count === 0) {
           const samplePost = `INSERT INTO posts (title, content) VALUES ('Welcome to Parenting Blog', 'This is your first official post on the new Railway database!')`;
@@ -81,32 +83,50 @@ db.getConnection((err, connection) => {
   }
 });
 
-// Page Routes (Serving HTML files from 'views')
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'views', 'index.html')));
-app.get('/about', (req, res) => res.sendFile(path.join(__dirname, 'views', 'about.html')));
-app.get('/resources', (req, res) => res.sendFile(path.join(__dirname, 'views', 'resources.html')));
-app.get('/subscribe', (req, res) => res.sendFile(path.join(__dirname, 'views', 'subscribe.html')));
+// 5. Page HTML Routes
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
 
-// Catch-all route for "View Articles" links (e.g., /articles, /blog, or /posts)
-app.get(['/articles', '/blog', '/posts'], (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'articles.html'), (err) => {
-    if (err) res.sendFile(path.join(__dirname, 'views', 'index.html'));
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'about.html'));
+});
+
+app.get('/resources', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'resources.html'));
+});
+
+app.get('/subscribe', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'subscribe.html'));
+});
+
+// Explicit Blog / Articles Route
+app.get(['/blog', '/articles', '/posts'], (req, res) => {
+  // Checks views/blog.html first, then falls back to views/articles.html
+  res.sendFile(path.join(__dirname, 'views', 'blog.html'), (err) => {
+    if (err) {
+      res.sendFile(path.join(__dirname, 'views', 'articles.html'), (err2) => {
+        if (err2) res.sendFile(path.join(__dirname, 'views', 'index.html'));
+      });
+    }
   });
 });
 
-// API Endpoint for Fetching Posts
+// 6. API Route for Blog Data
 app.get('/api/posts', (req, res) => {
   db.query('SELECT * FROM posts ORDER BY created_at DESC', (err, results) => {
-    if (err) return res.status(500).json({ error: 'Database query failed' });
+    if (err) return res.status(500).json({ error: 'Database error' });
     res.json(results);
   });
 });
 
-// 404 Fallback
+// 7. 404 Route
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, 'views', '404.html'), (err) => {
     if (err) res.status(404).send('<h1>404 - Page Not Found</h1>');
   });
 });
 
-app.listen(PORT, () => console.log(`🚀 Server listening on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`🚀 Server active on port ${PORT}`);
+});
