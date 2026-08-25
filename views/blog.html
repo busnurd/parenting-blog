@@ -5,44 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog - Busnurd Technologies</title>
   
-  <!-- Fallback CSS links for your project setup -->
-  <link rel="stylesheet" href="/css/busnurd.css">
-  <link rel="stylesheet" href="/busnurd.css">
   <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/style.css">
 
-  <!-- Guaranteed Header & Hamburger Styling -->
   <style>
-    /* Inline safety styles so hamburger & layout NEVER disappear */
-    .nav-container, header nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: #ffffff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .hamburger {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      width: 30px;
-      height: 24px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      z-index: 1000;
-    }
-    .hamburger span {
-      width: 100%;
-      height: 3px;
-      background-color: #333;
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
+    /* Inline backup for mobile navigation drawer */
     @media (max-width: 768px) {
-      .nav-menu, .nav-links {
-        display: none;
+      .nav-menu.active, .nav-links.active {
+        display: flex !important;
         flex-direction: column;
         position: absolute;
         top: 60px;
@@ -51,13 +20,7 @@
         background: #ffffff;
         padding: 1rem 0;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      }
-      .nav-menu.active, .nav-links.active {
-        display: flex !important;
-      }
-      .nav-menu li, .nav-links li {
-        text-align: center;
-        padding: 0.75rem 0;
+        z-index: 999;
       }
     }
   </style>
@@ -74,7 +37,7 @@
         <span></span>
       </button>
 
-      <ul class="nav-menu nav-links" id="nav-menu">
+      <ul class="nav-menu" id="nav-menu">
         <li><a href="/">Home</a></li>
         <li><a href="/about">About</a></li>
         <li><a href="/blog">Blog</a></li>
@@ -84,53 +47,13 @@
     </div>
   </header>
 
-  <main class="container" style="max-width: 900px; margin: 2rem auto; padding: 0 1rem;">
+  <main class="container">
     <h1 class="page-title">Latest Articles</h1>
-    <div id="posts-container" class="articles-list">
+    <div id="posts-container">
       <p class="loading-text">Loading posts...</p>
     </div>
   </main>
 
   <script src="/js/main.js"></script>
-  <script src="/main.js"></script>
-
-  <!-- Guaranteed Inline Script for Hamburger and Blog Fetch -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Direct Hamburger Handler
-      const btn = document.getElementById('hamburger-btn') || document.querySelector('.hamburger');
-      const menu = document.getElementById('nav-menu') || document.querySelector('.nav-menu') || document.querySelector('.nav-links');
-      
-      if (btn && menu) {
-        btn.addEventListener('click', () => {
-          menu.classList.toggle('active');
-          btn.classList.toggle('active');
-        });
-      }
-
-      // Direct API Fetcher
-      const container = document.getElementById('posts-container');
-      if (container) {
-        fetch('/api/posts')
-          .then(res => res.json())
-          .then(posts => {
-            if (!posts || posts.length === 0) {
-              container.innerHTML = '<p>No posts available yet.</p>';
-              return;
-            }
-            container.innerHTML = posts.map(post => `
-              <article class="post-card" style="border-bottom: 1px solid #eee; margin-bottom: 1.5rem; padding-bottom: 1rem;">
-                <h2 style="margin-bottom: 0.5rem;">${post.title}</h2>
-                <p style="color: #444; line-height: 1.6;">${post.content}</p>
-                <small style="color: #888;">Published: ${new Date(post.created_at).toLocaleDateString()}</small>
-              </article>
-            `).join('');
-          })
-          .catch(() => {
-            container.innerHTML = '<p>Welcome to our blog updates!</p>';
-          });
-      }
-    });
-  </script>
 </body>
 </html>
