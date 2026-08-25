@@ -5,15 +5,16 @@ require('dotenv').config();
 
 const app = express();
 
-// Dynamic Port for Railway
+// 1. Dynamic Port for Railway
 const PORT = process.env.PORT || 3000;
 
-// Middleware & Static Asset Serving
+// 2. Middleware & Static Asset Serving (views & public)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Railway MySQL Connection Pool
+// 3. Railway MySQL Connection Pool
 const db = mysql.createPool({
   host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
   user: process.env.MYSQLUSER || process.env.DB_USER || 'root',
@@ -25,7 +26,7 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-// Auto-Create Database Schema (users, posts, settings)
+// 4. Auto-Create Schema (users, posts, settings)
 const initDB = () => {
   const createUsersTable = `
     CREATE TABLE IF NOT EXISTS users (
@@ -80,24 +81,24 @@ db.getConnection((err, connection) => {
   }
 });
 
-// Page Routes
+// 5. Page Routes Pointing to 'views'
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
 app.get('/about', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'about.html'));
+  res.sendFile(path.join(__dirname, 'views', 'about.html'));
 });
 
 app.get('/resources', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'resources.html'));
+  res.sendFile(path.join(__dirname, 'views', 'resources.html'));
 });
 
 app.get('/subscribe', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'subscribe.html'));
+  res.sendFile(path.join(__dirname, 'views', 'subscribe.html'));
 });
 
-// API Route for Blog Posts
+// 6. API Route for Fetching Blog Posts
 app.get('/api/posts', (req, res) => {
   db.query('SELECT * FROM posts ORDER BY created_at DESC', (err, results) => {
     if (err) {
@@ -108,13 +109,14 @@ app.get('/api/posts', (req, res) => {
   });
 });
 
-// 404 Route
+// 404 Fallback Route
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'), (err) => {
+  res.status(404).sendFile(path.join(__dirname, 'views', '404.html'), (err) => {
     if (err) res.status(404).send('<h1>404 - Page Not Found</h1>');
   });
 });
 
+// Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Server active on port ${PORT}`);
 });
