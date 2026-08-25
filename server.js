@@ -9,10 +9,12 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static assets from root and views
-app.use(express.static(__dirname));
+// Serve static assets from all project locations
+app.use(express.static(path.join(__dirname)));
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
 
 // Railway MySQL Connection Pool
 const db = mysql.createPool({
@@ -81,18 +83,16 @@ db.getConnection((err, connection) => {
   }
 });
 
-// HTML Page Routes
+// Routes
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'views', 'index.html')));
 app.get('/about', (req, res) => res.sendFile(path.join(__dirname, 'views', 'about.html')));
 app.get('/resources', (req, res) => res.sendFile(path.join(__dirname, 'views', 'resources.html')));
 app.get('/subscribe', (req, res) => res.sendFile(path.join(__dirname, 'views', 'subscribe.html')));
 
-// Direct Route for blog.html
 app.get(['/blog', '/blog.html', '/articles'], (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'blog.html'));
 });
 
-// API Route for Blog Data
 app.get('/api/posts', (req, res) => {
   db.query('SELECT * FROM posts ORDER BY created_at DESC', (err, results) => {
     if (err) return res.status(500).json({ error: 'Database query failed' });
@@ -100,7 +100,6 @@ app.get('/api/posts', (req, res) => {
   });
 });
 
-// 404 Route
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, 'views', '404.html'), (err) => {
     if (err) res.status(404).send('<h1>404 - Page Not Found</h1>');
