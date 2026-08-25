@@ -3,51 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog & Articles - Parenting Blog</title>
+  <title>Blog - Parenting Blog</title>
   
-  <!-- Main Stylesheet Link -->
+  <!-- Links to your local stylesheet -->
   <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 
   <style>
-    /* Mobile-first Layout & Reset */
+    /* Injected CSS Fallback so the layout never breaks */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f8f9fa; color: #333; line-height: 1.6; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f8f9fa; color: #333; line-height: 1.6; }
     
-    header { background: #ffffff; border-bottom: 1px solid #e0e0e0; padding: 1rem; position: sticky; top: 0; z-index: 1000; }
+    header { background: #fff; border-bottom: 1px solid #ddd; padding: 1rem; position: sticky; top: 0; z-index: 1000; }
     .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; }
-    .logo { font-size: 1.25rem; font-weight: bold; color: #2c3e50; text-decoration: none; }
+    .logo { font-size: 1.3rem; font-weight: bold; color: #007bff; text-decoration: none; }
     
-    /* Hamburger Menu Icon */
-    .hamburger { display: flex; flex-direction: column; cursor: pointer; gap: 5px; background: none; border: none; padding: 5px; }
-    .hamburger span { width: 25px; height: 3px; background-color: #333; border-radius: 2px; transition: all 0.3s ease; }
+    .hamburger { display: flex; flex-direction: column; gap: 4px; background: none; border: none; cursor: pointer; padding: 4px; }
+    .hamburger span { width: 25px; height: 3px; background: #333; border-radius: 2px; }
     
-    /* Mobile Nav Overlay */
-    .nav-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: #ffffff; border-bottom: 1px solid #e0e0e0; flex-direction: column; padding: 1rem; list-style: none; }
+    .nav-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: #fff; border-bottom: 1px solid #ddd; flex-direction: column; padding: 1rem; list-style: none; }
     .nav-menu.active { display: flex; }
     .nav-menu li { margin: 0.5rem 0; }
-    .nav-menu a { text-decoration: none; color: #333; font-weight: 500; display: block; padding: 0.5rem; }
-    .nav-menu a:hover { color: #007bff; }
+    .nav-menu a { text-decoration: none; color: #333; font-weight: 500; display: block; }
 
-    /* Desktop Navigation */
     @media (min-width: 768px) {
       .hamburger { display: none; }
       .nav-menu { display: flex !important; position: static; flex-direction: row; border: none; padding: 0; width: auto; }
       .nav-menu li { margin: 0 1rem; }
     }
 
-    /* Container & Cards */
     main { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
-    h1 { font-size: 1.8rem; margin-bottom: 1.5rem; color: #1a202c; text-align: center; }
+    h1 { font-size: 1.8rem; margin-bottom: 1.5rem; text-align: center; color: #222; }
     
-    #articles-container { display: flex; flex-direction: column; gap: 1.5rem; }
-    
-    .article-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
-    .article-card h2 { font-size: 1.3rem; margin-bottom: 0.5rem; color: #2d3748; }
-    .article-card p { color: #4a5568; margin-bottom: 1rem; white-space: pre-line; }
-    .article-card .meta { font-size: 0.85rem; color: #718096; }
-
-    /* Loading Spinner */
-    .loading-state { text-align: center; padding: 2rem; color: #718096; font-size: 1.1rem; }
+    #posts-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .post-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .post-card h2 { font-size: 1.3rem; color: #007bff; margin-bottom: 0.5rem; }
+    .post-card p { color: #555; white-space: pre-line; margin-bottom: 1rem; }
+    .post-card .meta { font-size: 0.85rem; color: #888; }
+    .loading-text { text-align: center; color: #666; padding: 2rem; }
   </style>
 </head>
 <body>
@@ -56,7 +49,7 @@
     <div class="nav-container">
       <a href="/" class="logo">Parenting Blog</a>
       
-      <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu">
+      <button class="hamburger" id="hamburger-btn" aria-label="Toggle Navigation">
         <span></span>
         <span></span>
         <span></span>
@@ -65,7 +58,7 @@
       <ul class="nav-menu" id="nav-menu">
         <li><a href="/">Home</a></li>
         <li><a href="/about">About</a></li>
-        <li><a href="/articles">Articles</a></li>
+        <li><a href="/blog">Blog</a></li>
         <li><a href="/resources">Resources</a></li>
         <li><a href="/subscribe">Subscribe</a></li>
       </ul>
@@ -73,16 +66,15 @@
   </header>
 
   <main>
-    <h1>Latest Articles</h1>
-    
-    <div id="articles-container">
-      <div class="loading-state">Loading articles...</div>
+    <h1>Latest Blog Posts</h1>
+    <div id="posts-container">
+      <div class="loading-text">Loading posts...</div>
     </div>
   </main>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. Mobile Navigation Toggle Logic
+      // Mobile Navigation Toggle
       const hamburger = document.getElementById('hamburger-btn');
       const navMenu = document.getElementById('nav-menu');
 
@@ -92,39 +84,29 @@
         });
       }
 
-      // 2. Fetch Blog Posts from Express / MySQL Backend
-      const container = document.getElementById('articles-container');
+      // Fetch Blog Posts from API
+      const container = document.getElementById('posts-container');
 
       fetch('/api/posts')
-        .then(response => {
-          if (!response.ok) throw new Error('Network error fetching posts');
-          return response.json();
-        })
-        .then(data => {
-          if (!data || data.length === 0) {
-            container.innerHTML = '<p class="loading-state">No articles published yet. Check back soon!</p>';
+        .then(res => res.json())
+        .then(posts => {
+          if (!posts || posts.length === 0) {
+            container.innerHTML = '<div class="loading-text">No posts available yet.</div>';
             return;
           }
 
-          container.innerHTML = data.map(post => `
-            <article class="article-card">
-              <h2>${escapeHTML(post.title)}</h2>
-              <p>${escapeHTML(post.content)}</p>
-              <div class="meta">Published on ${new Date(post.created_at).toLocaleDateString()}</div>
+          container.innerHTML = posts.map(post => `
+            <article class="post-card">
+              <h2>${post.title}</h2>
+              <p>${post.content}</p>
+              <div class="meta">Published: ${new Date(post.created_at).toLocaleDateString()}</div>
             </article>
           `).join('');
         })
-        .catch(error => {
-          console.error('Fetch error:', error);
-          container.innerHTML = '<p class="loading-state" style="color: #e53e3e;">Unable to load articles right now. Please try refreshing.</p>';
+        .catch(err => {
+          console.error(err);
+          container.innerHTML = '<div class="loading-text" style="color: red;">Failed to load blog posts.</div>';
         });
-
-      // Helper function to prevent HTML injection
-      function escapeHTML(str) {
-        return str ? str.replace(/[&<>'"]/g, 
-          tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-        ) : '';
-      }
     });
   </script>
 </body>
