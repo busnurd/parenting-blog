@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static assets out of public directory
+// Serve static assets out of public & root directory
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/css', express.static(path.join(__dirname, 'public', 'css')));
 app.use('/js', express.static(path.join(__dirname, 'public', 'js')));
@@ -28,7 +28,7 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-// Auto-Create DB Tables & Seed Post
+// Auto-Create DB Tables & Seed Sample Post if empty
 const initDB = () => {
   const createUsersTable = `CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(50), email VARCHAR(100), password VARCHAR(255));`;
   const createPostsTable = `CREATE TABLE IF NOT EXISTS posts (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255) NOT NULL, content TEXT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);`;
@@ -48,7 +48,10 @@ const initDB = () => {
 };
 
 db.getConnection((err, connection) => {
-  if (!err) {
+  if (err) {
+    console.error('❌ Database Connection Error:', err.message);
+  } else {
+    console.log('✅ Connected to Railway MySQL database successfully.');
     connection.release();
     initDB();
   }
@@ -61,10 +64,14 @@ app.get('/resources', (req, res) => res.sendFile(path.join(__dirname, 'views', '
 app.get('/subscribe', (req, res) => res.sendFile(path.join(__dirname, 'views', 'subscribe.html')));
 app.get(['/blog', '/blog.html'], (req, res) => res.sendFile(path.join(__dirname, 'views', 'blog.html')));
 
-// API Route for Blog Posts
+// API Route: Live Fetch of Blog Posts for frontend polling
 app.get('/api/posts', (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
   db.query('SELECT * FROM posts ORDER BY created_at DESC', (err, results) => {
-    if (err) return res.status(500).json({ error: 'Database query failed' });
+    if (err) {
+      console.error('Error querying posts:', err);
+      return res.status(500).json({ error: 'Database query failed' });
+    }
     res.json(results || []);
   });
 });
