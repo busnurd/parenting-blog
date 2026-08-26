@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - Busnurd Technologies</title>
-  
+  <title>Teen Girls Parenting | Real Guidance for Raising Confident Teen Daughters</title>
+  <meta name="description" content="Research-backed parenting guidance from someone who spent five years as the trusted adult teenage girls actually talked to. Recognized by UNESCO. Free weekly insights.">
+
   <style>
     :root {
       --terracotta: #8b3a3a;
@@ -20,11 +21,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background-color: var(--off-white); color: var(--text-main); line-height: 1.6; }
 
-    /* Navigation Header */
+    /* Header & Navigation */
     header { background: #ffffff; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
     .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; position: relative; }
     .logo { font-size: 1.25rem; font-weight: 700; color: var(--terracotta); text-decoration: none; }
-    
+
     .nav-menu { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
     .nav-menu a { text-decoration: none; color: var(--plum); font-weight: 600; transition: color 0.2s; padding: 0.5rem; }
     .nav-menu a:hover, .nav-menu a.active { color: var(--terracotta); }
@@ -32,26 +33,63 @@
     .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 26px; height: 20px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 2010; }
     .hamburger span { width: 100%; height: 3px; background-color: var(--plum); border-radius: 2px; transition: all 0.3s ease; }
 
-    /* Page Sections */
-    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
-    
-    .hero { text-align: center; padding: 3rem 1rem; max-width: 800px; margin: 0 auto 3rem auto; }
-    .hero h1 { font-size: 2.75rem; color: var(--plum); margin-bottom: 1rem; line-height: 1.2; }
-    .hero p { font-size: 1.2rem; color: var(--sage); margin-bottom: 2rem; }
-    
-    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .btn-primary { background: var(--terracotta); color: #ffffff; padding: 0.8rem 1.75rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block; transition: background 0.2s; }
+    /* Page Layout */
+    .homepage { max-width: 1000px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+
+    /* Hero Section */
+    .hero { text-align: center; padding: 2rem 0 3rem; max-width: 800px; margin: 0 auto; }
+    .hero h1 { font-size: 2.5rem; color: var(--plum); margin-bottom: 1rem; line-height: 1.2; }
+    .hero-subhead { font-size: 1.15rem; color: var(--sage); margin-bottom: 2rem; }
+    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* Buttons & Links */
+    .btn-primary { background: var(--terracotta); color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; border: none; cursor: pointer; display: inline-block; }
     .btn-primary:hover { background: #722e2e; }
-    .btn-secondary { background: transparent; color: var(--plum); border: 2px solid var(--plum); padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block; }
+    .btn-secondary { background: transparent; color: var(--plum); border: 2px solid var(--plum); padding: 0.7rem 1.4rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block; }
     .btn-secondary:hover { background: var(--plum); color: #ffffff; }
+    .text-link { color: var(--terracotta); font-weight: 600; text-decoration: none; }
+    .text-link:hover { text-decoration: underline; }
 
-    /* Features / Cards Grid */
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-    .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 1.75rem; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
-    .card h3 { color: var(--terracotta); font-size: 1.25rem; margin-bottom: 0.75rem; }
-    .card p { color: var(--text-main); font-size: 0.95rem; }
+    /* Trust Block */
+    .homepage-trust-block { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 2rem; margin-bottom: 3.5rem; display: flex; gap: 2rem; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+    .trust-block-photo { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 3px solid var(--border-color); }
+    .trust-block-content h2 { color: var(--plum); font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .trust-block-content p { color: var(--text-main); margin-bottom: 1rem; }
 
-    /* Responsive Header & Navigation */
+    /* Focus Areas */
+    .focus-areas { margin-bottom: 3.5rem; }
+    .focus-areas h2 { color: var(--plum); font-size: 1.75rem; margin-bottom: 0.5rem; text-align: center; }
+    .focus-areas > p { text-align: center; color: var(--sage); margin-bottom: 2rem; }
+    .focus-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .focus-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 1.75rem; display: flex; flex-direction: column; align-items: flex-start; }
+    .icon-circle { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; margin-bottom: 1rem; }
+    .icon-circle--terracotta { background-color: var(--terracotta); }
+    .icon-circle--plum { background-color: var(--plum); }
+    .icon-circle--sage { background-color: var(--sage); }
+    .focus-card h3 { color: var(--plum); font-size: 1.25rem; margin-bottom: 0.5rem; }
+    .focus-card p { color: var(--text-main); font-size: 0.95rem; margin-bottom: 1.25rem; flex-grow: 1; }
+    
+    /* Resource Tag */
+    .resource-tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 0.25rem 0.6rem; border-radius: 4px; background: var(--off-white); color: var(--sage); border: 1px solid var(--border-color); }
+
+    /* Recent Articles */
+    .recent-articles { margin-bottom: 3.5rem; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .section-header h2 { color: var(--plum); font-size: 1.75rem; }
+    .article-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .post-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 1.5rem; }
+    .post-card h3 { color: var(--terracotta); font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .post-card p { color: var(--text-main); font-size: 0.95rem; margin-bottom: 1rem; }
+    .post-card .meta { font-size: 0.85rem; color: var(--sage); }
+
+    /* Newsletter CTA */
+    .homepage-newsletter { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 2.5rem 2rem; text-align: center; max-width: 750px; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+    .homepage-newsletter h2 { color: var(--plum); font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .homepage-newsletter p { color: var(--text-main); margin-bottom: 1.5rem; }
+    .subscribe-form-inline { display: flex; gap: 0.75rem; justify-content: center; max-width: 500px; margin: 0 auto; }
+    .subscribe-form-inline input[type="email"] { flex-grow: 1; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.95rem; }
+
+    /* Mobile Drawer */
     @media (max-width: 768px) {
       .hamburger { display: flex; }
       .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
@@ -71,10 +109,12 @@
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
         z-index: 2000;
       }
-
       .nav-menu.active { display: flex !important; }
       .nav-menu li { text-align: center; width: 100%; }
       .nav-menu li a { width: 100%; display: block; padding: 0.85rem 0; font-size: 1.1rem; }
+
+      .homepage-trust-block { flex-direction: column; text-align: center; }
+      .subscribe-form-inline { flex-direction: column; }
     }
   </style>
 </head>
@@ -100,48 +140,106 @@
     </div>
   </header>
 
-  <main class="container">
+  <main class="homepage">
+
+    <!-- HERO -->
     <section class="hero">
-      <h1>Building Modern Web Applications & Software Solutions</h1>
-      <p>Welcome to Busnurd Technologies. We focus on scalable backend architecture, full-stack web platforms, and insightful digital resources.</p>
-      <div class="cta-buttons">
-        <a href="/blog" class="btn-primary">Read Our Blog</a>
-        <a href="/about" class="btn-secondary">Learn About Us</a>
+      <h1>Thoughtful Guidance for Raising Teenage Daughters</h1>
+      <p class="hero-subhead">
+        Real mentorship experience and research-backed insights to help you
+        understand, connect with, and raise a confident, resilient daughter.
+      </p>
+      <div class="hero-buttons">
+        <a href="/blog" class="btn-primary">Explore Articles</a>
+        <a href="/resources" class="btn-secondary">View Resources</a>
       </div>
     </section>
 
-    <section>
-      <div class="grid">
-        <div class="card">
-          <h3>Full-Stack Engineering</h3>
-          <p>Designing modern, reliable web applications powered by Node.js, Express, and cloud database infrastructure.</p>
-        </div>
-        <div class="card">
-          <h3>Technical Writing & Blog</h3>
-          <p>Check out our regularly updated articles on software development, web tools, and technology trends.</p>
-        </div>
-        <div class="card">
-          <h3>Developer Resources</h3>
-          <p>Explore curated guides, toolkits, and project updates maintained by the Busnurd team.</p>
-        </div>
+    <!-- TRUST BLOCK -->
+    <section class="homepage-trust-block">
+      <img src="founder-photo.webp"
+           alt="Busari Nurudeen Olayemi, founder of Teen Girls Parenting"
+           class="trust-block-photo" />
+      <div class="trust-block-content">
+        <h2>Written by Someone Who's Actually Done This</h2>
+        <p>
+          Recognized by UNESCO and the Goi Peace Foundation for mentoring
+          teenage girls to international recognition. Five years as the
+          adult hundreds of girls chose to confide in — not theory, real
+          experience, backed by real research.
+        </p>
+        <a href="/about" class="text-link">Read the full story →</a>
       </div>
     </section>
+
+    <!-- CORE FOCUS AREAS -->
+    <section class="focus-areas">
+      <h2>What We Focus On</h2>
+      <p>Core pillars designed to support you through every stage of raising a teenage daughter.</p>
+
+      <div class="focus-grid">
+        <article class="focus-card">
+          <span class="icon-circle icon-circle--terracotta">1</span>
+          <h3>Understanding Her World</h3>
+          <p>Anxiety, body image, and the pressures she carries but rarely says out loud.</p>
+          <span class="resource-tag">Emotional Wellbeing</span>
+        </article>
+
+        <article class="focus-card">
+          <span class="icon-circle icon-circle--plum">2</span>
+          <h3>Digital Wellness</h3>
+          <p>Balanced strategies for screen time, social comparison, and healthy tech habits.</p>
+          <span class="resource-tag">Media & Safety</span>
+        </article>
+
+        <article class="focus-card">
+          <span class="icon-circle icon-circle--sage">3</span>
+          <h3>Rebuilding Connection</h3>
+          <p>Real communication tools for when she goes quiet or pulls away.</p>
+          <span class="resource-tag">Relationships</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- RECENT ARTICLES -->
+    <section class="recent-articles">
+      <div class="section-header">
+        <h2>Latest Articles</h2>
+        <a href="/blog" class="text-link">View All Articles →</a>
+      </div>
+      <div class="article-grid" id="recent-articles-grid">
+        <p style="color: var(--sage);">Loading latest articles...</p>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER / LEAD MAGNET CTA -->
+    <section class="homepage-newsletter">
+      <h2>Stop Guessing What to Say to Her</h2>
+      <p>
+        Get the free Conversation Starter Kit — exact words for the moments
+        you feel most stuck — plus one useful parenting email a week.
+      </p>
+      <form class="subscribe-form-inline" action="/subscribe" method="GET">
+        <input type="email" name="email" placeholder="Enter your email address" required />
+        <button type="submit" class="btn-primary">Get the Free Kit</button>
+      </form>
+    </section>
+
   </main>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Mobile Drawer Toggle Logic
       const btn = document.getElementById('hamburger-btn');
       const menu = document.getElementById('nav-menu');
       
       if (btn && menu) {
-        // Toggle mobile menu visibility
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
           btn.classList.toggle('active');
           menu.classList.toggle('active');
         });
 
-        // Close when clicking outside of the header navigation
         document.addEventListener('click', (e) => {
           if (!btn.contains(e.target) && !menu.contains(e.target)) {
             btn.classList.remove('active');
@@ -149,18 +247,47 @@
           }
         });
 
-        // Ensure links navigate directly when tapped
         const links = menu.querySelectorAll('a');
         links.forEach(link => {
-          link.addEventListener('click', (e) => {
-            const targetUrl = link.getAttribute('href');
-            if (targetUrl) {
-              window.location.href = targetUrl;
-            }
+          link.addEventListener('click', () => {
+            btn.classList.remove('active');
+            menu.classList.remove('active');
           });
         });
       }
+
+      // Dynamic Article Fetch from Database
+      const grid = document.getElementById('recent-articles-grid');
+      if (grid) {
+        fetch('/api/posts')
+          .then(res => res.json())
+          .then(posts => {
+            if (!posts || posts.length === 0) {
+              grid.innerHTML = '<p style="color: var(--sage);">No published articles found.</p>';
+              return;
+            }
+            // Render 3 most recent articles
+            const recent = posts.slice(0, 3);
+            grid.innerHTML = recent.map(post => `
+              <article class="post-card">
+                <h3><a href="/blog" class="text-link">${escapeHTML(post.title)}</a></h3>
+                <p>${escapeHTML(post.content ? post.content.substring(0, 120) + '...' : '')}</p>
+                <span class="meta">${new Date(post.created_at).toLocaleDateString()}</span>
+              </article>
+            `).join('');
+          })
+          .catch(() => {
+            grid.innerHTML = '<p style="color: var(--sage);">Unable to load recent articles at this time.</p>';
+          });
+      }
     });
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return str.replace(/[&<>'"]/g, tag => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+      }[tag] || tag));
+    }
   </script>
 </body>
 </html>
