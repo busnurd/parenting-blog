@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home - Busnurd Technologies</title>
-  <link rel="stylesheet" href="/css/style.css">
-
+  
   <style>
     :root {
       --terracotta: #8b3a3a;
@@ -15,28 +14,44 @@
       --card-bg: #ffffff;
       --text-main: #2b2b2b;
       --border-color: #e5dfd8;
+      --radius: 8px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background-color: var(--off-white); color: var(--text-main); line-height: 1.6; }
 
+    /* Navigation Header */
     header { background: #ffffff; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
     .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; position: relative; }
     .logo { font-size: 1.25rem; font-weight: 700; color: var(--terracotta); text-decoration: none; }
     
-    .nav-menu { display: flex; list-style: none; gap: 1.5rem; }
-    .nav-menu a { text-decoration: none; color: var(--plum); font-weight: 600; transition: color 0.2s; display: block; padding: 0.5rem; }
+    .nav-menu { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
+    .nav-menu a { text-decoration: none; color: var(--plum); font-weight: 600; transition: color 0.2s; padding: 0.5rem; }
     .nav-menu a:hover, .nav-menu a.active { color: var(--terracotta); }
 
-    .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 26px; height: 20px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 1010; }
+    .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 26px; height: 20px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 2010; }
     .hamburger span { width: 100%; height: 3px; background-color: var(--plum); border-radius: 2px; transition: all 0.3s ease; }
 
-    .hero { max-width: 900px; margin: 4rem auto; text-align: center; padding: 0 1.5rem; }
-    .hero h1 { font-size: 2.5rem; color: var(--plum); margin-bottom: 1rem; }
-    .hero p { font-size: 1.15rem; color: var(--sage); margin-bottom: 2rem; }
-    .btn-primary { background: var(--terracotta); color: #fff; padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; }
+    /* Page Sections */
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+    
+    .hero { text-align: center; padding: 3rem 1rem; max-width: 800px; margin: 0 auto 3rem auto; }
+    .hero h1 { font-size: 2.75rem; color: var(--plum); margin-bottom: 1rem; line-height: 1.2; }
+    .hero p { font-size: 1.2rem; color: var(--sage); margin-bottom: 2rem; }
+    
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--terracotta); color: #ffffff; padding: 0.8rem 1.75rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block; transition: background 0.2s; }
     .btn-primary:hover { background: #722e2e; }
+    .btn-secondary { background: transparent; color: var(--plum); border: 2px solid var(--plum); padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block; }
+    .btn-secondary:hover { background: var(--plum); color: #ffffff; }
 
+    /* Features / Cards Grid */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+    .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 1.75rem; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+    .card h3 { color: var(--terracotta); font-size: 1.25rem; margin-bottom: 0.75rem; }
+    .card p { color: var(--text-main); font-size: 0.95rem; }
+
+    /* Responsive Header & Navigation */
     @media (max-width: 768px) {
       .hamburger { display: flex; }
       .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
@@ -52,13 +67,14 @@
         width: 100%;
         background: #ffffff;
         padding: 1rem 0;
-        border-bottom: 1px solid var(--border-color);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        z-index: 1005;
+        border-bottom: 2px solid var(--border-color);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        z-index: 2000;
       }
-      .nav-menu.active { display: flex; }
+
+      .nav-menu.active { display: flex !important; }
       .nav-menu li { text-align: center; width: 100%; }
-      .nav-menu li a { width: 100%; padding: 0.75rem 0; }
+      .nav-menu li a { width: 100%; display: block; padding: 0.85rem 0; font-size: 1.1rem; }
     }
   </style>
 </head>
@@ -84,29 +100,48 @@
     </div>
   </header>
 
-  <main>
+  <main class="container">
     <section class="hero">
-      <h1>Welcome to Busnurd Technologies</h1>
-      <p>Empowering digital solutions, full-stack engineering, and insightful articles.</p>
-      <a href="/blog" class="btn-primary">Explore Our Blog</a>
+      <h1>Building Modern Web Applications & Software Solutions</h1>
+      <p>Welcome to Busnurd Technologies. We focus on scalable backend architecture, full-stack web platforms, and insightful digital resources.</p>
+      <div class="cta-buttons">
+        <a href="/blog" class="btn-primary">Read Our Blog</a>
+        <a href="/about" class="btn-secondary">Learn About Us</a>
+      </div>
+    </section>
+
+    <section>
+      <div class="grid">
+        <div class="card">
+          <h3>Full-Stack Engineering</h3>
+          <p>Designing modern, reliable web applications powered by Node.js, Express, and cloud database infrastructure.</p>
+        </div>
+        <div class="card">
+          <h3>Technical Writing & Blog</h3>
+          <p>Check out our regularly updated articles on software development, web tools, and technology trends.</p>
+        </div>
+        <div class="card">
+          <h3>Developer Resources</h3>
+          <p>Explore curated guides, toolkits, and project updates maintained by the Busnurd team.</p>
+        </div>
+      </div>
     </section>
   </main>
 
-  <script src="/js/main.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const btn = document.getElementById('hamburger-btn');
       const menu = document.getElementById('nav-menu');
       
       if (btn && menu) {
-        // Toggle mobile drawer on button click
+        // Toggle mobile menu visibility
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
           btn.classList.toggle('active');
           menu.classList.toggle('active');
         });
 
-        // Close menu when tapping outside
+        // Close when clicking outside of the header navigation
         document.addEventListener('click', (e) => {
           if (!btn.contains(e.target) && !menu.contains(e.target)) {
             btn.classList.remove('active');
@@ -114,12 +149,14 @@
           }
         });
 
-        // Ensure links close drawer and trigger navigation instantly
-        const navLinks = menu.querySelectorAll('a');
-        navLinks.forEach(link => {
-          link.addEventListener('click', () => {
-            btn.classList.remove('active');
-            menu.classList.remove('active');
+        // Ensure links navigate directly when tapped
+        const links = menu.querySelectorAll('a');
+        links.forEach(link => {
+          link.addEventListener('click', (e) => {
+            const targetUrl = link.getAttribute('href');
+            if (targetUrl) {
+              window.location.href = targetUrl;
+            }
           });
         });
       }
