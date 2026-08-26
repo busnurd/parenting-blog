@@ -5,16 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog - Busnurd Technologies</title>
   
-  <!-- Complete Embedded Design System (Guaranteed Styles) -->
   <style>
     :root {
-      --primary-color: #2563eb;
-      --primary-hover: #1d4ed8;
-      --text-main: #1e293b;
-      --text-muted: #64748b;
-      --bg-light: #f8fafc;
+      --terracotta: #8b3a3a;
+      --plum: #4a2c3d;
+      --sage: #5b7065;
+      --off-white: #faf8f5;
       --card-bg: #ffffff;
-      --border-color: #e2e8f0;
+      --text-main: #2b2b2b;
+      --border-color: #e5dfd8;
       --radius: 8px;
     }
 
@@ -22,11 +21,11 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
-      background-color: var(--bg-light);
+      background-color: var(--off-white);
       color: var(--text-main);
       line-height: 1.6;
     }
@@ -46,12 +45,13 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 1.5rem;
+      position: relative;
     }
 
     .logo {
       font-size: 1.25rem;
       font-weight: 700;
-      color: var(--primary-color);
+      color: var(--terracotta);
       text-decoration: none;
     }
 
@@ -63,14 +63,16 @@
 
     .nav-menu a {
       text-decoration: none;
-      color: var(--text-main);
-      font-weight: 500;
+      color: var(--plum);
+      font-weight: 600;
       transition: color 0.2s ease;
+      display: block;
+      padding: 0.5rem;
     }
 
     .nav-menu a:hover,
     .nav-menu a.active {
-      color: var(--primary-color);
+      color: var(--terracotta);
     }
 
     .hamburger {
@@ -89,7 +91,7 @@
     .hamburger span {
       width: 100%;
       height: 3px;
-      background-color: var(--text-main);
+      background-color: var(--plum);
       border-radius: 2px;
       transition: all 0.3s ease;
     }
@@ -100,10 +102,38 @@
       padding: 0 1.5rem;
     }
 
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
     .page-title {
       font-size: 2rem;
-      margin-bottom: 1.5rem;
-      color: var(--text-main);
+      color: var(--plum);
+    }
+
+    .live-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--sage);
+      background: #eef2f0;
+      padding: 0.3rem 0.6rem;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .live-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background-color: #22c55e;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
     }
 
     #posts-container {
@@ -117,28 +147,28 @@
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
       padding: 1.5rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .post-card h2 {
       font-size: 1.35rem;
       margin-bottom: 0.75rem;
-      color: var(--text-main);
+      color: var(--terracotta);
     }
 
     .post-card p {
-      color: var(--text-muted);
+      color: var(--text-main);
       margin-bottom: 1rem;
       white-space: pre-line;
     }
 
     .post-card .meta {
       font-size: 0.85rem;
-      color: #94a3b8;
+      color: var(--sage);
       font-weight: 500;
     }
 
-    /* Mobile Responsive Header Drawer */
     @media (max-width: 768px) {
       .hamburger {
         display: flex;
@@ -162,9 +192,10 @@
         left: 0;
         width: 100%;
         background: #ffffff;
-        padding: 1.25rem 0;
+        padding: 1rem 0;
         border-bottom: 1px solid var(--border-color);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        z-index: 1005;
       }
 
       .nav-menu.active {
@@ -173,7 +204,12 @@
 
       .nav-menu li {
         text-align: center;
-        padding: 0.5rem 0;
+        width: 100%;
+      }
+
+      .nav-menu li a {
+        width: 100%;
+        padding: 0.75rem 0;
       }
     }
   </style>
@@ -201,16 +237,19 @@
   </header>
 
   <main class="container">
-    <h1 class="page-title">Latest Articles</h1>
+    <div class="page-header">
+      <h1 class="page-title">Latest Articles</h1>
+      <span class="live-badge">Live Updates Active</span>
+    </div>
+    
     <div id="posts-container">
-      <p class="loading-text" style="color: var(--text-muted);">Loading posts...</p>
+      <p class="loading-text" style="color: var(--sage);">Loading posts from database...</p>
     </div>
   </main>
 
-  <!-- Self-contained JS Logic for Nav and Posts -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. Mobile Menu Toggle
+      // 1. Mobile Hamburger Menu Toggle
       const hamburgerBtn = document.getElementById('hamburger-btn');
       const navMenu = document.getElementById('nav-menu');
 
@@ -227,38 +266,61 @@
             navMenu.classList.remove('active');
           }
         });
+
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            hamburgerBtn.classList.remove('active');
+            navMenu.classList.remove('active');
+          });
+        });
       }
 
-      // 2. Dynamic Blog Post Fetching
+      // 2. Dynamic & Live Blog Post Polling
       const container = document.getElementById('posts-container');
-      if (container) {
+      let cachedPostHash = '';
+
+      function loadPosts() {
         fetch('/api/posts')
           .then(res => {
-            if (!res.ok) throw new Error('API request failed');
+            if (!res.ok) throw new Error('Failed to reach database API');
             return res.json();
           })
           .then(posts => {
             if (!posts || posts.length === 0) {
-              container.innerHTML = '<p style="color: var(--text-muted);">No posts published yet.</p>';
+              container.innerHTML = '<p style="color: var(--sage);">No posts available in database yet.</p>';
               return;
             }
+
+            // Create simple fingerprint to avoid unnecessary DOM re-renders
+            const currentHash = JSON.stringify(posts);
+            if (currentHash === cachedPostHash) return;
+            cachedPostHash = currentHash;
+
             container.innerHTML = posts.map(post => `
               <article class="post-card">
                 <h2>${escapeHTML(post.title)}</h2>
                 <p>${escapeHTML(post.content)}</p>
-                <span class="meta">Published on ${new Date(post.created_at).toLocaleDateString()}</span>
+                <span class="meta">Published on ${new Date(post.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>
               </article>
             `).join('');
           })
-          .catch(() => {
-            container.innerHTML = `
-              <article class="post-card">
-                <h2>Welcome to Busnurd Technologies</h2>
-                <p>Explore our latest insights, development updates, and technical resources. Check back soon for new articles!</p>
-                <span class="meta">Published on ${new Date().toLocaleDateString()}</span>
-              </article>`;
+          .catch(err => {
+            console.error('Database fetch error:', err);
+            if (!cachedPostHash) {
+              container.innerHTML = `
+                <article class="post-card">
+                  <h2>Welcome to Busnurd Technologies</h2>
+                  <p>Unable to sync live posts currently. Retrying database connection...</p>
+                  <span class="meta">Status: Offline Mode</span>
+                </article>`;
+            }
           });
       }
+
+      // Initial Load + Auto Polling every 10 seconds for live database updates
+      loadPosts();
+      setInterval(loadPosts, 10000);
     });
 
     function escapeHTML(str) {
@@ -273,4 +335,4 @@
     }
   </script>
 </body>
-</html>
+  </html>
