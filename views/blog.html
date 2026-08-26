@@ -3,76 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog - Busnurd Technologies</title>
-  
+  <title>Blog | Teen Girls Parenting — Insights & Articles</title>
+  <meta name="description" content="Read articles on parenting teenage girls, understanding adolescent mental health, screen time boundaries, and building strong family connections.">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/css/style.css">
   <style>
-    :root {
-      --terracotta: #8b3a3a;
-      --plum: #4a2c3d;
-      --sage: #5b7065;
-      --off-white: #faf8f5;
-      --card-bg: #ffffff;
-      --text-main: #2b2b2b;
-      --border-color: #e5dfd8;
-      --radius: 8px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
-    body {
-      background-color: var(--off-white);
-      color: var(--text-main);
-      line-height: 1.6;
-    }
-
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .nav-container {
-      max-width: 1100px;
-      margin: 0 auto;
+    /* Mobile Navigation & Hamburger Menu Styles */
+    .navbar {
+      position: relative;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 1.5rem;
-      position: relative;
-    }
-
-    .logo {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--terracotta);
-      text-decoration: none;
-    }
-
-    .nav-menu {
-      display: flex;
-      list-style: none;
-      gap: 1.5rem;
-    }
-
-    .nav-menu a {
-      text-decoration: none;
-      color: var(--plum);
-      font-weight: 600;
-      transition: color 0.2s ease;
-      display: block;
-      padding: 0.5rem;
-    }
-
-    .nav-menu a:hover,
-    .nav-menu a.active {
-      color: var(--terracotta);
     }
 
     .hamburger {
@@ -85,88 +26,15 @@
       border: none;
       cursor: pointer;
       padding: 0;
-      z-index: 1010;
+      z-index: 2010;
     }
 
     .hamburger span {
       width: 100%;
       height: 3px;
-      background-color: var(--plum);
+      background-color: var(--plum, #4a2c3d);
       border-radius: 2px;
       transition: all 0.3s ease;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 2.5rem auto;
-      padding: 0 1.5rem;
-    }
-
-    .page-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .page-title {
-      font-size: 2rem;
-      color: var(--plum);
-    }
-
-    .live-badge {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--sage);
-      background: #eef2f0;
-      padding: 0.3rem 0.6rem;
-      border-radius: 12px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .live-badge::before {
-      content: '';
-      width: 8px;
-      height: 8px;
-      background-color: #22c55e;
-      border-radius: 50%;
-      display: inline-block;
-      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
-    }
-
-    #posts-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .post-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .post-card h2 {
-      font-size: 1.35rem;
-      margin-bottom: 0.75rem;
-      color: var(--terracotta);
-    }
-
-    .post-card p {
-      color: var(--text-main);
-      margin-bottom: 1rem;
-      white-space: pre-line;
-    }
-
-    .post-card .meta {
-      font-size: 0.85rem;
-      color: var(--sage);
-      font-weight: 500;
     }
 
     @media (max-width: 768px) {
@@ -177,14 +45,16 @@
       .hamburger.active span:nth-child(1) {
         transform: translateY(8px) rotate(45deg);
       }
+
       .hamburger.active span:nth-child(2) {
         opacity: 0;
       }
+
       .hamburger.active span:nth-child(3) {
         transform: translateY(-9px) rotate(-45deg);
       }
 
-      .nav-menu {
+      .nav-links {
         display: none;
         flex-direction: column;
         position: absolute;
@@ -193,146 +63,128 @@
         width: 100%;
         background: #ffffff;
         padding: 1rem 0;
-        border-bottom: 1px solid var(--border-color);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        z-index: 1005;
+        border-bottom: 2px solid var(--border-color, #e5dfd8);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        z-index: 2000;
       }
 
-      .nav-menu.active {
-        display: flex;
+      .nav-links.active {
+        display: flex !important;
       }
 
-      .nav-menu li {
+      .nav-links li {
         text-align: center;
         width: 100%;
       }
 
-      .nav-menu li a {
+      .nav-links li a {
         width: 100%;
-        padding: 0.75rem 0;
+        display: block;
+        padding: 0.85rem 0;
+        font-size: 1.1rem;
       }
     }
   </style>
 </head>
 <body>
-
   <header>
-    <div class="nav-container">
-      <a href="/" class="logo">Busnurd Technologies</a>
-      
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/">
+          <img src="/Teen Girls Parenting Logo.webp" alt="Parenting Blog Logo">
+        </a>
+      </div>
+
       <button class="hamburger" id="hamburger-btn" aria-label="Toggle Navigation">
         <span></span>
         <span></span>
         <span></span>
       </button>
 
-      <ul class="nav-menu" id="nav-menu">
+      <ul class="nav-links" id="nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
         <li><a href="/blog" class="active">Blog</a></li>
+        <li><a href="/about">About</a></li>
         <li><a href="/resources">Resources</a></li>
         <li><a href="/subscribe">Subscribe</a></li>
       </ul>
-    </div>
+    </nav>
   </header>
 
-  <main class="container">
-    <div class="page-header">
-      <h1 class="page-title">Latest Articles</h1>
-      <span class="live-badge">Live Updates Active</span>
-    </div>
-    
-    <div id="posts-container">
-      <p class="loading-text" style="color: var(--sage);">Loading posts from database...</p>
-    </div>
+  <main class="blog-page container">
+    <section class="blog-hero">
+      <h1>Articles & Guidance</h1>
+      <p>Research-backed strategies, communication advice, and actionable parenting insights.</p>
+    </section>
+
+    <section class="articles-grid" id="articles-grid">
+      <p style="color: var(--sage, #5b7065);">Loading articles...</p>
+    </section>
   </main>
+
+  <footer>
+    <p>&copy; 2026 Teen Girls Parenting. All rights reserved.</p>
+  </footer>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. Mobile Hamburger Menu Toggle
-      const hamburgerBtn = document.getElementById('hamburger-btn');
-      const navMenu = document.getElementById('nav-menu');
+      // Mobile Drawer Toggle
+      const btn = document.getElementById('hamburger-btn');
+      const menu = document.getElementById('nav-links');
 
-      if (hamburgerBtn && navMenu) {
-        hamburgerBtn.addEventListener('click', (e) => {
+      if (btn && menu) {
+        btn.addEventListener('click', (e) => {
           e.stopPropagation();
-          hamburgerBtn.classList.toggle('active');
-          navMenu.classList.toggle('active');
+          btn.classList.toggle('active');
+          menu.classList.toggle('active');
         });
 
         document.addEventListener('click', (e) => {
-          if (!hamburgerBtn.contains(e.target) && !navMenu.contains(e.target)) {
-            hamburgerBtn.classList.remove('active');
-            navMenu.classList.remove('active');
+          if (!btn.contains(e.target) && !menu.contains(e.target)) {
+            btn.classList.remove('active');
+            menu.classList.remove('active');
           }
         });
 
-        const navLinks = navMenu.querySelectorAll('a');
-        navLinks.forEach(link => {
+        const links = menu.querySelectorAll('a');
+        links.forEach(link => {
           link.addEventListener('click', () => {
-            hamburgerBtn.classList.remove('active');
-            navMenu.classList.remove('active');
+            btn.classList.remove('active');
+            menu.classList.remove('active');
           });
         });
       }
 
-      // 2. Dynamic & Live Blog Post Polling
-      const container = document.getElementById('posts-container');
-      let cachedPostHash = '';
-
-      function loadPosts() {
+      // Fetch dynamic posts from API
+      const grid = document.getElementById('articles-grid');
+      if (grid) {
         fetch('/api/posts')
-          .then(res => {
-            if (!res.ok) throw new Error('Failed to reach database API');
-            return res.json();
-          })
+          .then(res => res.json())
           .then(posts => {
             if (!posts || posts.length === 0) {
-              container.innerHTML = '<p style="color: var(--sage);">No posts available in database yet.</p>';
+              grid.innerHTML = '<p style="color: var(--sage, #5b7065);">No published articles found.</p>';
               return;
             }
-
-            // Create simple fingerprint to avoid unnecessary DOM re-renders
-            const currentHash = JSON.stringify(posts);
-            if (currentHash === cachedPostHash) return;
-            cachedPostHash = currentHash;
-
-            container.innerHTML = posts.map(post => `
-              <article class="post-card">
-                <h2>${escapeHTML(post.title)}</h2>
-                <p>${escapeHTML(post.content)}</p>
-                <span class="meta">Published on ${new Date(post.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+            grid.innerHTML = posts.map(post => `
+              <article class="post-card card">
+                <h2><a href="/blog/${post.id}">${escapeHTML(post.title)}</a></h2>
+                <p>${escapeHTML(post.content ? post.content.substring(0, 150) + '...' : '')}</p>
+                <span class="meta">${new Date(post.created_at).toLocaleDateString()}</span>
               </article>
             `).join('');
           })
-          .catch(err => {
-            console.error('Database fetch error:', err);
-            if (!cachedPostHash) {
-              container.innerHTML = `
-                <article class="post-card">
-                  <h2>Welcome to Busnurd Technologies</h2>
-                  <p>Unable to sync live posts currently. Retrying database connection...</p>
-                  <span class="meta">Status: Offline Mode</span>
-                </article>`;
-            }
+          .catch(() => {
+            grid.innerHTML = '<p style="color: var(--sage, #5b7065);">Unable to load articles right now.</p>';
           });
       }
-
-      // Initial Load + Auto Polling every 10 seconds for live database updates
-      loadPosts();
-      setInterval(loadPosts, 10000);
     });
 
     function escapeHTML(str) {
       if (!str) return '';
       return str.replace(/[&<>'"]/g, tag => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        "'": '&#39;',
-        '"': '&quot;'
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
       }[tag] || tag));
     }
   </script>
 </body>
-  </html>
+</html>
