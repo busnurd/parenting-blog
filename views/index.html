@@ -3,102 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teen Girls Parenting | Real Guidance for Raising Confident Teen Daughters</title>
-  <meta name="description" content="Research-backed parenting guidance from someone who spent five years as the trusted adult teenage girls actually talked to. Recognized by UNESCO. Free weekly insights.">
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-  <header>
-    <nav class="navbar">
-      <div class="logo">
-        <a href="/">
-          <img src="/Teen Girls Parenting Logo.webp" alt="Parenting Blog Logo">
-        </a>
-      </div>
-      <ul class="nav-links">
-        <li><a href="/" class="active">Home</a></li>
-        <li><a href="/blog">Blog</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/resources">Resources</a></li>
-        <li><a href="/subscribe">Subscribe</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main class="homepage container">
-    <!-- HERO -->
-    <section class="hero">
-      <h1>Thoughtful Guidance for Raising Teenage Daughters</h1>
-      <p class="hero-subhead">
-        Real mentorship experience and research-backed insights to help you understand, connect with, and raise a confident, resilient daughter.
-      </p>
-      <div class="hero-buttons">
-        <a href="/blog" class="btn-primary">Explore Articles</a>
-        <a href="/resources" class="btn-secondary">View Resources</a>
-      </div>
-    </section>
-
-    <!-- TRUST BLOCK -->
-    <section class="homepage-trust-block card">
-      <img src="/founder-photo.webp" alt="Busari Nurudeen Olayemi, founder of Teen Girls Parenting" class="trust-block-photo" />
-      <div class="trust-block-content">
-        <h2>Written by Someone Who's Actually Done This</h2>
-        <p>
-          Recognized by UNESCO and the Goi Peace Foundation for mentoring teenage girls to international recognition. Five years as the adult hundreds of girls chose to confide in — not theory, real experience, backed by real research.
-        </p>
-        <a href="/about" class="text-link">Read the full story →</a>
-      </div>
-    </section>
-
-    <!-- CORE FOCUS AREAS -->
-    <section class="focus-areas">
-      <h2>What We Focus On</h2>
-      <p class="section-subhead">Core pillars designed to support you through every stage of raising a teenage daughter.</p>
-
-      <div class="focus-grid">
-        <article class="focus-card card">
-          <span class="icon-circle icon-circle--terracotta">❤️</span>
-          <h3>Understanding Her World</h3>
-          <p>Anxiety, body image, and the pressures she carries but rarely says out loud.</p>
-          <span class="resource-tag">Emotional Wellbeing</span>
-        </article>
-
-        <article class="focus-card card">
-          <span class="icon-circle icon-circle--plum">📱</span>
-          <h3>Digital Wellness</h3>
-          <p>Balanced strategies for screen time, social comparison, and healthy tech habits.</p>
-          <span class="resource-tag">Media & Safety</span>
-        </article>
-
-        <article class="focus-card card">
-          <span class="icon-circle icon-circle--sage">🌱</span>
-          <h3>Rebuilding Connection</h3>
-          <p>Real communication tools for when she goes quiet or pulls away.</p>
-          <span class="resource-tag">Relationships</span>
-        </article>
-      </div>
-    </section>
-
-    <!-- RECENT ARTICLES -->
-    <section class="recent-articles">
-      <div class="section-header">
-        <h2>Latest Articles</h2>
-        <a href="/blog" class="text-link">View All Articles →</a>
-      </div>
-      <div class="article-grid" id="posts-container">
-        <!-- Dynamic posts populate here -->
-      </div>
-    </section>
-
-    <!-- NEWSLETTER CTA -->
-    <section class="homepage-newsletter card">
-      <h2>Stop Guessing What to Say to Her</h2>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home - Busnurd Technologies</title>
   <link rel="stylesheet" href="/css/style.css">
 
@@ -117,11 +21,11 @@
     body { background-color: var(--off-white); color: var(--text-main); line-height: 1.6; }
 
     header { background: #ffffff; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
-    .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; }
+    .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; position: relative; }
     .logo { font-size: 1.25rem; font-weight: 700; color: var(--terracotta); text-decoration: none; }
     
     .nav-menu { display: flex; list-style: none; gap: 1.5rem; }
-    .nav-menu a { text-decoration: none; color: var(--plum); font-weight: 600; transition: color 0.2s; }
+    .nav-menu a { text-decoration: none; color: var(--plum); font-weight: 600; transition: color 0.2s; display: block; padding: 0.5rem; }
     .nav-menu a:hover, .nav-menu a.active { color: var(--terracotta); }
 
     .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 26px; height: 20px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 1010; }
@@ -147,12 +51,14 @@
         left: 0;
         width: 100%;
         background: #ffffff;
-        padding: 1.25rem 0;
+        padding: 1rem 0;
         border-bottom: 1px solid var(--border-color);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        z-index: 1005;
       }
       .nav-menu.active { display: flex; }
-      .nav-menu li { text-align: center; padding: 0.5rem 0; }
+      .nav-menu li { text-align: center; width: 100%; }
+      .nav-menu li a { width: 100%; padding: 0.75rem 0; }
     }
   </style>
 </head>
@@ -191,17 +97,30 @@
     document.addEventListener('DOMContentLoaded', () => {
       const btn = document.getElementById('hamburger-btn');
       const menu = document.getElementById('nav-menu');
+      
       if (btn && menu) {
+        // Toggle mobile drawer on button click
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
           btn.classList.toggle('active');
           menu.classList.toggle('active');
         });
+
+        // Close menu when tapping outside
         document.addEventListener('click', (e) => {
           if (!btn.contains(e.target) && !menu.contains(e.target)) {
             btn.classList.remove('active');
             menu.classList.remove('active');
           }
+        });
+
+        // Ensure links close drawer and trigger navigation instantly
+        const navLinks = menu.querySelectorAll('a');
+        navLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            btn.classList.remove('active');
+            menu.classList.remove('active');
+          });
         });
       }
     });
