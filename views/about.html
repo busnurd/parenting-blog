@@ -37,6 +37,16 @@
       transition: all 0.3s ease;
     }
 
+    /* Remove dots from bullet lists */
+    .standards-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .standards-list li {
+      margin-bottom: 0.5rem;
+    }
+
     @media (max-width: 768px) {
       .hamburger {
         display: flex;
@@ -103,8 +113,8 @@
 
       <ul class="nav-links" id="nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/blog">Blog</a></li>
         <li><a href="/about" class="active">About</a></li>
+        <li><a href="/blog">Blog</a></li>
         <li><a href="/resources">Resources</a></li>
         <li><a href="/subscribe">Subscribe</a></li>
       </ul>
@@ -227,4 +237,4 @@
     });
   </script>
 </body>
-</html>
+  </html>
