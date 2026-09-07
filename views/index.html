@@ -82,6 +82,13 @@
     /* Resource Tag */
     .resource-tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 0.25rem 0.6rem; border-radius: 4px; background: var(--off-white); color: var(--sage); border: 1px solid var(--border-color); }
 
+    /* Newsletter CTA */
+    .homepage-newsletter { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 2.5rem 2rem; text-align: center; max-width: 750px; margin: 0 auto 3.5rem auto; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+    .homepage-newsletter h2 { color: var(--plum); font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .homepage-newsletter p { color: var(--text-main); margin-bottom: 1.5rem; }
+    .subscribe-form-inline { display: flex; gap: 0.75rem; justify-content: center; max-width: 500px; margin: 0 auto; }
+    .subscribe-form-inline input[type="email"] { flex-grow: 1; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.95rem; }
+
     /* Recent Articles */
     .recent-articles { margin-bottom: 3.5rem; }
     .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
@@ -91,13 +98,6 @@
     .post-card h3 { color: var(--terracotta); font-size: 1.2rem; margin-bottom: 0.5rem; }
     .post-card p { color: var(--text-main); font-size: 0.95rem; margin-bottom: 1rem; }
     .post-card .meta { font-size: 0.85rem; color: var(--sage); }
-
-    /* Newsletter CTA */
-    .homepage-newsletter { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 2.5rem 2rem; text-align: center; max-width: 750px; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-    .homepage-newsletter h2 { color: var(--plum); font-size: 1.75rem; margin-bottom: 0.75rem; }
-    .homepage-newsletter p { color: var(--text-main); margin-bottom: 1.5rem; }
-    .subscribe-form-inline { display: flex; gap: 0.75rem; justify-content: center; max-width: 500px; margin: 0 auto; }
-    .subscribe-form-inline input[type="email"] { flex-grow: 1; padding: 0.75rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.95rem; }
 
     /* Mobile Drawer */
     @media (max-width: 768px) {
@@ -219,18 +219,7 @@
       </div>
     </section>
 
-    <!-- RECENT ARTICLES -->
-    <section class="recent-articles">
-      <div class="section-header">
-        <h2>Latest Articles</h2>
-        <a href="/blog" class="text-link">View All Articles →</a>
-      </div>
-      <div class="article-grid" id="recent-articles-grid">
-        <p style="color: var(--sage);">Loading latest articles...</p>
-      </div>
-    </section>
-
-    <!-- NEWSLETTER / LEAD MAGNET CTA -->
+    <!-- NEWSLETTER / LEAD MAGNET CTA (STOP GUESSING SECTION - MOVED ABOVE RECENT ARTICLES) -->
     <section class="homepage-newsletter">
       <h2>Stop Guessing What to Say to Her</h2>
       <p>
@@ -241,6 +230,17 @@
         <input type="email" name="email" placeholder="Enter your email address" required />
         <button type="submit" class="btn-primary">Get the Free Kit</button>
       </form>
+    </section>
+
+    <!-- RECENT ARTICLES (LAST SECTION) -->
+    <section class="recent-articles">
+      <div class="section-header">
+        <h2>Latest Articles</h2>
+        <a href="/blog" class="text-link">View All Articles →</a>
+      </div>
+      <div class="article-grid" id="recent-articles-grid">
+        <p style="color: var(--sage);">Loading latest articles...</p>
+      </div>
     </section>
 
   </main>
@@ -307,4 +307,4 @@
     }
   </script>
 </body>
-</html>
+    </html>
