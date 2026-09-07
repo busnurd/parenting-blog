@@ -37,7 +37,7 @@
       transition: all 0.3s ease;
     }
 
-    /* Remove dots from bullet lists */
+    /* Remove standard dots from bullet lists */
     .standards-list {
       list-style: none;
       padding-left: 0;
@@ -45,6 +45,29 @@
 
     .standards-list li {
       margin-bottom: 0.5rem;
+    }
+
+    /* 3-Column Responsive Grid Layout */
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .trust-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .trust-card img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 1rem;
     }
 
     @media (max-width: 768px) {
@@ -92,6 +115,11 @@
         display: block;
         padding: 0.85rem 0;
         font-size: 1.1rem;
+      }
+
+      /* Stack trust grid into 1 column per row on mobile */
+      .trust-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -172,8 +200,9 @@
       <h2>Recognition & Real Impact</h2>
 
       <div class="trust-grid">
+        <!-- COLUMN 1 -->
         <article class="trust-card trust-card--featured">
-          <img src="/unesco-goi-peace-certificate.webp" alt="Certificate of Recognition from Goi Peace Foundation and UNESCO, 2021" />
+          <img src="/IMG-20260826-WA0068.jpg" alt="Certificate of Recognition from Goi Peace Foundation and UNESCO, 2021" />
           <span class="resource-tag">INTERNATIONAL RECOGNITION</span>
           <h3>UNESCO & Goi Peace Foundation, 2021</h3>
           <p>
@@ -181,12 +210,23 @@
           </p>
         </article>
 
+        <!-- COLUMN 2 -->
         <article class="trust-card">
           <img src="/founder-mentoring-moment.webp" alt="Busari Nurudeen Olayemi mentoring teenage girls in the school computer room" />
           <span class="resource-tag">MEDIA</span>
           <h3>Ilubinrin, Splash FM</h3>
           <p>
             On-air 17th September 2025, speaking to thousands of listeners about the silence between teenage girls and their parents — and what closes it.
+          </p>
+        </article>
+
+        <!-- COLUMN 3 -->
+        <article class="trust-card">
+          <img src="/founder-mentoring-moment.webp" alt="Youth Mentorship and Community Engagement" />
+          <span class="resource-tag">MENTORSHIP</span>
+          <h3>Youth Leadership & Guidance</h3>
+          <p>
+            Direct hands-on experience guiding teenage girls through critical developmental years, building self-esteem, and empowering youth voice.
           </p>
         </article>
       </div>
