@@ -115,7 +115,7 @@
 
     .blog-hero {
       text-align: center;
-      padding: 2rem 0 3rem;
+      padding: 2rem 0 2rem;
       max-width: 750px;
       margin: 0 auto;
     }
@@ -132,12 +132,40 @@
       color: var(--sage);
     }
 
+    /* Category Filter Controls */
+    .category-filter {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .filter-btn {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      color: var(--plum);
+      padding: 0.5rem 1.25rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--terracotta);
+      color: #ffffff;
+      border-color: var(--terracotta);
+    }
+
     /* Grid Layout & Post Cards */
     .articles-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
-      margin-bottom: 3.5rem;
+      margin-bottom: 2.5rem;
     }
 
     .post-card {
@@ -155,6 +183,16 @@
     .post-card:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .post-card .category-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--terracotta);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
     }
 
     .post-card h2 {
@@ -186,6 +224,100 @@
       font-weight: 500;
       border-top: 1px solid var(--border-color);
       padding-top: 0.75rem;
+    }
+
+    /* Pagination Styling */
+    .pagination-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .pagination-btn {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      color: var(--plum);
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pagination-btn:hover:not(:disabled) {
+      background: var(--terracotta);
+      color: #ffffff;
+      border-color: var(--terracotta);
+    }
+
+    .pagination-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Embedded Subscribe Card */
+    .subscribe-card-block {
+      background-color: #f4efe6;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .subscribe-card-block h3 {
+      font-size: 1.5rem;
+      color: var(--plum);
+      margin-bottom: 0.5rem;
+    }
+
+    .subscribe-card-block p {
+      color: var(--sage);
+      margin-bottom: 1.25rem;
+    }
+
+    .inline-sub-form {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      align-items: center;
+      max-width: 500px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+
+    .inline-sub-form input[type="email"] {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      min-width: 240px;
+      outline: none;
+    }
+
+    .inline-sub-form button {
+      background-color: var(--terracotta);
+      color: #ffffff;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .inline-sub-form button:hover {
+      background-color: #722e2e;
+    }
+
+    .form-feedback {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      width: 100%;
     }
 
     /* Footer */
@@ -250,6 +382,15 @@
       .blog-hero h1 {
         font-size: 2rem;
       }
+
+      .inline-sub-form {
+        flex-direction: column;
+      }
+
+      .inline-sub-form input,
+      .inline-sub-form button {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -284,8 +425,32 @@
       <p>Research-backed strategies, communication advice, and actionable parenting insights.</p>
     </section>
 
+    <!-- Client-Side Category Filter Controls -->
+    <section class="category-filter" id="category-filter">
+      <button class="filter-btn active" data-category="all">All Articles</button>
+      <button class="filter-btn" data-category="parenting">Parenting</button>
+      <button class="filter-btn" data-category="mental-health">Mental Health</button>
+      <button class="filter-btn" data-category="screen-time">Screen Time</button>
+      <button class="filter-btn" data-category="communication">Communication</button>
+    </section>
+
+    <!-- Articles Grid -->
     <section class="articles-grid" id="articles-grid">
       <p style="color: var(--sage);">Loading articles...</p>
+    </section>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-wrapper" id="pagination-wrapper"></div>
+
+    <!-- Inline Subscribe Callout -->
+    <section class="subscribe-card-block">
+      <h3>Stay Updated with Weekly Insights</h3>
+      <p>Join thousands of parents getting actionable tips sent directly to their inbox.</p>
+      <form class="inline-sub-form" id="subscribe-form">
+        <input type="email" placeholder="Enter your email address" aria-label="Email address">
+        <button type="submit">Subscribe</button>
+        <div class="form-feedback" id="form-feedback"></div>
+      </form>
     </section>
   </main>
 
@@ -295,7 +460,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Mobile Drawer Toggle
+      // Mobile Navigation Drawer Toggle
       const btn = document.getElementById('hamburger-btn');
       const menu = document.getElementById('nav-links');
 
@@ -322,27 +487,140 @@
         });
       }
 
-      // Fetch dynamic posts from API
+      // State Management
+      let allPosts = [];
+      let filteredPosts = [];
+      let currentCategory = 'all';
+      let currentPage = 1;
+      const postsPerPage = 6;
+
       const grid = document.getElementById('articles-grid');
+      const paginationWrapper = document.getElementById('pagination-wrapper');
+      const filterButtons = document.querySelectorAll('.filter-btn');
+
+      // Fetch dynamic posts from API
       if (grid) {
         fetch('/api/posts')
           .then(res => res.json())
           .then(posts => {
-            if (!posts || posts.length === 0) {
-              grid.innerHTML = '<p style="color: var(--sage);">No published articles found.</p>';
-              return;
-            }
-            grid.innerHTML = posts.map(post => `
-              <article class="post-card">
-                <h2><a href="/blog/${post.id}">${escapeHTML(post.title)}</a></h2>
-                <p>${escapeHTML(post.content ? post.content.substring(0, 150) + '...' : '')}</p>
-                <span class="meta">${new Date(post.created_at).toLocaleDateString()}</span>
-              </article>
-            `).join('');
+            allPosts = posts || [];
+            filteredPosts = allPosts;
+            renderPosts();
           })
           .catch(() => {
             grid.innerHTML = '<p style="color: var(--sage);">Unable to load articles right now.</p>';
           });
+      }
+
+      // Filter Button Event Listeners
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          filterButtons.forEach(b => b.classList.remove('active'));
+          button.classList.add('active');
+
+          currentCategory = button.getAttribute('data-category');
+          currentPage = 1;
+
+          if (currentCategory === 'all') {
+            filteredPosts = allPosts;
+          } else {
+            filteredPosts = allPosts.filter(post => {
+              const cat = (post.category || '').toLowerCase().replace(/\s+/g, '-');
+              return cat === currentCategory;
+            });
+          }
+          renderPosts();
+        });
+      });
+
+      // Render Filtered Posts & Pagination Controls
+      function renderPosts() {
+        if (!grid) return;
+
+        if (!filteredPosts || filteredPosts.length === 0) {
+          grid.innerHTML = '<p style="color: var(--sage);">No published articles found in this category.</p>';
+          if (paginationWrapper) paginationWrapper.innerHTML = '';
+          return;
+        }
+
+        // Calculate Pagination Slices
+        const startIndex = (currentPage - 1) * postsPerPage;
+        const endIndex = startIndex + postsPerPage;
+        const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
+
+        grid.innerHTML = paginatedPosts.map(post => `
+          <article class="post-card">
+            <div>
+              ${post.category ? `<span class="category-badge">${escapeHTML(post.category)}</span>` : ''}
+              <h2><a href="/blog/${post.slug || post.id}">${escapeHTML(post.title)}</a></h2>
+              <p>${escapeHTML(post.content ? post.content.substring(0, 150) + '...' : '')}</p>
+            </div>
+            <span class="meta">${new Date(post.created_at || Date.now()).toLocaleDateString()}</span>
+          </article>
+        `).join('');
+
+        renderPaginationControls();
+      }
+
+      // Pagination Controls Renderer
+      function renderPaginationControls() {
+        if (!paginationWrapper) return;
+
+        const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+        if (totalPages <= 1) {
+          paginationWrapper.innerHTML = '';
+          return;
+        }
+
+        paginationWrapper.innerHTML = `
+          <button class="pagination-btn" id="prev-btn" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>
+          <span style="color: var(--plum); font-weight: 600;">Page ${currentPage} of ${totalPages}</span>
+          <button class="pagination-btn" id="next-btn" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>
+        `;
+
+        document.getElementById('prev-btn')?.addEventListener('click', () => {
+          if (currentPage > 1) {
+            currentPage--;
+            renderPosts();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+
+        document.getElementById('next-btn')?.addEventListener('click', () => {
+          if (currentPage < totalPages) {
+            currentPage++;
+            renderPosts();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+      }
+
+      // Subscribe Form Validation & Inline Success
+      const subscribeForm = document.getElementById('subscribe-form');
+      const formFeedback = document.getElementById('form-feedback');
+
+      if (subscribeForm) {
+        subscribeForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const emailInput = subscribeForm.querySelector('input[type="email"]');
+          const emailValue = emailInput ? emailInput.value.trim() : '';
+
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+          if (!emailRegex.test(emailValue)) {
+            if (formFeedback) {
+              formFeedback.style.color = 'var(--terracotta)';
+              formFeedback.textContent = 'Please enter a valid email address.';
+            }
+            return;
+          }
+
+          if (formFeedback) {
+            formFeedback.style.color = 'var(--sage)';
+            formFeedback.textContent = '✓ Thank you for subscribing! Check your inbox soon.';
+          }
+          subscribeForm.reset();
+        });
       }
     });
 
@@ -354,4 +632,4 @@
     }
   </script>
 </body>
-    </html>
+  </html>
