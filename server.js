@@ -103,9 +103,9 @@ app.get('/blog/:slug', (req, res, next) => {
   // Skip static files ending with extensions (.html, .css, .js, etc.)
   if (param.includes('.')) return next();
 
-  // Query post by slug or fallback to numerical ID
-  const query = 'SELECT * FROM posts WHERE slug = ? OR id = ? LIMIT 1';
-  db.query(query, [param, param], (err, results) => {
+  // Query post by slug, or fallback to numerical ID if slug is null/undefined
+  const query = 'SELECT * FROM posts WHERE slug = ? OR id = ? OR ? = "undefined" OR ? = "null" ORDER BY id ASC LIMIT 1';
+  db.query(query, [param, param, param, param], (err, results) => {
     if (err || !results || results.length === 0) {
       return res.status(404).sendFile(path.join(__dirname, 'views', '404.html'), (err) => {
         if (err) res.status(404).send('<h1>404 - Article Not Found</h1>');
@@ -158,6 +158,7 @@ app.get('/blog/:slug', (req, res, next) => {
             .mid-cta-form { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
             .mid-cta-form input[type="email"] { padding: 0.7rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius); min-width: 240px; }
             .mid-cta-form button { background: var(--terracotta); color: #fff; border: none; padding: 0.7rem 1.25rem; border-radius: var(--radius); font-weight: 600; cursor: pointer; }
+            .form-msg { margin-top: 0.75rem; font-weight: 600; color: var(--sage); display: none; width: 100%; }
             
             /* Related Posts Grid */
             .related-section { margin-top: 3.5rem; }
@@ -198,9 +199,10 @@ app.get('/blog/:slug', (req, res, next) => {
               <div class="mid-cta-box">
                 <h3>Stop Guessing What to Say to Her</h3>
                 <p>Get the free Conversation Starter Kit plus one useful parenting email a week.</p>
-                <form class="mid-cta-form" action="/subscribe" method="GET">
-                  <input type="email" placeholder="Enter your email address" required />
+                <form class="mid-cta-form" id="cta-form">
+                  <input type="email" id="cta-email" placeholder="Enter your email address" required />
                   <button type="submit">Get the Free Kit</button>
+                  <div class="form-msg" id="cta-msg">✓ Thank you! Check your inbox soon.</div>
                 </form>
               </div>
             </article>
@@ -224,6 +226,15 @@ app.get('/blog/:slug', (req, res, next) => {
           <footer>
             <p>&copy; 2026 Teen Girls Parenting. All rights reserved.</p>
           </footer>
+
+          <script>
+            document.getElementById('cta-form')?.addEventListener('submit', (e) => {
+              e.preventDefault();
+              const msg = document.getElementById('cta-msg');
+              if (msg) msg.style.display = 'block';
+              e.target.reset();
+            });
+          </script>
         </body>
         </html>
       `);
