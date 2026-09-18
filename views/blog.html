@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog | Teen Girls Parenting — Insights & Articles</title>
-  <meta name="description" content="Read articles on parenting teenage girls, understanding adolescent mental health, screen time boundaries, and building strong family connections.">
+  <title>Blog | Teen Girls Parenting</title>
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="/css/style.css">
-
   <style>
     :root {
       --terracotta: #8b3a3a;
@@ -19,397 +17,45 @@
       --border-color: #e5dfd8;
       --radius: 8px;
     }
+    body { background-color: var(--off-white); color: var(--text-main); font-family: system-ui, sans-serif; line-height: 1.6; margin: 0; }
+    header { background: #fff; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+    .navbar { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.5rem; }
+    .logo img { height: 40px; }
+    .nav-links { display: flex; list-style: none; gap: 1.5rem; }
+    .nav-links a { text-decoration: none; color: var(--plum); font-weight: 600; }
+    .nav-links a.active { color: var(--terracotta); }
+    
+    .container { max-width: 1000px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+    .page-title { text-align: center; color: var(--plum); font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .page-subtitle { text-align: center; color: var(--sage); margin-bottom: 2.5rem; }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
+    /* Category Filter Tabs */
+    .category-tabs { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .tab-btn { background: #fff; border: 1px solid var(--border-color); color: var(--plum); padding: 0.5rem 1.25rem; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.2s ease; }
+    .tab-btn:hover, .tab-btn.active { background: var(--terracotta); color: #fff; border-color: var(--terracotta); }
 
-    body {
-      background-color: var(--off-white);
-      color: var(--text-main);
-      line-height: 1.6;
-    }
+    /* Blog Grid Layout */
+    .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+    .post-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 1.75rem; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s ease; }
+    .post-card:hover { transform: translateY(-3px); }
+    .card-category { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--terracotta); font-weight: 700; margin-bottom: 0.5rem; }
+    .card-title { font-size: 1.4rem; color: var(--plum); margin-bottom: 0.75rem; line-height: 1.3; }
+    .card-title a { color: inherit; text-decoration: none; }
+    .card-title a:hover { color: var(--terracotta); }
+    .card-snippet { font-size: 0.95rem; color: var(--text-main); margin-bottom: 1.5rem; flex-grow: 1; }
+    .card-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--sage); border-top: 1px solid var(--border-color); padding-top: 1rem; }
+    .read-more-btn { color: var(--terracotta); font-weight: 700; text-decoration: none; }
 
-    /* Header & Navigation */
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .navbar {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.8rem 1.5rem;
-      position: relative;
-    }
-
-    .logo a {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
-
-    .logo img {
-      height: 40px;
-      width: auto;
-      object-fit: contain;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--plum);
-      font-weight: 600;
-      transition: color 0.2s;
-      padding: 0.5rem;
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--terracotta);
-    }
-
-    /* Hamburger Toggle Button */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 26px;
-      height: 20px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      z-index: 2010;
-    }
-
-    .hamburger span {
-      width: 100%;
-      height: 3px;
-      background-color: var(--plum);
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-
-    /* Main Container & Hero */
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 2.5rem 1.5rem;
-    }
-
-    .blog-hero {
-      text-align: center;
-      padding: 2rem 0 2rem;
-      max-width: 750px;
-      margin: 0 auto;
-    }
-
-    .blog-hero h1 {
-      font-size: 2.5rem;
-      color: var(--plum);
-      margin-bottom: 1rem;
-      line-height: 1.2;
-    }
-
-    .blog-hero p {
-      font-size: 1.15rem;
-      color: var(--sage);
-    }
-
-    /* Category Filter Controls */
-    .category-filter {
-      display: flex;
-      justify-content: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      margin-bottom: 2.5rem;
-    }
-
-    .filter-btn {
-      background: #ffffff;
-      border: 1px solid var(--border-color);
-      color: var(--plum);
-      padding: 0.5rem 1.25rem;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .filter-btn:hover,
-    .filter-btn.active {
-      background: var(--terracotta);
-      color: #ffffff;
-      border-color: var(--terracotta);
-    }
-
-    /* Grid Layout & Post Cards */
-    .articles-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .post-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      padding: 1.75rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .post-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
-    }
-
-    .post-card .category-badge {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--terracotta);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
-    }
-
-    .post-card h2 {
-      font-size: 1.35rem;
-      margin-bottom: 0.75rem;
-      line-height: 1.3;
-    }
-
-    .post-card h2 a {
-      color: var(--plum);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .post-card h2 a:hover {
-      color: var(--terracotta);
-    }
-
-    .post-card p {
-      color: var(--text-main);
-      font-size: 0.98rem;
-      margin-bottom: 1.25rem;
-      flex-grow: 1;
-    }
-
-    .post-card .meta {
-      font-size: 0.85rem;
-      color: var(--sage);
-      font-weight: 500;
-      border-top: 1px solid var(--border-color);
-      padding-top: 0.75rem;
-    }
-
-    /* Pagination Styling */
-    .pagination-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 3.5rem;
-    }
-
-    .pagination-btn {
-      background: #ffffff;
-      border: 1px solid var(--border-color);
-      color: var(--plum);
-      padding: 0.6rem 1.25rem;
-      border-radius: var(--radius);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .pagination-btn:hover:not(:disabled) {
-      background: var(--terracotta);
-      color: #ffffff;
-      border-color: var(--terracotta);
-    }
-
-    .pagination-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* Embedded Subscribe Card */
-    .subscribe-card-block {
-      background-color: #f4efe6;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      padding: 2.5rem 1.5rem;
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .subscribe-card-block h3 {
-      font-size: 1.5rem;
-      color: var(--plum);
-      margin-bottom: 0.5rem;
-    }
-
-    .subscribe-card-block p {
-      color: var(--sage);
-      margin-bottom: 1.25rem;
-    }
-
-    .inline-sub-form {
-      display: flex;
-      gap: 0.75rem;
-      justify-content: center;
-      align-items: center;
-      max-width: 500px;
-      margin: 0 auto;
-      flex-wrap: wrap;
-    }
-
-    .inline-sub-form input[type="email"] {
-      flex: 1;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      font-size: 1rem;
-      min-width: 240px;
-      outline: none;
-    }
-
-    .inline-sub-form button {
-      background-color: var(--terracotta);
-      color: #ffffff;
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--radius);
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .inline-sub-form button:hover {
-      background-color: #722e2e;
-    }
-
-    .form-feedback {
-      margin-top: 0.75rem;
-      font-size: 0.9rem;
-      font-weight: 600;
-      width: 100%;
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 2rem 1.5rem;
-      border-top: 1px solid var(--border-color);
-      background: #ffffff;
-      color: var(--sage);
-      font-size: 0.9rem;
-      margin-top: 2rem;
-    }
-
-    /* Responsive Mobile Navigation */
-    @media (max-width: 768px) {
-      .hamburger {
-        display: flex;
-      }
-
-      .hamburger.active span:nth-child(1) {
-        transform: translateY(8px) rotate(45deg);
-      }
-
-      .hamburger.active span:nth-child(2) {
-        opacity: 0;
-      }
-
-      .hamburger.active span:nth-child(3) {
-        transform: translateY(-9px) rotate(-45deg);
-      }
-
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: #ffffff;
-        padding: 1rem 0;
-        border-bottom: 2px solid var(--border-color);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-        z-index: 2000;
-      }
-
-      .nav-links.active {
-        display: flex !important;
-      }
-
-      .nav-links li {
-        text-align: center;
-        width: 100%;
-      }
-
-      .nav-links li a {
-        width: 100%;
-        display: block;
-        padding: 0.85rem 0;
-        font-size: 1.1rem;
-      }
-
-      .blog-hero h1 {
-        font-size: 2rem;
-      }
-
-      .inline-sub-form {
-        flex-direction: column;
-      }
-
-      .inline-sub-form input,
-      .inline-sub-form button {
-        width: 100%;
-      }
-    }
+    .no-posts { grid-column: 1 / -1; text-align: center; padding: 3rem; background: #fff; border-radius: var(--radius); border: 1px solid var(--border-color); color: var(--sage); }
+    footer { text-align: center; padding: 2rem 1.5rem; border-top: 1px solid var(--border-color); background: #ffffff; color: var(--sage); font-size: 0.9rem; margin-top: 4rem; }
   </style>
 </head>
 <body>
+
   <header>
     <nav class="navbar">
-      <div class="logo">
-        <a href="/">
-          <img src="/Teen Girls Parenting Logo.webp" alt="Parenting Blog Logo">
-        </a>
-      </div>
-
-      <button class="hamburger" id="hamburger-btn" aria-label="Toggle Navigation">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
-      <ul class="nav-links" id="nav-links">
+      <div class="logo"><a href="/"><img src="/Teen Girls Parenting Logo.webp" alt="Logo"></a></div>
+      <ul class="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/blog" class="active">Blog</a></li>
         <li><a href="/about">About</a></li>
@@ -419,39 +65,22 @@
     </nav>
   </header>
 
-  <main class="blog-page container">
-    <section class="blog-hero">
-      <h1>Articles & Guidance</h1>
-      <p>Research-backed strategies, communication advice, and actionable parenting insights.</p>
-    </section>
+  <main class="container">
+    <h1 class="page-title">Parenting Insights & Guidance</h1>
+    <p class="page-subtitle">Practical advice, honest perspectives, and support for raising teen girls.</p>
 
-    <!-- Client-Side Category Filter Controls -->
-    <section class="category-filter" id="category-filter">
-      <button class="filter-btn active" data-category="all">All Articles</button>
-      <button class="filter-btn" data-category="parenting">Parenting</button>
-      <button class="filter-btn" data-category="mental-health">Mental Health</button>
-      <button class="filter-btn" data-category="screen-time">Screen Time</button>
-      <button class="filter-btn" data-category="communication">Communication</button>
-    </section>
+    <!-- Category Filter Controls -->
+    <div class="category-tabs" id="category-tabs">
+      <button class="tab-btn active" data-category="All">All Articles</button>
+      <button class="tab-btn" data-category="Parenting">Parenting</button>
+      <button class="tab-btn" data-category="Communication">Communication</button>
+      <button class="tab-btn" data-category="Growth">Growth</button>
+    </div>
 
-    <!-- Articles Grid -->
-    <section class="articles-grid" id="articles-grid">
-      <p style="color: var(--sage);">Loading articles...</p>
-    </section>
-
-    <!-- Pagination Controls -->
-    <div class="pagination-wrapper" id="pagination-wrapper"></div>
-
-    <!-- Inline Subscribe Callout -->
-    <section class="subscribe-card-block">
-      <h3>Stay Updated with Weekly Insights</h3>
-      <p>Join thousands of parents getting actionable tips sent directly to their inbox.</p>
-      <form class="inline-sub-form" id="subscribe-form">
-        <input type="email" placeholder="Enter your email address" aria-label="Email address">
-        <button type="submit">Subscribe</button>
-        <div class="form-feedback" id="form-feedback"></div>
-      </form>
-    </section>
+    <!-- Dynamic Posts Container -->
+    <div class="blog-grid" id="posts-container">
+      <div class="no-posts">Loading articles...</div>
+    </div>
   </main>
 
   <footer>
@@ -459,177 +88,86 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Mobile Navigation Drawer Toggle
-      const btn = document.getElementById('hamburger-btn');
-      const menu = document.getElementById('nav-links');
+    let allPosts = [];
 
-      if (btn && menu) {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          btn.classList.toggle('active');
-          menu.classList.toggle('active');
-        });
+    // Safely retrieve the post link target
+    function getPostUrl(post) {
+      if (post.slug && post.slug !== 'undefined') return '/blog/' + post.slug;
+      if (post.id && post.id !== 'undefined') return '/blog/' + post.id;
+      return '/blog/1';
+    }
 
-        document.addEventListener('click', (e) => {
-          if (!btn.contains(e.target) && !menu.contains(e.target)) {
-            btn.classList.remove('active');
-            menu.classList.remove('active');
-          }
-        });
-
-        const links = menu.querySelectorAll('a');
-        links.forEach(link => {
-          link.addEventListener('click', () => {
-            btn.classList.remove('active');
-            menu.classList.remove('active');
-          });
-        });
-      }
-
-      // State Management
-      let allPosts = [];
-      let filteredPosts = [];
-      let currentCategory = 'all';
-      let currentPage = 1;
-      const postsPerPage = 6;
-
-      const grid = document.getElementById('articles-grid');
-      const paginationWrapper = document.getElementById('pagination-wrapper');
-      const filterButtons = document.querySelectorAll('.filter-btn');
-
-      // Fetch dynamic posts from API
-      if (grid) {
-        fetch('/api/posts')
-          .then(res => res.json())
-          .then(posts => {
-            allPosts = posts || [];
-            filteredPosts = allPosts;
-            renderPosts();
-          })
-          .catch(() => {
-            grid.innerHTML = '<p style="color: var(--sage);">Unable to load articles right now.</p>';
-          });
-      }
-
-      // Filter Button Event Listeners
-      filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          filterButtons.forEach(b => b.classList.remove('active'));
-          button.classList.add('active');
-
-          currentCategory = button.getAttribute('data-category');
-          currentPage = 1;
-
-          if (currentCategory === 'all') {
-            filteredPosts = allPosts;
-          } else {
-            filteredPosts = allPosts.filter(post => {
-              const cat = (post.category || '').toLowerCase().replace(/\s+/g, '-');
-              return cat === currentCategory;
-            });
-          }
-          renderPosts();
-        });
-      });
-
-      // Render Filtered Posts & Pagination Controls
-      function renderPosts() {
-        if (!grid) return;
-
-        if (!filteredPosts || filteredPosts.length === 0) {
-          grid.innerHTML = '<p style="color: var(--sage);">No published articles found in this category.</p>';
-          if (paginationWrapper) paginationWrapper.innerHTML = '';
-          return;
-        }
-
-        // Calculate Pagination Slices
-        const startIndex = (currentPage - 1) * postsPerPage;
-        const endIndex = startIndex + postsPerPage;
-        const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
-
-        grid.innerHTML = paginatedPosts.map(post => `
-          <article class="post-card">
-            <div>
-              ${post.category ? `<span class="category-badge">${escapeHTML(post.category)}</span>` : ''}
-              <h2><a href="/blog/${post.slug || post.id}">${escapeHTML(post.title)}</a></h2>
-              <p>${escapeHTML(post.content ? post.content.substring(0, 150) + '...' : '')}</p>
-            </div>
-            <span class="meta">${new Date(post.created_at || Date.now()).toLocaleDateString()}</span>
-          </article>
-        `).join('');
-
-        renderPaginationControls();
-      }
-
-      // Pagination Controls Renderer
-      function renderPaginationControls() {
-        if (!paginationWrapper) return;
-
-        const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
-        if (totalPages <= 1) {
-          paginationWrapper.innerHTML = '';
-          return;
-        }
-
-        paginationWrapper.innerHTML = `
-          <button class="pagination-btn" id="prev-btn" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>
-          <span style="color: var(--plum); font-weight: 600;">Page ${currentPage} of ${totalPages}</span>
-          <button class="pagination-btn" id="next-btn" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>
-        `;
-
-        document.getElementById('prev-btn')?.addEventListener('click', () => {
-          if (currentPage > 1) {
-            currentPage--;
-            renderPosts();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }
-        });
-
-        document.getElementById('next-btn')?.addEventListener('click', () => {
-          if (currentPage < totalPages) {
-            currentPage++;
-            renderPosts();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }
-        });
-      }
-
-      // Subscribe Form Validation & Inline Success
-      const subscribeForm = document.getElementById('subscribe-form');
-      const formFeedback = document.getElementById('form-feedback');
-
-      if (subscribeForm) {
-        subscribeForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const emailInput = subscribeForm.querySelector('input[type="email"]');
-          const emailValue = emailInput ? emailInput.value.trim() : '';
-
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-          if (!emailRegex.test(emailValue)) {
-            if (formFeedback) {
-              formFeedback.style.color = 'var(--terracotta)';
-              formFeedback.textContent = 'Please enter a valid email address.';
-            }
-            return;
-          }
-
-          if (formFeedback) {
-            formFeedback.style.color = 'var(--sage)';
-            formFeedback.textContent = '✓ Thank you for subscribing! Check your inbox soon.';
-          }
-          subscribeForm.reset();
-        });
-      }
-    });
-
+    // Escape HTML to prevent XSS issues
     function escapeHTML(str) {
       if (!str) return '';
       return str.replace(/[&<>'"]/g, tag => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
       }[tag] || tag));
     }
+
+    // Render post cards inside grid
+    function renderPosts(postsToRender) {
+      const container = document.getElementById('posts-container');
+      
+      if (!postsToRender || postsToRender.length === 0) {
+        container.innerHTML = '<div class="no-posts">No articles found in this category.</div>';
+        return;
+      }
+
+      container.innerHTML = postsToRender.map(post => {
+        const articleUrl = getPostUrl(post);
+        const category = post.category || 'Parenting';
+        const dateStr = post.created_at ? new Date(post.created_at).toLocaleDateString() : 'Recent';
+        const snippet = post.content ? post.content.substring(0, 120) + '...' : '';
+
+        return `
+          <article class="post-card">
+            <div>
+              <div class="card-category">${escapeHTML(category)}</div>
+              <h2 class="card-title">
+                <a href="${articleUrl}">${escapeHTML(post.title)}</a>
+              </h2>
+              <p class="card-snippet">${escapeHTML(snippet)}</p>
+            </div>
+            <div class="card-meta">
+              <span>${dateStr}</span>
+              <a href="${articleUrl}" class="read-more-btn">Read More →</a>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // Fetch posts from API on load
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/api/posts')
+        .then(res => res.json())
+        .then(posts => {
+          allPosts = posts || [];
+          renderPosts(allPosts);
+        })
+        .catch(err => {
+          console.error('Error fetching blog posts:', err);
+          document.getElementById('posts-container').innerHTML = 
+            '<div class="no-posts">Unable to load articles. Please refresh the page.</div>';
+        });
+
+      // Handle Category Tab clicks
+      document.getElementById('category-tabs').addEventListener('click', (e) => {
+        if (!e.target.classList.contains('tab-btn')) return;
+
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+
+        const selectedCategory = e.target.getAttribute('data-category');
+        if (selectedCategory === 'All') {
+          renderPosts(allPosts);
+        } else {
+          const filtered = allPosts.filter(p => (p.category || 'Parenting').toLowerCase() === selectedCategory.toLowerCase());
+          renderPosts(filtered);
+        }
+      });
+    });
   </script>
 </body>
   </html>
