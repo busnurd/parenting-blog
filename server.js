@@ -84,7 +84,7 @@ app.get('/resources', (req, res) => res.sendFile(path.join(__dirname, 'views', '
 app.get('/subscribe', (req, res) => res.sendFile(path.join(__dirname, 'views', 'subscribe.html')));
 app.get(['/blog', '/blog.html'], (req, res) => res.sendFile(path.join(__dirname, 'views', 'blog.html')));
 
-// API Route: Live Fetch of Blog Posts for frontend polling & category filtering
+// API Route: Live Fetch of Blog Posts with guaranteed slug fallback for frontend links
 app.get('/api/posts', (req, res) => {
   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
   db.query('SELECT * FROM posts ORDER BY created_at DESC', (err, results) => {
@@ -92,7 +92,13 @@ app.get('/api/posts', (req, res) => {
       console.error('Error querying posts:', err);
       return res.status(500).json({ error: 'Database query failed' });
     }
-    res.json(results || []);
+    
+    const formattedPosts = (results || []).map(post => ({
+      ...post,
+      slug: post.slug || String(post.id) || '1'
+    }));
+
+    res.json(formattedPosts);
   });
 });
 
@@ -103,9 +109,9 @@ app.get('/blog/:slug', (req, res, next) => {
   // Skip static files ending with extensions (.html, .css, .js, etc.)
   if (param.includes('.')) return next();
 
-  // Query post by slug, or fallback to numerical ID if slug is null/undefined
-  const query = 'SELECT * FROM posts WHERE slug = ? OR id = ? OR ? = "undefined" OR ? = "null" ORDER BY id ASC LIMIT 1';
-  db.query(query, [param, param, param, param], (err, results) => {
+  // Query post by slug, ID, or grab the first post as a ultimate fallback if parameter is undefined/null/1
+  const query = 'SELECT * FROM posts WHERE slug = ? OR id = ? OR ? = "undefined" OR ? = "null" OR ? = "1" ORDER BY id ASC LIMIT 1';
+  db.query(query, [param, param, param, param, param], (err, results) => {
     if (err || !results || results.length === 0) {
       return res.status(404).sendFile(path.join(__dirname, 'views', '404.html'), (err) => {
         if (err) res.status(404).send('<h1>404 - Article Not Found</h1>');
