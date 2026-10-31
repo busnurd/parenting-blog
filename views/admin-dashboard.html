@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS Dashboard | Teen Girls Parenting</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root {
+      --terracotta: #8b3a3a;
+      --plum: #4a2c3d;
+      --sage: #5b7065;
+      --off-white: #faf8f5;
+      --border-color: #e5dfd8;
+      --radius: 8px;
+    }
+    body { background-color: var(--off-white); color: #2b2b2b; font-family: system-ui, sans-serif; margin: 0; line-height: 1.6; }
+    header { background: #fff; border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .brand { font-size: 1.25rem; font-weight: 700; color: var(--plum); }
+    .user-actions { display: flex; align-items: center; gap: 1rem; }
+    .btn-logout { background: transparent; border: 1px solid var(--terracotta); color: var(--terracotta); padding: 0.4rem 1rem; border-radius: var(--radius); cursor: pointer; font-weight: 600; }
+    
+    .container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+    .card { background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 2rem; margin-bottom: 2rem; }
+    h2 { color: var(--plum); margin-top: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem; }
+    
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; font-weight: 600; color: var(--plum); margin-bottom: 0.4rem; font-size: 0.9rem; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius); box-sizing: border-box; font-family: inherit; font-size: 0.95rem; }
+    .form-row { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; }
+    
+    .btn-primary { background: var(--terracotta); color: #fff; border: none; padding: 0.75rem 1.5rem; border-radius: var(--radius); font-weight: 700; cursor: pointer; }
+    .btn-secondary { background: var(--sage); color: #fff; border: none; padding: 0.75rem 1.5rem; border-radius: var(--radius); font-weight: 700; cursor: pointer; margin-left: 0.5rem; }
+    
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { text-align: left; padding: 0.85rem; border-bottom: 1px solid var(--border-color); }
+    th { background: #fdfbf7; color: var(--plum); font-weight: 700; }
+    .action-btn { padding: 0.35rem 0.75rem; border-radius: 4px; border: none; cursor: pointer; font-size: 0.85rem; font-weight: 600; text-decoration: none; margin-right: 0.3rem; }
+    .btn-edit { background: #e2e8f0; color: #2d3748; }
+    .btn-delete { background: #fed7d7; color: #9b2c2c; }
+    .alert { padding: 0.85rem; border-radius: var(--radius); margin-bottom: 1.5rem; display: none; font-weight: 600; }
+    .alert-success { background: #c6f6d5; color: #22543d; }
+    .alert-error { background: #fed7d7; color: #9b2c2c; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Parenting Blog CMS</div>
+    <div class="user-actions">
+      <span>Logged in as: <strong id="admin-name">Admin</strong></span>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="alert alert-success" id="alert-success"></div>
+    <div class="alert alert-error" id="alert-error"></div>
+
+    <!-- Create / Edit Form Card -->
+    <section class="card">
+      <h2 id="form-title">Create New Article</h2>
+      <form id="post-form">
+        <input type="hidden" id="post-id">
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="title">Article Title</label>
+            <input type="text" id="title" required placeholder="e.g., Effective Communication Strategies">
+          </div>
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category">
+              <option value="Parenting">Parenting</option>
+              <option value="Communication">Communication</option>
+              <option value="Growth">Growth</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="slug">URL Slug (Optional - auto-generated if blank)</label>
+          <input type="text" id="slug" placeholder="e.g., effective-communication-strategies">
+        </div>
+
+        <div class="form-group">
+          <label for="content">Article Content</label>
+          <textarea id="content" rows="8" required placeholder="Write your full article here..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary" id="btn-save">Publish Article</button>
+        <button type="button" class="btn-secondary" id="btn-cancel" style="display:none;" onclick="resetForm()">Cancel Edit</button>
+      </form>
+    </section>
+
+    <!-- Post Management Table -->
+    <section class="card">
+      <h2>Published Articles</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Slug</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="posts-table-body">
+          <tr><td colspan="4">Loading posts...</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const token = localStorage.getItem('adminToken');
+    if (!token) window.location.href = '/admin/login';
+
+    document.getElementById('admin-name').textContent = localStorage.getItem('adminUsername') || 'Admin';
+
+    function showAlert(msg, isError = false) {
+      const el = document.getElementById(isError ? 'alert-error' : 'alert-success');
+      el.textContent = msg;
+      el.style.display = 'block';
+      setTimeout(() => el.style.display = 'none', 4000);
+    }
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = '/admin/login';
+    }
+
+    let loadedPosts = [];
+
+    async function fetchPosts() {
+      try {
+        const res = await fetch('/api/posts');
+        loadedPosts = await res.json();
+        renderTable(loadedPosts);
+      } catch (err) {
+        document.getElementById('posts-table-body').innerHTML = '<tr><td colspan="4">Failed to load articles.</td></tr>';
+      }
+    }
+
+    function renderTable(posts) {
+      const tbody = document.getElementById('posts-table-body');
+      if (!posts || posts.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4">No articles published yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = posts.map(p => `
+        <tr>
+          <td><strong>${p.title}</strong></td>
+          <td>${p.category || 'Parenting'}</td>
+          <td><code>${p.slug || p.id}</code></td>
+          <td>
+            <button class="action-btn btn-edit" onclick="editPost(${p.id})">Edit</button>
+            <button class="action-btn btn-delete" onclick="deletePost(${p.id})">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function editPost(id) {
+      const post = loadedPosts.find(p => p.id === id);
+      if (!post) return;
+
+      document.getElementById('post-id').value = post.id;
+      document.getElementById('title').value = post.title;
+      document.getElementById('category').value = post.category || 'Parenting';
+      document.getElementById('slug').value = post.slug || '';
+      document.getElementById('content').value = post.content;
+
+      document.getElementById('form-title').textContent = 'Edit Article';
+      document.getElementById('btn-save').textContent = 'Update Article';
+      document.getElementById('btn-cancel').style.display = 'inline-block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetForm() {
+      document.getElementById('post-form').reset();
+      document.getElementById('post-id').value = '';
+      document.getElementById('form-title').textContent = 'Create New Article';
+      document.getElementById('btn-save').textContent = 'Publish Article';
+      document.getElementById('btn-cancel').style.display = 'none';
+    }
+
+    async function deletePost(id) {
+      if (!confirm('Are you sure you want to delete this post?')) return;
+
+      try {
+        const res = await fetch(`/api/admin/posts/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+          showAlert('Article deleted successfully.');
+          fetchPosts();
+        } else {
+          showAlert('Failed to delete article.', true);
+        }
+      } catch (err) {
+        showAlert('Network error deleting article.', true);
+      }
+    }
+
+    document.getElementById('post-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('post-id').value;
+      const title = document.getElementById('title').value;
+      const category = document.getElementById('category').value;
+      const slug = document.getElementById('slug').value;
+      const content = document.getElementById('content').value;
+
+      const url = id ? `/api/admin/posts/${id}` : '/api/admin/posts';
+      const method = id ? 'PUT' : 'POST';
+
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ title, category, slug, content })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          showAlert(id ? 'Article updated successfully!' : 'Article published successfully!');
+          resetForm();
+          fetchPosts();
+        } else {
+          showAlert(data.error || 'Failed to save post.', true);
+        }
+      } catch (err) {
+        showAlert('Network error saving article.', true);
+      }
+    });
+
+    fetchPosts();
+  </script>
+</body>
+</html>
